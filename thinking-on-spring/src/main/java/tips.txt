@@ -1,0 +1,72 @@
+spring framework是什么？
+        spring是java的集大成者，它可以很好的被开发者使用起来，只需简单的配置或者代码就可以运行所需的应用，
+     它也很好的支持jvm的第二语言，如scala等，让用户只用关心业务代码，也不用关心部署环境。
+
+spring几大特点:
+    1、面向对象编程(oop)
+       接口，抽象
+    2、面向切面(AOP)
+       cglib,jdkProxy,asm(字节码提升)...
+    3、面向元数据
+        properties,xml,annotation...
+    4、面向模块
+        core,beans,context,aop,expression...
+    5、面向函数
+        stream，webflux(mono,flux),function...
+
+spring好处:
+    1、生态
+        java生态，springboot，springCloud...
+    2、优秀的特点
+        1、面向对象编程(oop)
+           接口，抽象
+        2、面向切面(AOP)
+           cglib,jdkProxy,asm(字节码提升)...
+        3、面向元数据
+            properties,xml,annotation...
+        4、面向模块
+            core,beans,context,aop,expression...
+        5、面向函数
+            stream，webflux(mono,flux),function...
+    3、设计理念
+        1、Gof 23 ，传统的23种编程模式...
+            工厂模式，策略模式，适配器模式，模版模式，原型模式，单例模式...
+        2、独特的定义
+            前缀式：abstractXX,EnableXX
+            后缀式：XXAware,XXProcessor
+
+IOC容器的职责:
+    一：通用职责
+        1、依赖处理
+            依赖查找、依赖注入
+        2、生命周期管理
+            容器、托管的资源（JavaBean 或者其他资源）
+    二：配置
+        1、容器
+        2、外部化配置
+        3、托管的资源（JavaBean 或者其他资源）
+
+JavaBeans作为IOC容器
+    1、依赖查找
+    2、依赖注入
+    3、生命周期管理
+    4、配置元信息
+    5、事件
+    6、自定义
+    7、资源管理
+    8、持久化
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

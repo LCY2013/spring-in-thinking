@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans
+        https://www.springframework.org/schema/beans/spring-beans.xsd">
+
+    <!--实时查找Bean-->
+    <bean id="user" class="org.lcydream.domain.User">
+        <property name="id" value="1"/>
+        <property name="name" value="fufeng"/>
+    </bean>
+
+    <bean id="superUser" class="org.lcydream.domain.SuperUser" parent="user"
+          primary="true">
+        <property name="address" value="成都"/>
+    </bean>
+
+    <!--间接查询Bean，ObjectFactory-->
+    <bean id="objectFactoryCreatingFactoryBean"
+          class="org.springframework.beans.factory.config.ObjectFactoryCreatingFactoryBean">
+        <property name="targetBeanName" value="user"/>
+    </bean>
+
+</beans>
