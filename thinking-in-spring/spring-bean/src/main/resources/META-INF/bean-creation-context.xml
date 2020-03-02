@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans
+        https://www.springframework.org/schema/beans/spring-beans.xsd">
+
+    <!--静态方法实例化Bean-->
+    <bean id="user-by-static-method"
+          class="org.lcydream.domain.User"
+          factory-method="createUser"/>
+
+    <!--实例化(Bean)方法实例化Bean-->
+    <bean id="user-by-instance-method"
+          class="org.lcydream.domain.User"
+          factory-bean="user-factory" factory-method="createUser"/>
+
+    <bean id="user-factory" class="org.lcydream.bean.factory.cometure.DefaultUserFactory"/>
+
+    <!--通过FactoryBean实例化User-->
+    <bean id="user-by-factory-bean" class="org.lcydream.bean.factory.UserFactoryBean"/>
+</beans>
