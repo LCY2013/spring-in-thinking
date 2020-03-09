@@ -18,4 +18,8 @@ public interface UserFactory {
         user.setName("fufeng");
         return user;
     }
+
+    void initAnnotation();
+
+    void annotationDestroy();
 }
