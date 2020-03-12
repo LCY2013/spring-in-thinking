@@ -43,4 +43,9 @@ public class DefaultUserFactory implements UserFactory, InitializingBean, Dispos
     public void annotationDestroy(){
         System.out.println("annotationDestroy :UserFactory destroy");
     }
+
+    @Override
+    protected void finalize() throws Throwable {
+        System.out.println("bean 最后销毁...");
+    }
 }
