@@ -34,7 +34,7 @@ public class BeanInfoDemo {
         @Override
         public void setAsText(String text) throws IllegalArgumentException {
             Integer integer = Integer.valueOf(text);
-            setValue(text);
+            setValue(integer);
         }
     }
 }

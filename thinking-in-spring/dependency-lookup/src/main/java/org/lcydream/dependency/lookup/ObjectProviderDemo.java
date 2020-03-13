@@ -26,13 +26,25 @@ public class ObjectProviderDemo { //@Configuration是非必须注解
         //如果不存在就创建一个
         lookupIfAvailable(applicationContext);
 
+        lookupByStreamOps(applicationContext);
+
         //停止容器
         applicationContext.close();
+    }
+
+    private static void lookupByStreamOps(AnnotationConfigApplicationContext applicationContext) {
+        ObjectProvider<String> beanProvider = applicationContext.getBeanProvider(String.class);
+//        Iterable<String> iterable = beanProvider;
+//        for (String str : iterable){
+//            System.out.println(str);
+//        }
+        beanProvider.stream().forEach(System.out::println);
     }
 
     private static void lookupIfAvailable(AnnotationConfigApplicationContext applicationContext) {
         ObjectProvider<User> beanProvider
                 = applicationContext.getBeanProvider(User.class);
+        //不存在就创建一个
         User user = beanProvider.getIfAvailable(User::createUser);
         System.out.println("当前 User 对象:"+user);
     }

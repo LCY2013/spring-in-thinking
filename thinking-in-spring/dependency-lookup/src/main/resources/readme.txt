@@ -24,5 +24,39 @@
                 ObjectProvider#stream
                 ObjectProvider#orderedStream
 
+Spring内建依赖
+    org.springframework.context.annotation.AnnotationConfigUtils
+
+Spring关于类异常 org.springframework.beans.BeansException及其子类
+    1、org.springframework.beans.factory.NoSuchBeanDefinitionException
+        demo: org.lcydream.dependency.lookup.TypeSafeDependencyLookup
+    2、org.springframework.beans.factory.NoUniqueBeanDefinitionException
+        demo: org.lcydream.dependency.lookup.NoUniqueBeanDefinitionExceptionDemo
+    3、org.springframework.beans.BeanInstantiationException
+        demo: org.lcydream.dependency.lookup.BeanInstantiationExceptionDemo
+    4、org.springframework.beans.factory.BeanCreationException
+        demo: org.lcydream.dependency.lookup.BeanCreationExceptionDemo
+    5、org.springframework.beans.factory.BeanDefinitionStoreException
+        demo: org.lcydream.dependency.lookup.BeanDefinitionStoreExceptionDemo
+
+ObjectFactory与BeanFactory区别?
+    两者都有依赖查找的能力
+    不过ObjectFactory关注的是某一个或者一种类型的Bean依赖查找，
+    它本身没有依赖查找功能，具体能力也是由BeanFactory提供。
+    (
+        org.springframework.beans.factory.config.ObjectFactoryCreatingFactoryBean
+        org.springframework.beans.factory.config.ServiceLocatorFactoryBean
+    )
+    BeanFactory作为IOC容器的底层实现，提供了包括单一类型查找，集合类型查找以及层次性多种依赖查找方式。
+
+BeanFactory#getBean()是否是线程安全？
+    是线程安全的操作，操作过程会增加互斥锁,其核心存储singletonObjects 是一个线程安全的ConcurrentHashMap
+    具体见代码org.springframework.beans.factory.support.DefaultSingletonBeanRegistry
+
+Spring依赖查找与注入的来源上的区别？
+
+
+
+
 
 
