@@ -17,6 +17,13 @@
         ApplicationEventPublisherAware  获取ApplicationEventPublisher对象，用于Spring事件
         EmbeddedValueResolverAware      获取StringValueResolver对象，用于占位符处理
 
+延迟依赖注入
+    使用API ObjectFactory 延迟注入
+        单一类型
+        集合类型
+    使用API ObjectProvider 延迟注入 (类型安全) getIfAvailable()
+        单一类型
+        集合类型
 
 
 

@@ -9,6 +9,14 @@
         <property name="id" value="1"/>
         <property name="name" value="fufeng"/>
         <property name="city" value="CHENGDU"/>
+        <property name="workCities" value="CHENGDU,SHANGHAI"/>
+        <!--<property name="lifeCities" value="CHENGDU,BEIJING"/>-->
+        <property name="lifeCities">
+            <list>
+                <value>CHENGDU</value>
+                <value>BEIJING</value>
+            </list>
+        </property>
         <!--org.springframework.core.io.ClassPathResource-->
         <property name="configFileLocal" value="classpath:/META-INF/user-config.properties"/>
     </bean>
