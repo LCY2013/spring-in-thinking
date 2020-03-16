@@ -1,12 +1,13 @@
-package org.lcydream.ioc.dependency.injection;
+package org.lcydream.ioc.dependency.injection.constructor;
 
+import org.lcydream.ioc.dependency.injection.UserHolder;
 import org.springframework.beans.factory.config.BeanDefinition;
 import org.springframework.beans.factory.support.BeanDefinitionBuilder;
 import org.springframework.beans.factory.xml.XmlBeanDefinitionReader;
 import org.springframework.context.annotation.AnnotationConfigApplicationContext;
 
 /**
- * 基于XMl资源的Setter注入示例
+ * 基于API的Constructor注入示例
  */
 public class ApiDependencyInjection {
 
@@ -42,7 +43,7 @@ public class ApiDependencyInjection {
     public static BeanDefinition createBeanDefinition(){
         BeanDefinitionBuilder beanDefinitionBuilder =
                 BeanDefinitionBuilder.genericBeanDefinition(UserHolder.class);
-        beanDefinitionBuilder.addPropertyReference("user","superUser");
+        beanDefinitionBuilder.addConstructorArgReference("superUser");
         return beanDefinitionBuilder.getBeanDefinition();
     }
 

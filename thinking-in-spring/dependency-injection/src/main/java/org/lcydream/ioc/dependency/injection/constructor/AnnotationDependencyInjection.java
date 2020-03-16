@@ -1,12 +1,13 @@
-package org.lcydream.ioc.dependency.injection;
+package org.lcydream.ioc.dependency.injection.constructor;
 
 import org.lcydream.domain.User;
+import org.lcydream.ioc.dependency.injection.UserHolder;
 import org.springframework.beans.factory.xml.XmlBeanDefinitionReader;
 import org.springframework.context.annotation.AnnotationConfigApplicationContext;
 import org.springframework.context.annotation.Bean;
 
 /**
- * 基于XMl资源的Setter注入示例
+ * 基于注解的Constructor注入示例
  */
 public class AnnotationDependencyInjection {
 
@@ -33,10 +34,7 @@ public class AnnotationDependencyInjection {
 
     @Bean
     public UserHolder userHolder(User user){
-        //return new UserHolder(user);
-        UserHolder userHolder = new UserHolder();
-        userHolder.setUser(user);
-        return userHolder;
+        return new UserHolder(user);
     }
 
 }

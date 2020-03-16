@@ -1,5 +1,6 @@
-package org.lcydream.ioc.dependency.injection;
+package org.lcydream.ioc.dependency.injection.setter;
 
+import org.lcydream.ioc.dependency.injection.UserHolder;
 import org.springframework.beans.factory.support.DefaultListableBeanFactory;
 import org.springframework.beans.factory.xml.XmlBeanDefinitionReader;
 
