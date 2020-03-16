@@ -8,6 +8,9 @@
     <bean id="user" class="org.lcydream.domain.User">
         <property name="id" value="1"/>
         <property name="name" value="fufeng"/>
+        <property name="city" value="CHENGDU"/>
+        <!--org.springframework.core.io.ClassPathResource-->
+        <property name="configFileLocal" value="classpath:/META-INF/user-config.properties"/>
     </bean>
 
     <bean id="superUser" class="org.lcydream.domain.SuperUser" parent="user"
