@@ -8,6 +8,7 @@ import org.springframework.beans.factory.xml.XmlBeanDefinitionReader;
 import org.springframework.context.annotation.AnnotationConfigApplicationContext;
 import org.springframework.context.annotation.Lazy;
 
+import javax.inject.Inject;
 import java.util.Collection;
 import java.util.Map;
 import java.util.Optional;
@@ -20,6 +21,9 @@ public class ResolverAnnotationDependencyInjection {
     @Autowired
     @Lazy
     private User lazyUser;
+
+    @Inject
+    private User injectedUser;
 
     @Autowired
     private User user; //依赖查找处理
@@ -54,6 +58,7 @@ public class ResolverAnnotationDependencyInjection {
 
         //期望 super user
         System.out.println("user :"+lazyDependencyInjection.user);
+        System.out.println("injectedUser :"+lazyDependencyInjection.injectedUser);
 
         //关闭应用上下文
         applicationContext.close();

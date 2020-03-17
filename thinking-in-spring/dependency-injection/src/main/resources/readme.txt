@@ -25,18 +25,19 @@
         单一类型
         集合类型
 
-依赖处理过程
+依赖处理流程
     入口 - org.springframework.beans.factory.support.DefaultListableBeanFactory#resolveDependency()
     依赖描述符 - org.springframework.beans.factory.config.DependencyDescriptor
     自动绑定候选对象处理器 - org.springframework.beans.factory.support.AutowireCandidateResolver
 
 @Autowired 注入过程  AutowiredAnnotationBeanPostProcessor#postProcessProperties() postProcessMergedBeanDefinition()
     元信息解析 AbstractBeanDefinition#setPropertyValues()
-    依赖查找
+    依赖查找    ->   依赖处理过程
     依赖注入(注入、方法)
 
-
-
+@Inject 注入过程
+    如果JSR-330存在于classpath中，就可以复用AutowiredAnnotationBeanPostProcessor实现。
+    AutowiredAnnotationBeanPostProcessor#AutowiredAnnotationBeanPostProcessor() findAutowiredAnnotation()
 
 
 
