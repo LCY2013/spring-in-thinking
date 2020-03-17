@@ -25,6 +25,12 @@
         单一类型
         集合类型
 
+依赖处理过程
+    入口 - org.springframework.beans.factory.support.R#resolveDependency()
+    依赖描述符 - org.springframework.beans.factory.config.DependencyDescriptor
+    自动绑定候选对象处理器 - org.springframework.beans.factory.support.AutowireCandidateResolver
+
+
 
 
 
