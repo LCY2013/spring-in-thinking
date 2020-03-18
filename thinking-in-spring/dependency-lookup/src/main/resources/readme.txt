@@ -26,6 +26,13 @@
 
 Spring内建依赖
     org.springframework.context.annotation.AnnotationConfigUtils
+        org.springframework.beans.factory.annotation.AutowiredAnnotationBeanPostProcessor ...
+Spring内建单例对象
+    org.springframework.context.support.AbstractApplicationContext
+        org.springframework.context.MessageSource ....
+Spring非spring管理对象
+    org.springframework.context.support.AbstractApplicationContext#prepareBeanFactory()
+
 
 Spring关于类异常 org.springframework.beans.BeansException及其子类
     1、org.springframework.beans.factory.NoSuchBeanDefinitionException
