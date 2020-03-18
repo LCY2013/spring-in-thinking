@@ -1,17 +1,14 @@
 package org.lcydream.ioc.dependency.injection.resolution.annotation;
 
-import org.springframework.beans.factory.annotation.Autowired;
-
 import java.lang.annotation.*;
 
 /**
- * 基于@Autowired元标注注解实现的自定义注解
+ * 自定义注解实现注入
  */
 @Target({ElementType.CONSTRUCTOR, ElementType.METHOD, ElementType.FIELD})
 @Retention(RetentionPolicy.RUNTIME)
 @Documented
-@Autowired
-public @interface CustomAutowired {
+public @interface CustomInject {
 
     /**
      * Declares whether the annotated dependency is required.

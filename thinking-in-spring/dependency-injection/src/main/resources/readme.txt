@@ -59,6 +59,12 @@ Java通用注解注入原理
             InjectedElement
             InjectionMetadata
 
+BeanPostProcessor集合添加位置
+    AbstractBeanFactory#addBeanPostProcessor() 这里Spring存在多次重复移除添加操作，这里也是实现Bean的初始化通知和销毁通知链的添加位置
+
+
+
+
 
 
 
