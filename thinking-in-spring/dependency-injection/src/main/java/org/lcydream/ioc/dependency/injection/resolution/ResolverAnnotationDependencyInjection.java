@@ -1,6 +1,7 @@
 package org.lcydream.ioc.dependency.injection.resolution;
 
 import org.lcydream.domain.User;
+import org.lcydream.ioc.dependency.injection.resolution.annotation.CustomAutowired;
 import org.springframework.beans.factory.ObjectFactory;
 import org.springframework.beans.factory.ObjectProvider;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -38,6 +39,9 @@ public class ResolverAnnotationDependencyInjection {
     @Autowired //单类型
     private Optional<User> optionalUser;
 
+    @CustomAutowired  //自定义注解
+    private Optional<User> userOptional;
+
     public static void main(String[] args) {
         //创建应用上下文
         AnnotationConfigApplicationContext applicationContext =
@@ -59,6 +63,8 @@ public class ResolverAnnotationDependencyInjection {
         //期望 super user
         System.out.println("user :"+lazyDependencyInjection.user);
         System.out.println("injectedUser :"+lazyDependencyInjection.injectedUser);
+        System.out.println("optionalUser :"+lazyDependencyInjection.optionalUser.get());
+        System.out.println("userOptional :"+lazyDependencyInjection.userOptional.get());
 
         //关闭应用上下文
         applicationContext.close();

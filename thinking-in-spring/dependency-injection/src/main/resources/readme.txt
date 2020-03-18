@@ -39,6 +39,26 @@
     如果JSR-330存在于classpath中，就可以复用AutowiredAnnotationBeanPostProcessor实现。
     AutowiredAnnotationBeanPostProcessor#AutowiredAnnotationBeanPostProcessor() findAutowiredAnnotation()
 
+Java通用注解注入原理
+    CommonAnnotationBeanPostProcessor#postProcessProperties()
+        注入注解
+            javax.xml.ws.WebServiceRef
+            javax.ejb.EJB
+            javax.annotation.Resource
+        生命周期注解
+            javax.annotation.PostConstruct
+            javax.annotation.PreDestroy
+
+自定义依赖注入注解
+    基于AutowiredAnnotationBeanPostProcessor实现
+    自定义实现
+        生命周期处理
+            InstantiationAwareBeanPostProcessor
+            MergedBeanDefinitionPostProcessor
+        元数据
+            InjectedElement
+            InjectionMetadata
+
 
 
 
