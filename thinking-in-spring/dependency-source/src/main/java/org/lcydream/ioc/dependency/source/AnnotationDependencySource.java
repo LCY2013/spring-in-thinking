@@ -10,7 +10,6 @@ import org.springframework.context.ApplicationEventPublisher;
 import org.springframework.context.annotation.AnnotationConfigApplicationContext;
 import org.springframework.context.annotation.AnnotationConfigUtils;
 import org.springframework.context.support.AbstractApplicationContext;
-import org.springframework.context.support.ClassPathXmlApplicationContext;
 import org.springframework.core.io.ResourceLoader;
 
 import javax.annotation.PostConstruct;
@@ -58,7 +57,7 @@ import javax.annotation.PostConstruct;
  *         不同点:
  *              有一些Spring容器内建的对象只能通过依赖注入获取到，而不能通过依赖查询获取的
  *              比如: BeanFactory,ResourceLoader,ApplicationEventPublisher,ApplicationContext
- *              这种对象叫做游离对象，我们也可以通过API进行这些对象的自定义注入
+ *              这种对象叫做非Spring容器管理对象，我们也可以通过API进行这些对象的自定义注入
  *              API -> {@link ConfigurableListableBeanFactory#registerResolvableDependency(Class, Object)}
  *
  */
