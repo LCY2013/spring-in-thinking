@@ -19,17 +19,23 @@ Application Bean作用域
     实现
         API - org.springframework.web.context.support.ServletContextScope
 
-
-
-
-
 执行远程debug
     jdk9->
     java -jar -agentlib:jdwp=transport=dt_socket,server=y,suspend=n,address=*:8864  *.jar
     ->jdk8
     java -jar -agentlib:jdwp=transport=dt_socket,server=y,suspend=n,address=8864 *.jar
 
-
+自定义Bean作用域
+    实现Scope - org.springframework.beans.factory.config.Scope
+    注册Scope - org.springframework.beans.factory.config.ConfigurableBeanFactory
+        配置:
+         <bean class="org.springframework.beans.factory.config.CustomScopeConfigurer">
+            <property name="scopes">
+                <map>
+                    <entry key="..."></entry>
+                </map>
+            </property>
+         </bean>
 
 
 
