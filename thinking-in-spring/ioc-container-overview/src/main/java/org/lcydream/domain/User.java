@@ -1,16 +1,19 @@
 package org.lcydream.domain;
 
 import org.lcydream.enums.City;
+import org.springframework.beans.factory.BeanNameAware;
 import org.springframework.core.io.ClassPathResource;
 import org.springframework.core.io.Resource;
 
+import javax.annotation.PostConstruct;
+import javax.annotation.PreDestroy;
 import java.util.Arrays;
 import java.util.List;
 
 /**
  *  用户类
  */
-public class User {
+public class User implements BeanNameAware {
 
     private Long id;
 
@@ -21,6 +24,11 @@ public class User {
     private City[] workCities;
 
     private List<City> lifeCities;
+
+    /**
+     * bean的原始名称
+     */
+    private String beanName;
 
     /**
      * 基于 {@link ClassPathResource} 加载配置文件
@@ -93,5 +101,20 @@ public class User {
         user.setName("fufeng");
         user.setCity(City.CHENGDU);
         return user;
+    }
+
+    @Override
+    public void setBeanName(String name) {
+        this.beanName = name;
+    }
+
+    @PostConstruct
+    public void init(){
+        System.out.println(this.beanName + " bean init...");
+    }
+
+    @PreDestroy
+    public void destroy(){
+        System.out.println(this.beanName + " bean destroy...");
     }
 }
