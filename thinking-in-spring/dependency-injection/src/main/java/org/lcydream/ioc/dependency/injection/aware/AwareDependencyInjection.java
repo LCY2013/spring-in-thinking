@@ -27,7 +27,6 @@ public class AwareDependencyInjection implements BeanFactoryAware, ApplicationCo
 
         System.out.println(applicationContext == AwareDependencyInjection.applicationContext);
         System.out.println(applicationContext.getBeanFactory() == AwareDependencyInjection.beanFactory);
-
         //关闭应用上下文
         applicationContext.close();
     }

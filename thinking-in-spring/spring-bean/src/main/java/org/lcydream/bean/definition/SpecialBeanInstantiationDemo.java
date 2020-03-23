@@ -32,6 +32,9 @@ public class SpecialBeanInstantiationDemo {
         System.out.println(defaultUserFactory.createUser());
     }
 
+    /**
+     * jdk serviceLoader
+     */
     public static void doServiceLoader(){
         //获取UserFactory定义
         ServiceLoader<UserFactory> serviceLoader =

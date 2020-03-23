@@ -25,4 +25,29 @@ Spring Bean元信息配置阶段
        面向注解
        面向API
 
+Spring Bean元信息解析阶段
+    面向资源BeanDefinition解析
+        BeanDefinitionReader
+        XML解析器 - BeanDefinitionParser
+    面向注解BeanDefinition解析
+        AnnotatedBeanDefinitionReader
+
+Spring Bean注册阶段
+    BeanDefinitionRegistry#registerBeanDefinition
+
+Spring BeanDefinition合并阶段
+    BeanDefinition 合并
+        父子 BeanDefinition 合并
+            当前 BeanFactory 查找
+            层次 BeanFactory 查找
+
+
+
+
+
+
+
+
+
+
 
