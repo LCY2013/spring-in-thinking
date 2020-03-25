@@ -12,7 +12,7 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 //@EnableAutoConfiguration
 //@Configuration
 //@ComponentScan
-//@SpringBootApplication(scanBasePackages = {"org.lcydream.configuration"}) //等同于@EnableAutoConfiguration+@ComponentScan+@Configuration
+@SpringBootApplication(scanBasePackages = {"org.lcydream.configuration"}) //等同于@EnableAutoConfiguration+@ComponentScan+@Configuration
 public class EmbedContainerApplication {
 
     public static void main(String[] args) {
