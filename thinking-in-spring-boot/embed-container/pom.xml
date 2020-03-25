@@ -20,12 +20,12 @@
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-web</artifactId>
             <!--排除Tomcat容器-->
-            <exclusions>
+            <!--<exclusions>
                 <exclusion>
                     <groupId>org.springframework.boot</groupId>
                     <artifactId>spring-boot-starter-tomcat</artifactId>
                 </exclusion>
-            </exclusions>
+            </exclusions>-->
         </dependency>
 
         <!--use jetty instead-->
@@ -35,10 +35,10 @@
         </dependency>-->
 
         <!--use undertow instead-->
-        <dependency>
+        <!--<dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-undertow</artifactId>
-        </dependency>
+        </dependency>-->
 
         <!-- 默认不加其他servlet规范的容器时，使用netty 作为reactive server实现 -->
         <dependency>
