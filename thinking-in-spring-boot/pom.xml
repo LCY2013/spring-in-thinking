@@ -5,6 +5,7 @@
     <packaging>pom</packaging>
     <modules>
         <module>embed-container</module>
+        <module>annotation-driver</module>
     </modules>
     <groupId>com.lcydream</groupId>
     <artifactId>thinking-in-spring-boot</artifactId>
