@@ -20,8 +20,8 @@ Spring Bean生命周期
 Spring Bean元信息配置阶段
     BeanDefinition配置
        面向资源
-            XML配置
-            Properties资源配置
+            XML配置 XmlBeanDefinitionReader
+            Properties资源配置 PropertiesBeanDefinitionReader
        面向注解
        面向API
 
@@ -37,9 +37,21 @@ Spring Bean注册阶段
 
 Spring BeanDefinition合并阶段
     BeanDefinition 合并
-        父子 BeanDefinition 合并
+        父子 BeanDefinition 合并  RootBeanDefinition,不存在Parent，存在Parent的BeanDefinition(GenericBeanDefinition)
             当前 BeanFactory 查找
             层次 BeanFactory 查找
+
+Spring Bean Class 加载阶段  AbstractBeanFactory#resolveBeanClass  获取ClassLoader可以通过实现ClassLoaderAware
+    ClassLoader 类加载
+    Java Security 安全控制
+    ConfigurableBeanFactory 临时ClassLoader
+
+Spring Bean 实例化前阶段
+    非主流生命周期 - Bean 实例化前阶段
+        InstantiationAwareBeanPostProcessor#postProcessBeforeInstantiation
+
+
+
 
 
 

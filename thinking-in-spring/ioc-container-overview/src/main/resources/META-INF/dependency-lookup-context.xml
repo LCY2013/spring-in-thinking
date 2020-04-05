@@ -12,6 +12,9 @@
     <context:component-scan base-package="org"/>-->
 
     <!--实时查找Bean-->
+    <!--RootBeanDefinition不需要合并，不存在Parent-->
+    <!--刚开始BeanDefinition都是GenericBeanDefinition,不存在Parent的BeanDefinition会变成RootBeanDefinition-->
+    <!--具体代码看AbstractBeanFactory#getMergedBeanDefinition-->
     <bean id="user" class="org.lcydream.domain.User">
         <property name="id" value="1"/>
         <property name="name" value="fufeng"/>
@@ -28,6 +31,9 @@
         <property name="configFileLocal" value="classpath:/META-INF/user-config.properties"/>
     </bean>
 
+    <!--普通BeanDefinition GenericBeanDefinition-->
+    <!--合并之后GenericBeanDefinition也会变成RootBeanDefinition，并且有存在定义过父类的属性就会覆盖父类的属性-->
+    <!--设置 primary="true"和address属性增加-->
     <bean id="superUser" class="org.lcydream.domain.SuperUser" parent="user"
           primary="true">
         <property name="address" value="成都"/>
