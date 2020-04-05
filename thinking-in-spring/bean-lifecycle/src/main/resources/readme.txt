@@ -50,8 +50,22 @@ Spring Bean 实例化前阶段
     非主流生命周期 - Bean 实例化前阶段
         InstantiationAwareBeanPostProcessor#postProcessBeforeInstantiation
 
+Spring Bean 实例化阶段
+    实例化方式
+        传统实例化方式
+            实例化策略 - InstantiationStrategy
+        构造依赖注入
 
+Spring Bean 实例化后阶段
+    Bean 属性赋值(Populate)判断 doCreationBean
+    InstantiationAwareBeanPostProcessor#postProcessAfterInstantiation
 
+Spring Bean 属性赋值前阶段
+    Bean属性值元信息
+        PropertyValues
+    Bean属性赋值前回调
+        Spring1.2 - 5.0 : InstantiationAwareBeanPostProcessor#postProcessPropertyValues
+        Spring5.1 : InstantiationAwareBeanPostProcessor#postProcessProperties
 
 
 
