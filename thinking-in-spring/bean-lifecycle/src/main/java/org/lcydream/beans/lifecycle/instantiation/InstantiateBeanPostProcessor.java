@@ -1,35 +1,47 @@
 package org.lcydream.beans.lifecycle.instantiation;
 
 import org.lcydream.beans.lifecycle.holder.UserHolder;
-import org.lcydream.domain.SuperUser;
 import org.lcydream.domain.User;
-import org.springframework.beans.BeansException;
-import org.springframework.beans.MutablePropertyValues;
-import org.springframework.beans.PropertyValue;
-import org.springframework.beans.PropertyValues;
-import org.springframework.beans.factory.config.InstantiationAwareBeanPostProcessor;
 import org.springframework.beans.factory.support.DefaultListableBeanFactory;
 import org.springframework.beans.factory.xml.XmlBeanDefinitionReader;
-import org.springframework.core.io.ClassPathResource;
-import org.springframework.core.io.Resource;
-import org.springframework.core.io.support.EncodedResource;
-import org.springframework.util.ObjectUtils;
-
-import java.util.Iterator;
+import org.springframework.context.support.ClassPathXmlApplicationContext;
 
 /**
  * @program: spring-in-thinking
  * @description: Spring Bean 实例化前中后阶段
+ *      对比结果:
+ *        BeanFactory阶段回调:
+ *          BeanNameAware
+ *          BeanClassLoaderAware
+ *          BeanFactoryAware
+ *        Application上下文阶段:
+ *          EnvironmentAware
+ *          EmbeddedValueResolveAware
+ *          ResourceLoaderAware
+ *          ApplicationEventPublisherAware
+ *          MessageSourceAware
+ *          ApplicationContextAware
+ *
  * @author: <a href="https://github.com/lcy2013">MagicLuo</a>
  * @create: 2020-04-05 19:40
  */
 public class InstantiateBeanPostProcessor{
 
     public static void main(String[] args) {
+        executeBeanFactory();
+        System.out.println("------------------");
+        executeApplicationContext();
+    }
+
+    private static void executeBeanFactory(){
         DefaultListableBeanFactory beanFactory =
                 new DefaultListableBeanFactory();
+        //方法一: 向BeanFactory容器中添加BeanPostProcessor实现
+        //  beanFactory.addBeanPostProcessor(new InstantiateBeanPostProcess());
+        //方法二: 直接配置文件中注册BeanPostProcessor实现Bean
+        //<bean class="org.lcydream.beans.lifecycle.instantiation.InstantiateBeanPostProcess"/>
         //添加BeanProcessor
-        beanFactory.addBeanPostProcessor(new InstantiateBeanPostProcess());
+        //beanFactory.addBeanPostProcessor(new InstantiateBeanPostProcess());
 
         //实例化 XML 资源读取 BeanDefinitionReader
         XmlBeanDefinitionReader definitionReader =
@@ -46,77 +58,32 @@ public class InstantiateBeanPostProcessor{
         System.out.println(beanFactory.getBean("userHolder", UserHolder.class));
     }
 
-    static class InstantiateBeanPostProcess implements InstantiationAwareBeanPostProcessor{
+    private static void executeApplicationContext(){
+        //定义配置文件的位置
+        String[] xmlPath = {"META-INF/dependency-lookup-context.xml","META-INF/bean-constructor-dependency-injection.xml"};
+        //创建xmlApplicationContext的上下文
+        ClassPathXmlApplicationContext applicationContext =
+                new ClassPathXmlApplicationContext(xmlPath);
 
-        /**
-         * 这里可以做一些代理类替换原生类
-         * @param beanClass 目标类字节码
-         * @param beanName bean名称
-         * @return
-         * @throws BeansException
-         */
-        @Override
-        public Object postProcessBeforeInstantiation(Class<?> beanClass, String beanName) throws BeansException {
-            if(ObjectUtils.nullSafeEquals("superUser",beanName) &&
-                    SuperUser.class.equals(beanClass)){
-                //把配置文件中的SuperUser替换掉
-                return new SuperUser();
-            }
-            //为null的时候就是用默认配置文件中的
-            return null;
-        }
+        //方法一: 向BeanFactory容器中添加BeanPostProcessor实现
+        //  beanFactory.addBeanPostProcessor(new InstantiateBeanPostProcess());
+        //方法二: 直接配置文件中注册BeanPostProcessor实现Bean
+        //<bean class="org.lcydream.beans.lifecycle.instantiation.InstantiateBeanPostProcess"/>
 
-        /**
-         *
-         * @param bean bean
-         * @param beanName beanName
-         * @return @return {@code true} if properties should be set on the bean;
-         * {@code false} if property population should be skipped.
-         * Normal implementations should return {@code true}.
-         *
-         * @throws BeansException
-         */
-        @Override
-        public boolean postProcessAfterInstantiation(Object bean, String beanName) throws BeansException {
-            if(ObjectUtils.nullSafeEquals("user",beanName) &&
-                    User.class.equals(bean.getClass())){
-                User user = (User) bean;
-                user.setId(25L);
-                user.setName("MagicLuo");
-                //user 对象不允许填入配置好的属性值(配置信息 -> 属性值)
-                return false;
-            }
-            return true;
-        }
+        //这里等于 new ClassPathXmlApplicationContext(xmlPath); 构造器创建
+        //这里也可以设置配置文件
+        //applicationContext.setConfigLocations(xmlPath);
+        //启动application容器
+        //applicationContext.refresh();
 
-        /**
-         * 如果postProcessAfterInstantiation返回的false这里将不会被调用
-         *  user 取消掉了属性设置，那么这里就会取消执行
-         *  superUser 用了自定义创建，不会走下面的实例化流程，也会取消这里的执行
-         *  userHolder 可以使用这里
-         * @param pvs
-         * @param bean
-         * @param beanName
-         * @return
-         * @throws BeansException
-         */
-        @Override
-        public PropertyValues postProcessProperties(PropertyValues pvs, Object bean, String beanName) throws BeansException {
-            //对UserHolder进行拦截
-            if(ObjectUtils.nullSafeEquals("userHolder",beanName) &&
-                    UserHolder.class.equals(bean.getClass())){
-                //<property name="number" value="2"/> 等价于 propertyValues.add("number","1")
-                MutablePropertyValues propertyValues = new MutablePropertyValues();
-                Iterator<PropertyValue> iterator = pvs.iterator();
-                for (; iterator.hasNext(); ) {
-                    PropertyValue pv = iterator.next();
-                    propertyValues.addPropertyValue(pv);
-                }
-                propertyValues.add("number","1");
-                return propertyValues;
-            }
-            return null;
-        }
+        //通过Bean id和类型进行依赖查找
+        System.out.println(applicationContext.getBean("user", User.class));
+        System.out.println(applicationContext.getBean("superUser",User.class));
+        //构造器注入按类型注入，resolveDependency
+        System.out.println(applicationContext.getBean("userHolder", UserHolder.class));
+
+        //关闭application容器
+        applicationContext.close();
     }
 
 }

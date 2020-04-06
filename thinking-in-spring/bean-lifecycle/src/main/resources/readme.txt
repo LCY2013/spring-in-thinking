@@ -67,6 +67,18 @@ Spring Bean 属性赋值前阶段
         Spring1.2 - 5.0 : InstantiationAwareBeanPostProcessor#postProcessPropertyValues
         Spring5.1 : InstantiationAwareBeanPostProcessor#postProcessProperties
 
+Spring Bean Aware接口回调阶段
+    Spring Aware 接口
+        BeanNameAware
+        BeanClassLoaderAware
+        BeanFactoryAware
+        EnvironmentAware
+        EmbeddedValueResolveAware
+        ResourceLoaderAware
+        ApplicationEventPublisherAware
+        MessageSourceAware
+        ApplicationContextAware
+
 
 
 

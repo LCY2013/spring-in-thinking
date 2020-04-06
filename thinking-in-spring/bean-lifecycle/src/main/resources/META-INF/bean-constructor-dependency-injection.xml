@@ -8,6 +8,8 @@
         http://www.springframework.org/schema/context
         https://www.springframework.org/schema/context/spring-context.xsd">
 
+    <bean class="org.lcydream.beans.lifecycle.instantiation.InstantiateBeanPostProcess"/>
+
     <bean id="userHolder" class="org.lcydream.beans.lifecycle.holder.UserHolder" autowire="constructor">
         <property name="description" value="description on UserHolder"/>
     </bean>
