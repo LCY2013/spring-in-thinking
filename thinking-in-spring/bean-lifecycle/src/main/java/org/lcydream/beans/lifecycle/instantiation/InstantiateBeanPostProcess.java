@@ -8,10 +8,14 @@ import org.springframework.beans.MutablePropertyValues;
 import org.springframework.beans.PropertyValue;
 import org.springframework.beans.PropertyValues;
 import org.springframework.beans.factory.config.InstantiationAwareBeanPostProcessor;
+import org.springframework.beans.factory.config.TypedStringValue;
 import org.springframework.util.ObjectUtils;
 
 import java.util.Iterator;
 
+/**
+ * 实例化的BeanPostProcessor
+ */
 public class InstantiateBeanPostProcess implements InstantiationAwareBeanPostProcessor {
 
     /**
@@ -82,8 +86,10 @@ public class InstantiateBeanPostProcess implements InstantiationAwareBeanPostPro
                 PropertyValue pv = iterator.next();
                 propertyValues.addPropertyValue(pv);
             }
+            System.out.println(((TypedStringValue)pvs.getPropertyValue("description").getValue()).getValue());
             propertyValues.add("number", "1");
             propertyValues.add("description", "user holder v2");
+            System.out.println(propertyValues.get("description"));
             return propertyValues;
         }
         return null;
@@ -103,6 +109,7 @@ public class InstantiateBeanPostProcess implements InstantiationAwareBeanPostPro
                 UserHolder.class.equals(bean.getClass())) {
             UserHolder userHolder = (UserHolder) bean;
             userHolder.setDescription("user holder v3");
+            System.out.println(userHolder.getDescription());
         }
         return bean;
     }
@@ -120,6 +127,7 @@ public class InstantiateBeanPostProcess implements InstantiationAwareBeanPostPro
                 UserHolder.class.equals(bean.getClass())) {
             UserHolder userHolder = (UserHolder) bean;
             userHolder.setDescription("user holder v7");
+            System.out.println(userHolder.getDescription());
         }
         return null;
     }

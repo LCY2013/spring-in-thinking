@@ -10,7 +10,7 @@
 
     <bean class="org.lcydream.beans.lifecycle.instantiation.InstantiateBeanPostProcess"/>
 
-    <bean id="userHolder" class="org.lcydream.beans.lifecycle.holder.UserHolder" autowire="constructor" init-method="initMethod">
+    <bean id="userHolder" class="org.lcydream.beans.lifecycle.holder.UserHolder" autowire="constructor" init-method="initMethod" destroy-method="doDestroy">
         <property name="description" value="user holder v1"/>
     </bean>
 </beans>

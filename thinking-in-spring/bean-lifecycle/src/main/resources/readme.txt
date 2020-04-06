@@ -103,6 +103,24 @@ Spring Bean 初始化阶段
 Spring Bean 初始化后阶段
     方法回调BeanPostProcessor#postProcessAfterInitialization
 
+Spring Bean 初始化完成阶段
+    方法回调
+        Spring4.1+: SmartInitializingSingleton#afterSingletonsInstantiated
+
+Spring Bean 销毁前阶段
+    方法回调
+        DestructionAwareBeanPostProcessor#postProcessBeforeDestruction
+
+Spring Bean 销毁阶段
+    Bean 销毁 (Destroy)
+        @PreDestroy 标注方法
+        实现DisposableBean#destroy
+        自定义销毁方法 <bean class="" destroy-method=""/>,@Bean(destroyMethod="")
+
+
+
+
+
 
 
 

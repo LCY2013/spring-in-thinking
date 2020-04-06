@@ -1,4 +1,4 @@
-package org.lcydream.beans.lifecycle.initialization;
+package org.lcydream.beans.lifecycle.destruction;
 
 import org.lcydream.beans.lifecycle.holder.UserHolder;
 import org.lcydream.beans.lifecycle.instantiation.InstantiateBeanPostProcess;
@@ -9,25 +9,26 @@ import org.springframework.context.annotation.CommonAnnotationBeanPostProcessor;
 
 /**
  * @program: spring-in-thinking
- * @description: Spring Bean 初始化前中后阶段
- *
+ * @description: Bean 整个生命周期演示demo
  * @author: <a href="https://github.com/lcy2013">MagicLuo</a>
- * @create: 2020-04-05 19:40
+ * @create: 2020-04-06 15:26
  */
-public class InitializationBeanPostProcessor {
+public class BeanLifecycleDemo {
 
     public static void main(String[] args) {
-        executeBeanFactory();
-    }
-
-    private static void executeBeanFactory(){
         DefaultListableBeanFactory beanFactory =
                 new DefaultListableBeanFactory();
+
+        //BeanPostProcessor是一个CopyOnWriteArrayList，说明它是有顺序的
+        //自定义DestructionAwareBeanPostProcess在前，那么就会先执行他的实现，在执行CommonAnnotationBeanPostProcessor
+
         //方法一: 向BeanFactory容器中添加BeanPostProcessor实现
         //  beanFactory.addBeanPostProcessor(new InstantiateBeanPostProcess());
         //添加实例化的BeanProcessor
         beanFactory.addBeanPostProcessor(new InstantiateBeanPostProcess());
-        //添加注解驱动的BeanProcessor,解决@PostConstruct注解回调问题
+        //添加Bean销毁的BeanProcessor
+        beanFactory.addBeanPostProcessor(new DestructionAwareBeanPostProcess());
+        //添加注解驱动的BeanProcessor,解决@PostConstruct,@PreDestroy注解回调问题
         beanFactory.addBeanPostProcessor(new CommonAnnotationBeanPostProcessor());
 
         //实例化 XML 资源读取 BeanDefinitionReader
@@ -52,8 +53,14 @@ public class InitializationBeanPostProcessor {
         System.out.println(beanFactory.getBean("superUser",User.class));
 
         //构造器注入按类型注入，resolveDependency
-        System.out.println(beanFactory.getBean("userHolder", UserHolder.class));
-    }
+        final UserHolder userHolder = beanFactory.getBean("userHolder", UserHolder.class);
+        System.out.println(userHolder);
 
+        //显示销毁Bean(? 通过beanFactory.getBean("userHolder", UserHolder.class)，还是可以获取到同样的Bean？销毁有没有效果？)
+        beanFactory.destroyBean("userHolder",userHolder);
+
+        System.out.println(userHolder);
+
+    }
 
 }
