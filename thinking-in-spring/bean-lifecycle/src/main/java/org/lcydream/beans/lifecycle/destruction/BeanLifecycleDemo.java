@@ -7,6 +7,8 @@ import org.springframework.beans.factory.support.DefaultListableBeanFactory;
 import org.springframework.beans.factory.xml.XmlBeanDefinitionReader;
 import org.springframework.context.annotation.CommonAnnotationBeanPostProcessor;
 
+import java.util.concurrent.TimeUnit;
+
 /**
  * @program: spring-in-thinking
  * @description: Bean 整个生命周期演示demo
@@ -60,6 +62,22 @@ public class BeanLifecycleDemo {
         beanFactory.destroyBean("userHolder",userHolder);
 
         System.out.println(userHolder);
+
+        //销毁 BeanFactory中的单例Bean
+        beanFactory.destroySingletons();
+
+        //显示的申请一下GC
+        System.gc();
+
+        //等待一下GC线程的操作
+        try {
+            TimeUnit.SECONDS.sleep(1);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+
+        //再次申请GC
+        System.gc();
 
     }
 

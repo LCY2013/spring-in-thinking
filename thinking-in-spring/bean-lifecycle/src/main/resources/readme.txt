@@ -54,6 +54,11 @@ Spring Bean 实例化阶段
     实例化方式
         传统实例化方式
             实例化策略 - InstantiationStrategy
+            代码位置:
+                ->  createBeanInstance()
+                    ->  instantiateBean()
+                        ->  getInstantiationStrategy() 选择实例化策略
+                            ->  instantiate()
         构造依赖注入
 
 Spring Bean 实例化后阶段
@@ -101,7 +106,7 @@ Spring Bean 初始化阶段
         自定义初始化方法<bean class="" init-method=""/>,@Bean(initMethod="")
 
 Spring Bean 初始化后阶段
-    方法回调BeanPostProcessor#postProcessAfterInitialization
+    方法回调 BeanPostProcessor#postProcessAfterInitialization
 
 Spring Bean 初始化完成阶段
     方法回调
@@ -117,9 +122,48 @@ Spring Bean 销毁阶段
         实现DisposableBean#destroy
         自定义销毁方法 <bean class="" destroy-method=""/>,@Bean(destroyMethod="")
 
+Spring Bean 垃圾收集
+    Bean 垃圾回收(GC)
+        关闭Spring容器(应用上下文)
+        执行GC
+        Spring Bean 覆盖finalize()方法被调用(这里是JDK机制,不是Spring实现)
 
+面试部分
+    BeanPostProcessor的使用场景？
+    答: 1、BeanPostProcessor提供Spring Bean初始化前和初始化后的生命周期回调，
+            分别对应
+                BeanPostProcessor#postProcessBeforeInitialization
+                BeanPostProcessor#postProcessAfterInitialization
+            允许对有需求的Bean进行扩展，或者替换
+        2、ApplicationContext相关的Aware回调也是基于BeanPostProcessor实现，
+            即ApplicationContextAwareProcessor。
 
+    BeanFactoryPostProcessor与BeanPostProcessor的区别?
+    答: BeanFactoryPostProcessor是Spring BeanFactory(ConfigurableListableBeanFactory)的后置处理器，
+        用于扩展BeanFactory，或者通过BeanFactory进行依赖查找和依赖注入。
+        BeanFactoryPostProcessor必须在Spring ApplicationContext执行，
+        BeanFactory无法与其直接交互。
+        而BeanPostProcessor则与BeanFactory关联，属于N对1的关系。
 
+    BeanFactory是怎样处理Bean的生命周期的？
+    答:  默认实现 DefaultListableBeanFactory
+        1、Spring Bean元信息配置阶段    -> xml/properties
+        2、Spring Bean元信息解析阶段    ->  BeanDefinitionReader -> BeanDefinitionParser
+        3、Spring Bean注册阶段   ->  registerBeanDefinition()
+        4、Spring BeanDefinition合并阶段    ->   getMergedBeanDefinition()
+        5、Spring Bean Class 加载阶段   ->   resolveBeanClass()
+        6、Spring Bean 实例化前阶段    ->  resolveBeforeInstantiation()
+        7、Spring Bean 实例化阶段     ->  createBeanInstance()
+        8、Spring Bean 实例化后阶段    ->  populateBean()
+        9、Spring Bean 属性负值阶段    ->  populateBean()
+        10、Spring Aware 接口回调阶段  ->  initializeBean()
+        11、Spring Bean 初始化前阶段   ->  initializeBean()
+        12、Spring Bean 初始化阶段    ->  initializeBean()
+        13、Spring Bean 初始化后阶段   ->  initializeBean()
+        14、Spring Bean 初始化完成阶段  ->  preInstantiateSingletons()
+        15、Spring Bean 销毁前阶段    ->  destroyBean()
+        16、Spring Bean 销毁阶段     ->  destroyBean()
+        17、Spring Bean 垃圾回收     ->  jdk回收
 
 
 

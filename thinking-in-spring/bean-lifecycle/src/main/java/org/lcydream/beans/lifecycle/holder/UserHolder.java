@@ -142,4 +142,9 @@ public class UserHolder implements BeanNameAware, BeanFactoryAware,
                 ", beanName='" + beanName + '\'' +
                 '}';
     }
+
+    @Override
+    protected void finalize() throws Throwable {
+        System.out.println("user Holder finalize end");
+    }
 }
