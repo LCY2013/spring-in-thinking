@@ -2,12 +2,11 @@ package org.lcydream.beans.lifecycle.holder;
 
 import org.lcydream.domain.User;
 import org.springframework.beans.BeansException;
-import org.springframework.beans.factory.BeanClassLoaderAware;
-import org.springframework.beans.factory.BeanFactory;
-import org.springframework.beans.factory.BeanFactoryAware;
-import org.springframework.beans.factory.BeanNameAware;
+import org.springframework.beans.factory.*;
 import org.springframework.context.EnvironmentAware;
 import org.springframework.core.env.Environment;
+
+import javax.annotation.PostConstruct;
 
 /**
  * @program: spring-in-thinking
@@ -15,7 +14,8 @@ import org.springframework.core.env.Environment;
  * @author: <a href="https://github.com/lcy2013">MagicLuo</a>
  * @create: 2020-04-05 20:28
  */
-public class UserHolder implements BeanNameAware, BeanFactoryAware, BeanClassLoaderAware, EnvironmentAware {
+public class UserHolder implements BeanNameAware, BeanFactoryAware,
+        BeanClassLoaderAware, EnvironmentAware, InitializingBean {
 
     private final User user;
 
@@ -30,6 +30,26 @@ public class UserHolder implements BeanNameAware, BeanFactoryAware, BeanClassLoa
     private BeanFactory beanFactory;
 
     private Environment environment;
+
+    /**
+     * 依赖注解驱动，需要加入注解扫描的BeanPostProcessor(CommonAnnotationBeanPostProcessor)
+     */
+    @PostConstruct
+    private void init(){
+        this.description = "user holder v4";
+        System.out.println(description);
+    }
+
+    @Override
+    public void afterPropertiesSet() throws Exception {
+        this.description = "user holder v5";
+        System.out.println(description);
+    }
+
+    public void initMethod(){
+        this.description = "user holder v6";
+        System.out.println(description);
+    }
 
     public UserHolder(User user) {
         this.user = user;

@@ -67,6 +67,13 @@ Spring Bean 属性赋值前阶段
         Spring1.2 - 5.0 : InstantiationAwareBeanPostProcessor#postProcessPropertyValues
         Spring5.1 : InstantiationAwareBeanPostProcessor#postProcessProperties
 
+AbstractAutowireCapableBeanFactory.doCreateBean ->
+            AbstractAutowireCapableBeanFactory.populateBean -> 属性赋值(Populate)判断
+            AbstractAutowireCapableBeanFactory.initializeBean -> 实例化
+                AbstractAutowireCapableBeanFactory.invokeAwareMethods -> 执行aware回调
+        AbstractAutowireCapableBeanFactory#invokeAwareMethods 执行顺序
+        BeanNameAware -> BeanClassLoaderAware -> BeanFactoryAware
+
 Spring Bean Aware接口回调阶段
     Spring Aware 接口
         BeanNameAware
@@ -79,6 +86,22 @@ Spring Bean Aware接口回调阶段
         MessageSourceAware
         ApplicationContextAware
 
+Spring Bean 初始化前阶段
+    已完成
+        Bean 实例化
+        Bean 属性赋值
+        Bean Aware 接口回调
+    方法回调
+        BeanPostProcessor#postProcessBeforeInitialization
+
+Spring Bean 初始化阶段
+    Bean 初始化(Initialization)
+        @PostConstruct 注解标注方法
+        实现InitializingBean#afterPropertiesSet方法
+        自定义初始化方法<bean class="" init-method=""/>,@Bean(initMethod="")
+
+Spring Bean 初始化后阶段
+    方法回调BeanPostProcessor#postProcessAfterInitialization
 
 
 

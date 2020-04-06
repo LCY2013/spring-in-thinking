@@ -38,8 +38,6 @@ public class InstantiateBeanPostProcessor{
                 new DefaultListableBeanFactory();
         //方法一: 向BeanFactory容器中添加BeanPostProcessor实现
         //  beanFactory.addBeanPostProcessor(new InstantiateBeanPostProcess());
-        //方法二: 直接配置文件中注册BeanPostProcessor实现Bean
-        //<bean class="org.lcydream.beans.lifecycle.instantiation.InstantiateBeanPostProcess"/>
         //添加BeanProcessor
         //beanFactory.addBeanPostProcessor(new InstantiateBeanPostProcess());
 
@@ -67,7 +65,7 @@ public class InstantiateBeanPostProcessor{
 
         //方法一: 向BeanFactory容器中添加BeanPostProcessor实现
         //  beanFactory.addBeanPostProcessor(new InstantiateBeanPostProcess());
-        //方法二: 直接配置文件中注册BeanPostProcessor实现Bean
+        //方法二: 直接配置文件中注册BeanPostProcessor实现Bean,这里BeanFactory直接使用不了，需要ApplicationContext环境
         //<bean class="org.lcydream.beans.lifecycle.instantiation.InstantiateBeanPostProcess"/>
 
         //这里等于 new ClassPathXmlApplicationContext(xmlPath); 构造器创建

@@ -1,11 +1,8 @@
 package org.lcydream.beans.lifecycle.merge;
 
-import org.lcydream.beans.lifecycle.annotation.AnnotatedBeanDefinitionParsing;
 import org.lcydream.domain.User;
 import org.springframework.beans.factory.support.DefaultListableBeanFactory;
-import org.springframework.beans.factory.support.PropertiesBeanDefinitionReader;
 import org.springframework.beans.factory.xml.XmlBeanDefinitionReader;
-import org.springframework.context.annotation.AnnotatedBeanDefinitionReader;
 import org.springframework.core.io.ClassPathResource;
 import org.springframework.core.io.Resource;
 import org.springframework.core.io.support.EncodedResource;
