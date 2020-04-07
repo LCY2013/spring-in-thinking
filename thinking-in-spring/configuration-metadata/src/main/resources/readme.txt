@@ -191,6 +191,31 @@ Spring Bean 配置元信息底层实现
             -> org.springframework.beans.factory.config.YamlMapFactoryBean
             -> org.springframework.beans.factory.config.YamlPropertiesFactoryBean
 
+面试
+    Spring内建的XML Schema常用规约有那些？
+    答:  beans        spring-beans       https://www.springframework.org/schema/beans/spring-beans.xsd
+        context      spring-context     https://www.springframework.org/schema/context/spring-context.xsd
+        aop          spring-aop         https://www.springframework.org/schema/aop/spring-aop.xsd
+        tx           spring-tx          https://www.springframework.org/schema/tx/spring-tx.xsd
+        util         spring-beans       https://www.springframework.org/schema/util/spring-util.xsd
+        tool         spring-beans       https://www.springframework.org/schema/tool/spring-tool.xsd
+
+    Spring 配置元信息具体有哪些内容?
+    答:  Bean配置元信息 -> 通过媒介(XML,properties 等)，解析成BeanDefinition
+        IOC容器配置元信息  -> 通过媒介(XML,properties 等),控制IOC容器行为，如：注解驱动，AOP等。
+        外部化配置 -> 通过资源抽象(properties，yaml 等)，控制propertySource
+        spring profile -> 通过外部化配置，提供条件分支流程
+
+    Extensible XML authoring缺点?
+    答: 高复杂度: 开发人员需要熟悉XML Schema规约，还需要熟悉Spring.handlers,Spring.schemas以及spring 其他API
+        嵌套元素支持弱: 通常需要使用方法递归或者嵌套解析的方法处理嵌套子元素
+        XML处理性能差:  Spring XMl基于DOM Level 3 API实现，该API便于理解，但是性能差
+        XML框架移植性差: 很难适配高性能和便利性的XML框架，如JAXB
+
+
+
+
+
 
 
 
