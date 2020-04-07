@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans
+       xmlns="http://www.springframework.org/schema/beans"
+       xmlns:users="http://www.lcydream.com/schema/users"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans
+        https://www.springframework.org/schema/beans/spring-beans.xsd
+        http://www.lcydream.com/schema/users
+        http://www.lcydream.com/schema/users.xsd">
+
+    <!--<bean id="user" class="org.lcydream.domain.User">
+        <property name="id" value="1"/>
+        <property name="name" value="fufeng"/>
+        <property name="city" value="CHENGDU"/>
+        <property name="workCities" value="CHENGDU,SHANGHAI"/>
+        &lt;!&ndash;<property name="lifeCities" value="CHENGDU,BEIJING"/>&ndash;&gt;
+        <property name="lifeCities">
+            <list>
+                <value>CHENGDU</value>
+                <value>BEIJING</value>
+            </list>
+        </property>
+        &lt;!&ndash;org.springframework.core.io.ClassPathResource&ndash;&gt;
+        <property name="configFileLocal" value="classpath:/META-INF/user-config.properties"/>
+    </bean>-->
+
+    <users:user id="2" name="扶风" city="CHENGDU"/>
+
+</beans>

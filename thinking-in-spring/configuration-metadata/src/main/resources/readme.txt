@@ -155,5 +155,25 @@ Spring Bean 配置元信息底层实现
         @PropertySource      配置属性抽象PropertySource注解            3.1
         @PropertySources     @PropertySource集合注解                  4.0
 
+基于Extensible XML authoring 扩展 Spring XML元素
+    Spring XML扩展
+        编写XML Schema文件: 定义XML结构
+        自定义NamespaceHandler实现: 命名空间绑定
+        自定义BeanDefinitionParser实现: XML元素于BeanDefinition解析
+        注册XML扩展: 命名空间于XML Schema映射
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
