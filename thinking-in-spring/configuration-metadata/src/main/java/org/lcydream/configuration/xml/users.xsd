@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+
+<xsd:schema xmlns="http://www.lcydream.com/schema/users"
+            xmlns:xsd="http://www.w3.org/2001/XMLSchema"
+            targetNamespace="http://www.lcydream.com/schema/users">
+
+    <xsd:import namespace="http://www.w3.org/XML/1998/namespace"/>
+
+    <!--定义User类型[复杂类型]-->
+    <xsd:complexType name="user">
+        <xsd:attribute name="id" type="xsd:int" use="required"/>
+        <xsd:attribute name="name" type="xsd:string" use="required"/>
+        <xsd:attribute name="city" type="city" use="required"/>
+        <xsd:attribute name="workCities" type="workCities" use="optional"/>
+        <xsd:attribute name="lifeCities" type="lifeCities" use="optional"/>
+        <xsd:attribute name="configFileLocal" type="xsd:string"/>
+    </xsd:complexType>
+
+    <!--定义city简单类型[枚举]-->
+    <xsd:simpleType name="city">
+        <!--设定限制范围-->
+        <xsd:restriction base="xsd:string">
+            <xsd:enumeration value="CHENGDU"/>
+            <xsd:enumeration value="BEIJING"/>
+            <xsd:enumeration value="SHANGHAI"/>
+        </xsd:restriction>
+    </xsd:simpleType>
+
+    <xsd:simpleType name="workCities">
+        <!--定义一个集合-->
+        <xsd:list>
+            <xsd:simpleType>
+                <xsd:restriction base="xsd:string">
+                    <xsd:enumeration value="CHENGDU"/>
+                    <xsd:enumeration value="BEIJING"/>
+                    <xsd:enumeration value="SHANGHAI"/>
+                    <xsd:enumeration value="HANGZHOU"/>
+                </xsd:restriction>
+            </xsd:simpleType>
+        </xsd:list>
+    </xsd:simpleType>
+
+    <xsd:simpleType name="lifeCities">
+        <!--定义一个集合-->
+        <xsd:list>
+            <xsd:simpleType>
+                <xsd:restriction base="xsd:string">
+                    <xsd:enumeration value="CHENGDU"/>
+                    <xsd:enumeration value="BEIJING"/>
+                    <xsd:enumeration value="SHANGHAI"/>
+                    <xsd:enumeration value="HANGZHOU"/>
+                </xsd:restriction>
+            </xsd:simpleType>
+        </xsd:list>
+    </xsd:simpleType>
+
+
+    <!--定义User元素-->
+    <xsd:element name="user" type="user"/>
+
+</xsd:schema>

@@ -162,11 +162,34 @@ Spring Bean 配置元信息底层实现
         自定义BeanDefinitionParser实现: XML元素于BeanDefinition解析
         注册XML扩展: 命名空间于XML Schema映射
 
+    Extensible XML authoring 原理
+        AbstractApplicationContext#obtainFreshBeanFactory
+            -> AbstractRefreshableApplicationContext#refreshBeanFactory
+                -> AbstractXmlApplicationContext#loadBeanDefinitions
+                    -> ...
+                        -> XmlBeanDefinitionReader#doLoadBeanDefinitions
+                            -> ...
+                                -> BeanDefinitionParserDelegate.parseCustomElement
+        核心流程
+            BeanDefinitionParserDelegate.parseCustomElement
+                获取namespace
+                通过namespace得到NamespaceHandler
+                构造ParserContext
+                解析元素 获得BeanDefinition
 
+基于Properties资源装载外部化配置
+    注解驱动
+        @PropertySource
+        @PropertySources
+    API编程
+        PropertySource
+        PropertySources
 
-
-
-
+基于YAML资源装载外部化配置
+    API编程
+        org.springframework.beans.factory.config.YamlProcessor
+            -> org.springframework.beans.factory.config.YamlMapFactoryBean
+            -> org.springframework.beans.factory.config.YamlPropertiesFactoryBean
 
 
 
