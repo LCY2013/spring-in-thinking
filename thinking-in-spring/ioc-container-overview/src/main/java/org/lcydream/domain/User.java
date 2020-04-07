@@ -92,7 +92,7 @@ public class User implements BeanNameAware {
                 ", workCities=" + Arrays.toString(workCities) +
                 ", lifeCities=" + lifeCities +
                 ", configFileLocal=" + configFileLocal +
-                '}';
+                "}\t\t" + super.toString();
     }
 
     public static User createUser(){
