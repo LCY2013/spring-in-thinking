@@ -1,6 +1,5 @@
 package org.lcydream.configuration.yaml;
 
-import org.springframework.beans.factory.config.YamlMapFactoryBean;
 import org.springframework.beans.factory.support.DefaultListableBeanFactory;
 import org.springframework.beans.factory.xml.XmlBeanDefinitionReader;
 

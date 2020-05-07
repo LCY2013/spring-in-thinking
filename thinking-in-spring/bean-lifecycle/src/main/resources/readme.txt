@@ -74,7 +74,7 @@ Spring Bean 属性赋值前阶段
 
 AbstractAutowireCapableBeanFactory.doCreateBean ->
             AbstractAutowireCapableBeanFactory.populateBean -> 属性赋值(Populate)判断
-            AbstractAutowireCapableBeanFactory.initializeBean -> 实例化
+            AbstractAutowireCapableBeanFactory.initializeBean -> 初始化
                 AbstractAutowireCapableBeanFactory.invokeAwareMethods -> 执行aware回调
         AbstractAutowireCapableBeanFactory#invokeAwareMethods 执行顺序
         BeanNameAware -> BeanClassLoaderAware -> BeanFactoryAware
