@@ -106,7 +106,30 @@ Java 标准资源管理
   • 方法二:@Autowired注入ResourceLoader
   • 方法三:注入ApplicationContext作为ResourceLoader
 
+  Spring 配置资源中常见类型
+    • XML资源
+    • Properties 资源
+    • YAML 资源
 
+  请例举不同类型 Spring 配置资源
+    • XML资源
+        • 普通 Bean Definition XML 配置资源 - *.xml
+        • Spring Schema 资源 - *.xsd
+    • Properties 资源
+        • 普通 Properties 格式资源 - *.properties
+        • Spring Handler 实现类映射文件 - META-INF/spring.handlers
+        • Spring Schema 资源映射文件 - META-INF/spring.schemas
+    • YAML 资源
+        • 普通 YAML 配置资源 - *.yaml 或 *.yml
+
+   Java 标准资源管理扩展的步骤
+    • 简易实现
+        • 实现URLStreamHandler并放置在sun.net.www.protocol.${protocol}.Handler包下
+    • 自定义实现
+        • 实现URLStreamHandler
+        • 添加-Djava.protocol.handler.pkgs启动参数，指向URLStreamHandler实现类的包下
+    • 高级实现
+        • 实现URLStreamHandlerFactory并传递到URL之中
 
 
 
