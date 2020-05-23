@@ -86,7 +86,7 @@ Java 标准资源管理
   Spring 通配路径资源加载器
       • 通配路径ResourceLoader
           • org.springframework.core.io.support.ResourcePatternResolver
-          • org.springframework.core.io.support.PathMatchingResourcePatternResolve r
+          • org.springframework.core.io.support.PathMatchingResourcePatternResolver
       • 路径匹配器
           • org.springframework.util.PathMatcher
           • Ant模式匹配实现-org.springframework.util.AntPathMatcher
@@ -95,6 +95,16 @@ Java 标准资源管理
   • 实现org.springframework.util.PathMatcher
   • 重置PathMatcher
     • PathMatchingResourcePatternResolver#setPathMatcher
+
+  依赖注入 Spring Resource
+  • 基于@Value实现
+  • 如:
+    @Value(“classpath:/...”) private Resource resource;
+
+  依赖注入 ResourceLoader
+  • 方法一:实现ResourceLoaderAware回调
+  • 方法二:@Autowired注入ResourceLoader
+  • 方法三:注入ApplicationContext作为ResourceLoader
 
 
 
