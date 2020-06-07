@@ -45,8 +45,24 @@ Errors 文案来源
                 • FieldError:对象(Bean)属性(Property)错误
             • 通过 ObjectError 和 FieldError 关联 MessageSource 实现获取最终文案
 
+Validator 的救赎
+    • BeanValidation与Validator适配
+    • 核心组件 - org.springframework.validation.beanvalidation.LocalValidatorFactoryBean
+    • 依赖 Bean Validation - JSR-303 or JSR-349 provider
+    • Bean 方法参数校验 - org.springframework.validation.beanvalidation.MethodValidationPostProcessor
 
+Spring 校验接口
+    答:org.springframework.validation.Validator
 
+Spring 有哪些校验核心组件
+    答:
+    • 检验器:org.springframework.validation.Validator
+    • 错误收集器:org.springframework.validation.Errors
+    • Java Bean 错误描述:org.springframework.validation.ObjectError
+    • Java Bean 属性错误描述:org.springframework.validation.FieldError
+    • Bean Validation 适配:org.springframework.validation.beanvalidation.LocalValidatorFactoryBean
+
+请通过示例演示 Spring Bean 的校验
 
 
 
