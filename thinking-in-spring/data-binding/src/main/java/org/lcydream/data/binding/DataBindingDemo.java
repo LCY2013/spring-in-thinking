@@ -1,6 +1,5 @@
 package org.lcydream.data.binding;
 
-import org.lcydream.data.binding.domain.School;
 import org.lcydream.data.binding.domain.Student;
 import org.springframework.beans.MutablePropertyValues;
 import org.springframework.beans.PropertyValues;
