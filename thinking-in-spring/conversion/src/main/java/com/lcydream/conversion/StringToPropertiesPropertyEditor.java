@@ -4,9 +4,7 @@ import java.beans.PropertyEditor;
 import java.beans.PropertyEditorSupport;
 import java.io.IOException;
 import java.io.StringReader;
-import java.util.Map;
 import java.util.Properties;
-import java.util.stream.Stream;
 
 /**
  * @program: spring-in-thinking
@@ -48,10 +46,11 @@ public class StringToPropertiesPropertyEditor extends PropertyEditorSupport {
         Properties properties = (Properties)getValue();
         //5、将properties对象中的数据全部取出来
         StringBuilder stringBuilder = new StringBuilder();
-        properties.forEach((key, value) -> {
-            stringBuilder.append("{").append(key).append("")
-                    .append("=").append("").append(value).append("}").append("\n");
-        });
+        properties.forEach((key, value) ->
+            stringBuilder.append(key)
+                    .append("=").append(value)
+                    .append(System.getProperty("line.separator"))
+        );
         return stringBuilder.toString();
     }
 }

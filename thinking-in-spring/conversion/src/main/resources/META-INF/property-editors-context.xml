@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:context="http://www.springframework.org/schema/context"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:util="http://www.springframework.org/schema/util"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans
+        https://www.springframework.org/schema/beans/spring-beans.xsd
+        http://www.springframework.org/schema/context
+        https://www.springframework.org/schema/context/spring-context.xsd
+        http://www.springframework.org/schema/util
+        https://www.springframework.org/schema/util/spring-util.xsd">
+
+    <!-- 定义自己的转换器 -->
+    <bean id="conversionService" class="org.springframework.context.support.ConversionServiceFactoryBean">
+        <property name="converters">
+            <bean class="com.lcydream.conversion.PropertiesToStringConversion"/>
+        </property>
+    </bean>
+
+    <!-- 3、注册自定义的PropertyEditor -->
+    <bean class="com.lcydream.conversion.CustomerPropertyEditorRegistrar"/>
+
+    <bean id="user" class="com.lcydream.conversion.domain.User">
+        <property name="id" value="1"/>
+        <property name="name" value="fufeng"/>
+        <property name="context">
+            <value>
+                id = 18
+                name = fufeng1226
+            </value>
+        </property>
+        <property name="contextAsText" ref="context"/>
+    </bean>
+
+    <!-- 定义properties信息 -->
+    <util:properties id="context">
+        <prop key="id">2</prop>
+        <prop key="name">fufeng12262</prop>
+    </util:properties>
+
+</beans>

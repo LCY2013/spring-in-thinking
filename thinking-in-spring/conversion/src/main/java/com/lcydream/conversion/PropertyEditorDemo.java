@@ -13,7 +13,7 @@ public class PropertyEditorDemo {
 
     public static void main(String[] args) {
         //定义一段文本
-        String text = "age=18";
+        String text = "age=18"+System.getProperty("line.separator")+"name=luo";
         //获取自定义的PropertyEditor
         PropertyEditor propertyEditor = new StringToPropertiesPropertyEditor();
         //将自定义文本装入自定义属性编辑器中
