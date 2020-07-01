@@ -111,10 +111,43 @@ GenericConverter 接口
         • 通过 ConversionServiceFactoryBean Spring Bean
         • 通过 org.springframework.core.convert.ConversionService API
 
+统一类型转换服务
+    • org.springframework.core.convert.ConversionService
+    实现类型                           说明
+    GenericConversionService            通用 ConversionService 模板实现，不内置转化器实现
+    DefaultConversionService            基础 ConversionService 实现，内置常用转化器实现
+    FormattingConversionService         通用 Formatter + GenericConversionService 实现，不内置转化器和 Formatter 实现
+    DefaultFormattingConversionService  DefaultConversionService + 格式化 实现(如:JSR-354 Money & Currency, JSR-310 Date-Time)
 
+ConversionService 作为依赖
+    • 类型转换器底层接口-org.springframework.beans.TypeConverter
+        • 起始版本:Spring 2.0
+        • 核心方法 - convertIfNecessary 重载方法
+        • 抽象实现 - org.springframework.beans.TypeConverterSupport
+        • 简单实现 - org.springframework.beans.SimpleTypeConverter
+    • 类型转换器底层抽象实现-org.springframework.beans.TypeConverterSupport
+        • 实现接口 - org.springframework.beans.TypeConverter
+        • 扩展实现 - org.springframework.beans.PropertyEditorRegistrySupport
+        • 委派实现 - org.springframework.beans.TypeConverterDelegate
+    • 类型转换器底层委派实现-org.springframework.beans.TypeConverterDelegate
+        • 构造来源 - org.springframework.beans.AbstractNestablePropertyAccessor 实现
+            • org.springframework.beans.BeanWrapperImpl
+        • 依赖 - java.beans.PropertyEditor 实现
+            • 默认內建实现 - PropertyEditorRegistrySupport#registerDefaultEditors
+        • 可选依赖 - org.springframework.core.convert.ConversionService 实现
 
+Spring 类型转换实现有哪些
+    1. 基于 JavaBeans PropertyEditor 接口实现
+    2. Spring 3.0+ 通用类型转换实现
 
+Spring 类型转换器接口有哪些
+    • 类型转换接口 - org.springframework.core.convert.converter.Converter
+    • 通用类型转换接口 - org.springframework.core.convert.converter.GenericConverter
+    • 类型条件接口 - org.springframework.core.convert.converter.ConditionalConverter
+    • 综合类型转换接口 -
+        org.springframework.core.convert.converter.ConditionalGenericConverter
 
+TypeDescriptor 是如何处理泛型
 
 
 
