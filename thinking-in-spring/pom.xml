@@ -21,6 +21,7 @@
         <module>validation</module>
         <module>data-binding</module>
         <module>conversion</module>
+        <module>generic</module>
     </modules>
     <packaging>pom</packaging>
 

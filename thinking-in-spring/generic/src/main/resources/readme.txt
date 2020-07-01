@@ -1,0 +1,60 @@
+Spring 泛型处理
+    1. Java 泛型基础
+    2. Java 5 类型接口
+    3. Spring 泛型类型辅助类
+    4. Spring 泛型集合类型辅助类
+    5. Spring 方法参数封装 - MethodParameter
+    6. Spring 4.0 泛型优化实现 - ResolvableType
+    7. ResolvableType 的局限性
+
+Java 泛型基础
+    • 泛型类型
+        • 泛型类型是在类型上参数化的泛型类或接口
+    • 泛型使用场景
+        • 编译时强类型检查
+        • 避免类型强转
+        • 实现通用算法
+
+Java 泛型基础
+    • 泛型类型擦写
+        • 泛型被引入到 Java 语言中，以便在编译时提供更严格的类型检查并支持泛型编程。类型擦除确保不会为
+        参数化类型创建新类;因此，泛型不会产生运行时开销。为了实现泛型，编译器将类型擦除应用于:
+            • 将泛型类型中的所有类型参数替换为其边界，如果类型参数是无边界的，则将其替换为 “Object”。因此，生成的字节码只包含普通类、接口和方法。
+            • 必要时插入类型转换以保持类型安全。
+            • 生成桥方法以保留扩展泛型类型中的多态性。
+
+Java 5 类型接口
+    • Java5类型接口-java.lang.reflect.Type
+    派生类或接口                              说明
+    java.lang.Class                     Java 类 API，如 java.lang.String
+    java.lang.reflect.GenericArrayType  泛型数组类型
+    java.lang.reflect.ParameterizedType 泛型参数类型
+    java.lang.reflect.TypeVariable      泛型类型变量，如 Collection<E> 中的 E
+    java.lang.reflect.WildcardType      泛型通配类型
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
