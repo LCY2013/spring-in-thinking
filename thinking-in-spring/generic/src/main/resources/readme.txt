@@ -25,15 +25,32 @@ Java 泛型基础
 
 Java 5 类型接口
     • Java5类型接口-java.lang.reflect.Type
-    派生类或接口                              说明
-    java.lang.Class                     Java 类 API，如 java.lang.String
-    java.lang.reflect.GenericArrayType  泛型数组类型
-    java.lang.reflect.ParameterizedType 泛型参数类型
-    java.lang.reflect.TypeVariable      泛型类型变量，如 Collection<E> 中的 E
-    java.lang.reflect.WildcardType      泛型通配类型
+        派生类或接口                              说明
+        java.lang.Class                     Java 类 API，如 java.lang.String
+        java.lang.reflect.GenericArrayType  泛型数组类型
+        java.lang.reflect.ParameterizedType 泛型参数类型
+        java.lang.reflect.TypeVariable      泛型类型变量，如 Collection<E> 中的 E
+        java.lang.reflect.WildcardType      泛型通配类型
+    • Java泛型反射API
+        类型                                  API
+        泛型信息(Generics Info)             java.lang.Class#getGenericInfo()
+        泛型参数(Parameters)                java.lang.reflect.ParameterizedType
+        泛型父类(Super Classes)             java.lang.Class#getGenericSuperclass()
+        泛型接口(Interfaces)                java.lang.Class#getGenericInterfaces()
+        泛型声明(Generics Declaration)      java.lang.reflect.GenericDeclaration
 
-
-
+Spring 泛型类型辅助类
+    • 核心API-org.springframework.core.GenericTypeResolver
+        • 版本支持:[2.5.2 , )
+        • 处理类型相关(Type)相关方法
+            • resolveReturnType
+            • resolveType
+        • 处理泛型参数类型(ParameterizedType)相关方法
+            • resolveReturnTypeArgument
+            • resolveTypeArgument
+            • resolveTypeArguments
+        • 处理泛型类型变量(TypeVariable)相关方法
+            • getTypeVariableMap
 
 
 
