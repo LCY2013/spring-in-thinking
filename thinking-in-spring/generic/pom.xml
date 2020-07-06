@@ -11,6 +11,10 @@
 
     <artifactId>generic</artifactId>
 
+    <properties>
+        <spring.version>4.3.27.RELEASE</spring.version>
+    </properties>
+
     <dependencies>
         <dependency>
             <groupId>org.projectlombok</groupId>

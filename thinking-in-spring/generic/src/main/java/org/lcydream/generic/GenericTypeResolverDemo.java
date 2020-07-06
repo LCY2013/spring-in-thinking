@@ -22,7 +22,6 @@ import org.springframework.core.GenericTypeResolver;
 import java.lang.reflect.Method;
 import java.lang.reflect.Type;
 import java.lang.reflect.TypeVariable;
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
@@ -86,7 +85,4 @@ public class GenericTypeResolverDemo {
         System.out.printf("resolveReturnTypeArgument(%s,%s) = %s\n",methodName,genericInfo.getSimpleName(),returnTypeArgument);
     }
 
-    class StringList extends ArrayList<String>{
-
-    }
 }

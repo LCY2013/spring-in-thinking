@@ -52,8 +52,34 @@ Spring 泛型类型辅助类
         • 处理泛型类型变量(TypeVariable)相关方法
             • getTypeVariableMap
 
+    • 核心API-org.springframework.core.GenericCollectionTypeResolver
+        • 版本支持:[2.0 , 4.3]
+        • 替换实现:org.springframework.core.ResolvableType
+        • 处理 Collection 相关
+            • getCollection*Type
+        • 处理 Map 相关
+            • getMapKey*Type
+            • getMapValue*Type
 
+Spring 方法参数封装
+    • 核心API-org.springframework.core.MethodParameter
+        • 起始版本:[2.0 , )
+        • 元信息
+            • 关联的方法 - Method
+            • 关联的构造器 - Constructor
+            • 构造器或方法参数索引 - parameterIndex
+            • 构造器或方法参数类型 - parameterType
+            • 构造器或方法参数泛型类型 - genericParameterType
+            • 构造器或方法参数参数名称 - parameterName
+            • 所在的类 - containingClass
 
+Spring 4.0 泛型优化实现 - ResolvableType
+    • 核心API-org.springframework.core.ResolvableType
+        • 起始版本:[4.0 , )
+        • 扮演角色:GenericTypeResolver 和 GenericCollectionTypeResolver 替代者
+        • 工厂方法:for* 方法
+        • 转换方法:as* 方法
+        • 处理方法:resolve* 方法
 
 
 
