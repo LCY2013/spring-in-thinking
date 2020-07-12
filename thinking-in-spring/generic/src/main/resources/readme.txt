@@ -81,10 +81,24 @@ Spring 4.0 泛型优化实现 - ResolvableType
         • 转换方法:as* 方法
         • 处理方法:resolve* 方法
 
+ResolvableType 的局限性
+    • 局限一:ResolvableType无法处理泛型擦写
+    • 局限二:ResolvableType无法处理非具体化的ParameterizedType
 
+Java 泛型擦写发生在编译时还是运行时
+    运行时
 
+请介绍 Java 5 Type 类型的派生类或接口?
+    • java.lang.Class
+    • java.lang.reflect.GenericArrayType
+    • java.lang.reflect.ParameterizedType
+    • java.lang.reflect.TypeVariable
+    • java.lang.reflect.WildcardType
 
-
+请说明 ResolvableType 的设计优势?
+    • 简化 Java 5 Type API 开发，屏蔽复杂 API 的运用，如 ParameterizedType
+    • 不变性设计(Immutability)
+    • Fluent API 设计(Builder 模式)，链式(流式)编程
 
 
 
