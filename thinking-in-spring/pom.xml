@@ -22,11 +22,12 @@
         <module>data-binding</module>
         <module>conversion</module>
         <module>generic</module>
+        <module>event</module>
     </modules>
     <packaging>pom</packaging>
 
     <properties>
-        <spring.version>5.2.4.RELEASE</spring.version>
+        <spring.version>5.2.7.RELEASE</spring.version>
         <java.version>11</java.version>
         <servlet.version>4.0.1</servlet.version>
     </properties>
