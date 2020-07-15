@@ -58,7 +58,14 @@ Spring 标准事件 - ApplicationEvent
         • 处理方法:onApplicationEvent(ApplicationEvent)
         • 事件类型:org.springframework.context.ApplicationEvent
 
-
+基于注解的 Spring 事件监听器
+    • Spring注解-@org.springframework.context.event.EventListener
+    特性                      说明
+    设计特点            支持多 ApplicationEvent 类型，无需接口约束
+    注解目标                    方法
+    是否支持异步执行              支持
+    是否支持泛型类型事件           支持
+    是指支持顺序控制          支持，配合 @Order 注解控制
 
 
 
