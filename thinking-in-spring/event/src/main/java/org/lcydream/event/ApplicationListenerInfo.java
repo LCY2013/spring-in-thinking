@@ -20,6 +20,7 @@ package org.lcydream.event;
 import org.springframework.context.ApplicationEvent;
 import org.springframework.context.ApplicationListener;
 import org.springframework.context.annotation.AnnotationConfigApplicationContext;
+import org.springframework.context.annotation.Bean;
 import org.springframework.context.event.ContextClosedEvent;
 import org.springframework.context.event.ContextRefreshedEvent;
 import org.springframework.context.event.ContextStartedEvent;
@@ -27,6 +28,7 @@ import org.springframework.context.event.EventListener;
 import org.springframework.core.annotation.Order;
 import org.springframework.scheduling.annotation.Async;
 import org.springframework.scheduling.annotation.EnableAsync;
+import org.springframework.stereotype.Component;
 
 /**
  * @program: spring-in-thinking
@@ -48,8 +50,12 @@ public class ApplicationListenerInfo {
         applicationContext.register(ApplicationListenerInfo.class);
 
         //方式一: 添加一个Spring 监听器，基于接口实现
+        // 1、通过添加ApplicationListener实现事件监听
         applicationContext.addApplicationListener((event) ->
                 print("Spring Event :" + event));
+
+        // 2、通过注册一个ApplicationListener 的Spring Bean 实现
+        applicationContext.register(CustomApplicationListener.class);
 
         //方式二: 基于@org.springframework.context.event.EventListener 注解
 
@@ -59,6 +65,14 @@ public class ApplicationListenerInfo {
         applicationContext.start();
         //关闭spring应用上下文
         applicationContext.close();
+    }
+
+    //@Component
+    public class CustomApplicationListener implements ApplicationListener<ContextRefreshedEvent>{
+        @Override
+        public void onApplicationEvent(ContextRefreshedEvent event) {
+            print("CustomApplicationListener Event :"+event);
+        }
     }
 
     // 监听 Spring 所有的事件
