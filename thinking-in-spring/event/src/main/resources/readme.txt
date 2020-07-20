@@ -67,11 +67,27 @@ Spring 标准事件 - ApplicationEvent
     是否支持泛型类型事件           支持
     是指支持顺序控制          支持，配合 @Order 注解控制
 
+注册 Spring ApplicationListener
+    • 方法一:ApplicationListener作为SpringBean注册
+    • 方法二:通过ConfigurableApplicationContextAPI注册
 
+Spring 事件发布器
+    • 方法一:通过ApplicationEventPublisher发布Spring事件
+        • 获取 ApplicationEventPublisher
+            • 依赖注入
+    • 方法二:通过ApplicationEventMulticaster发布Spring事件
+        • 获取 ApplicationEventMulticaster
+            • 依赖注入
+            • 依赖查找
 
-
-
-
+Spring 层次性上下文事件传播
+    • 发生说明
+        • 当 Spring 应用出现多层次 Spring 应用上下文(ApplicationContext)时，
+            如 Spring WebMVC、Spring Boot 或 Spring Cloud 场景下，
+            由子 ApplicationContext 发起Spring 事件可能会传递到其
+            Parent ApplicationContext(直到 Root)的过程
+    • 如何避免
+        • 定位 Spring 事件源(ApplicationContext)进行过滤处理
 
 
 

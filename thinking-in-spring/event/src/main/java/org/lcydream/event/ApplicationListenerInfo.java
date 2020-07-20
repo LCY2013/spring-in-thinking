@@ -18,6 +18,8 @@
 package org.lcydream.event;
 
 import org.springframework.context.ApplicationEvent;
+import org.springframework.context.ApplicationEventPublisher;
+import org.springframework.context.ApplicationEventPublisherAware;
 import org.springframework.context.ApplicationListener;
 import org.springframework.context.annotation.AnnotationConfigApplicationContext;
 import org.springframework.context.annotation.Bean;
@@ -39,7 +41,7 @@ import org.springframework.stereotype.Component;
  * @see ApplicationListener
  */
 @EnableAsync
-public class ApplicationListenerInfo {
+public class ApplicationListenerInfo implements ApplicationEventPublisherAware {
 
     public static void main(String[] args) {
         // 创建一个Spring 应用上下文
@@ -59,12 +61,21 @@ public class ApplicationListenerInfo {
 
         //方式二: 基于@org.springframework.context.event.EventListener 注解
 
+        // 事件广播器 ApplicationEventMulticaster
+
         // 刷新应用上下文
         applicationContext.refresh();
         // 调用启动应用上下文 -> 其实就是一个Spring事件的发布
         applicationContext.start();
         //关闭spring应用上下文
         applicationContext.close();
+    }
+
+    @Override
+    public void setApplicationEventPublisher(ApplicationEventPublisher applicationEventPublisher) {
+        applicationEventPublisher.publishEvent(new ApplicationEvent("magicLuo") {
+        });
+        applicationEventPublisher.publishEvent("fufeng");
     }
 
     //@Component
