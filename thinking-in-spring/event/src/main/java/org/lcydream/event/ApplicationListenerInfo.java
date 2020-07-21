@@ -67,6 +67,8 @@ public class ApplicationListenerInfo implements ApplicationEventPublisherAware {
         applicationContext.refresh();
         // 调用启动应用上下文 -> 其实就是一个Spring事件的发布
         applicationContext.start();
+        // 停止spring应用上下文
+        applicationContext.stop();
         //关闭spring应用上下文
         applicationContext.close();
     }
@@ -75,6 +77,8 @@ public class ApplicationListenerInfo implements ApplicationEventPublisherAware {
     public void setApplicationEventPublisher(ApplicationEventPublisher applicationEventPublisher) {
         applicationEventPublisher.publishEvent(new ApplicationEvent("magicLuo") {
         });
+
+        // 这里是发送的一个PayloadApplicationEvent事件
         applicationEventPublisher.publishEvent("fufeng");
     }
 

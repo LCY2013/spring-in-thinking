@@ -89,11 +89,23 @@ Spring 层次性上下文事件传播
     • 如何避免
         • 定位 Spring 事件源(ApplicationContext)进行过滤处理
 
+Spring 内建事件
+    • ApplicationContextEvent派生事件
+        • ContextRefreshedEvent :Spring 应用上下文就绪事件
+        • ContextStartedEvent :Spring 应用上下文启动事件
+        • ContextStoppedEvent :Spring 应用上下文停止事件
+        • ContextClosedEvent :Spring 应用上下文关闭事件
 
+Spring 4.2 Payload 事件
+    • SpringPayload事件-org.springframework.context.PayloadApplicationEvent
+        • 使用场景:简化 Spring 事件发送，关注事件源主体
+        • 发送方法
+            • ApplicationEventPublisher#publishEvent(java.lang.Object)
 
-
-
-
+自定义 Spring 事件
+    • 扩展org.springframework.context.ApplicationEvent
+    • 实现org.springframework.context.ApplicationListener
+    • 注册org.springframework.context.ApplicationListener
 
 
 
