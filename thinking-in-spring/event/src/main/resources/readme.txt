@@ -107,8 +107,10 @@ Spring 4.2 Payload 事件
     • 实现org.springframework.context.ApplicationListener
     • 注册org.springframework.context.ApplicationListener
 
-
-
+依赖注入 ApplicationEventPublisher
+    • 通过ApplicationEventPublisherAware回调接口
+    • 通过ApplicationContextAware回调接口
+    • 通过@Autowired 注入上面两个接口的参数值
 
 
 
