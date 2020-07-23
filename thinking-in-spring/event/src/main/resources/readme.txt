@@ -112,9 +112,16 @@ Spring 4.2 Payload 事件
     • 通过ApplicationContextAware回调接口
     • 通过@Autowired 注入上面两个接口的参数值
 
+依赖查找 ApplicationEventMulticaster
+    • 查找条件
+        • Bean名称:"applicationEventMulticaster"
+        • Bean类型:org.springframework.context.event.ApplicationEventMulticaster
 
-
-
+ApplicationEventPublisher 底层实现
+    • 底层实现
+        • 接口:org.springframework.context.event.ApplicationEventMulticaster
+        • 抽象类:org.springframework.context.event.AbstractApplicationEventMulticaster
+        • 实现:org.springframework.context.event.SimpleApplicationEventMulticaster
 
 
 

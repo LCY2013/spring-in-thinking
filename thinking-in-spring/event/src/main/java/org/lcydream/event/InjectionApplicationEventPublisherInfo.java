@@ -27,6 +27,10 @@ import javax.annotation.PostConstruct;
 /**
  * @program: spring-in-thinking
  * @description: {@link ApplicationEventPublisher} spring事件发布器注入顺序示例
+ *  ApplicationEventPublisherAware 与 ApplicationContextAware 在spring3以前存在问题，因为在spring3的时候，注入的接口回调在前，
+ *  而ApplicationEventMulticaster还没有被初始化，这个时候使用就会抛空指针异常，在spring3以后这里被earlyApplicationEvents的集合存起来，
+ *  在后面org.springframework.context.support.AbstractApplicationContext#initApplicationEventMulticaster()完成后，
+ *  进行org.springframework.context.support.AbstractApplicationContext#registerListeners()的时候一起发布出去
  * @author: <a href="https://github.com/lcy2013">MagicLuo</a>
  * @create: 2020-07-22
  * @see ApplicationEventPublisher
