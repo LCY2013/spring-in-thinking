@@ -19,6 +19,7 @@ package org.lcydream.event;
 
 import org.springframework.beans.BeansException;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.config.BeanPostProcessor;
 import org.springframework.context.*;
 import org.springframework.context.annotation.AnnotationConfigApplicationContext;
 
@@ -31,13 +32,15 @@ import javax.annotation.PostConstruct;
  *  而ApplicationEventMulticaster还没有被初始化，这个时候使用就会抛空指针异常，在spring3以后这里被earlyApplicationEvents的集合存起来，
  *  在后面org.springframework.context.support.AbstractApplicationContext#initApplicationEventMulticaster()完成后，
  *  进行org.springframework.context.support.AbstractApplicationContext#registerListeners()的时候一起发布出去
+ *
+ *  BeanPostProcessor 接口有提升整个Bean的生命周期注入的作用
  * @author: <a href="https://github.com/lcy2013">MagicLuo</a>
  * @create: 2020-07-22
  * @see ApplicationEventPublisher
  * @see ApplicationEvent
  */
 public class InjectionApplicationEventPublisherInfo
-        implements ApplicationEventPublisherAware, ApplicationContextAware {
+        implements ApplicationEventPublisherAware, ApplicationContextAware, BeanPostProcessor {
 
     // 注册顺序 1或者2 取决与JDK字段读取顺序
     @Autowired

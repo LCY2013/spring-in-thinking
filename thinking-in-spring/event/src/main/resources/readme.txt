@@ -123,7 +123,12 @@ ApplicationEventPublisher 底层实现
         • 抽象类:org.springframework.context.event.AbstractApplicationEventMulticaster
         • 实现:org.springframework.context.event.SimpleApplicationEventMulticaster
 
-
+同步和异步Spring事件广播
+    • 基于实现类 - org.springframework.context.event.SimpleApplicationEventMulticaster
+        • 模式切换: org.springframework.context.event.SimpleApplicationEventMulticaster.setTaskExecutor(Executor taskExecutor)方法
+            • 默认模式: 同步
+            • 异步模式: 如java.util.concurrent.ThreadPoolExecutor
+        • 设计缺陷: 非基于接口契约编程
 
 
 
