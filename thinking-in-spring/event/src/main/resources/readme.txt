@@ -135,6 +135,14 @@ ApplicationEventPublisher 底层实现
             • 异步模式: 标注@org.springframework.scheduling.annotation.Async
         • 实现限制: 无法直接实现同步/异步动态切换
 
+Spring 4.1事件异常处理
+    • Spring 3.0 错误处理接口 - org.springframework.util.ErrorHandler
+        • 使用场景
+            • Spring 事件 (Events)
+                • SimpleApplicationEventMulticaster Spring 4.1 开始支持
+            • Spring 本地调度 (Scheduling)
+                • org.springframework.scheduling.concurrent.ConcurrentTaskExecutor
+                • org.springframework.scheduling.concurrent.ThreadPoolTaskExecutor
 
 
 

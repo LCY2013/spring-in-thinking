@@ -30,7 +30,7 @@ public class CustomerEventListener implements ApplicationListener<CustomerEvent>
 
     @Override
     public void onApplicationEvent(CustomerEvent event) {
-        System.out.printf("线程[%s]监听到事件[%s]",
+        System.out.printf("线程[%s]监听到事件[%s]\n",
                 Thread.currentThread().getName(),event);
     }
 }
