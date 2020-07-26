@@ -129,7 +129,11 @@ ApplicationEventPublisher 底层实现
             • 默认模式: 同步
             • 异步模式: 如java.util.concurrent.ThreadPoolExecutor
         • 设计缺陷: 非基于接口契约编程
-
+    • 基于注解 - @org.springframework.context.event.EventListener
+        • 模式切换
+            • 默认模式: 同步
+            • 异步模式: 标注@org.springframework.scheduling.annotation.Async
+        • 实现限制: 无法直接实现同步/异步动态切换
 
 
 
