@@ -144,17 +144,46 @@ Spring 4.1事件异常处理
                 • org.springframework.scheduling.concurrent.ConcurrentTaskExecutor
                 • org.springframework.scheduling.concurrent.ThreadPoolTaskExecutor
 
+Spring 事件/监听器实现原理
+    • 核心类 - org.springframework.context.event.SimpleApplicationEventMulticaster
+        • 设计模式 : 观察者模式扩展
+            • 被观察者 - org.springframework.context.ApplicationListener
+                • API 添加
+                • 依赖查找
+            • 通知对象 - org.springframework.context.ApplicationEvent
+        • 执行方式 : 同步/异步
+        • 异常处理 : org.springframework.util.ErrorHandler
+        • 泛型处理 : org.springframework.core.ResolvableType
 
+Spring boot 事件
+    事件类型                                发生时机
+    ApplicationStartingEvent             spring boot应用启动时
+    ApplicationStartedEvent              spring boot应用已经启动时
+    ApplicationEnvironmentPreparedEvent  spring boot Environment实例已经准备就绪
+    ApplicationPreparedEvent             spring boot 应用预准备时
+    ApplicationReadyEvent                spring boot 应用准备就绪时
+    ApplicationFailedEvent               spring boot 应用启动失败时
 
+Spring cloud 2+事件
+    事件类型                                发生时机
+    EnvironmentChangeEvent              当Environment 示例配置属性发生变化时
+    HeartbeatEvent                      当DiscoveryClient客户端发生心跳时
+    InstancePreRegisteredEvent          当实例服务注册前时
+    InstanceRegisteredEvent             当实例服务注册后时
+    RefreshEvent                        当RefreshEndpoint断点被调用时
+    RefreshScopeRefreshedEvent          当Refresh scope bean 被刷新时
 
+spring 事件核心接口/组件？
+    1、spring 事件 - org.springframework.context.ApplicationEvent
+    2、spring 事件监听器 - org.springframework.context.ApplicationListener
+    3、spring 事件发布器 - org.springframework.context.ApplicationEventPublisher
+    4、spring 事件广播器 - org.springframework.context.event.ApplicationEventMulticaster
 
+spring 同步/异步事件处理使用场景？
+    spring 同步事件 - 绝大多数spring使用场景，如: ContextRefreshedEvent
+    spring 异步事件 - 主要@EventListener与@Async配合，实现异步处理，不阻塞主线程，比如长时间的数据计算任务，io等、
+            不要轻易调整SimpleApplicationEventMulticaster中的taskExecutor对象，除非非常了解spring事件机制，否则容易出现异常行为
 
-
-
-
-
-
-
-
+spring @EventListener 工作原理?
 
 
