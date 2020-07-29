@@ -7,7 +7,7 @@ Spring Bean生命周期
     6、Spring Bean 实例化前阶段
     7、Spring Bean 实例化阶段
     8、Spring Bean 实例化后阶段
-    9、Spring Bean 属性负值阶段
+    9、Spring Bean 属性赋值阶段
     10、Spring Aware 接口回调阶段
     11、Spring Bean 初始化前阶段
     12、Spring Bean 初始化阶段
@@ -67,7 +67,8 @@ Spring Bean 实例化后阶段
 
 Spring Bean 属性赋值前阶段
     Bean属性值元信息
-        PropertyValues
+
+
     Bean属性赋值前回调
         Spring1.2 - 5.0 : InstantiationAwareBeanPostProcessor#postProcessPropertyValues
         Spring5.1 : InstantiationAwareBeanPostProcessor#postProcessProperties

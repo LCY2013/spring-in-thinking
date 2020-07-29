@@ -23,6 +23,9 @@ import java.util.Map;
 //})
 public class AnnotationIOCConfigurationMetadataDemo {
 
+    @Value("${user.id}")
+    Long id;
+
     /**
      *  这里的${user.name} 存在一个配置优先级问题，java properties配置中默认存在user.name,
      *  即计算机名称用户名称，所以注入的name不是配置文件中的扶风
@@ -53,6 +56,7 @@ public class AnnotationIOCConfigurationMetadataDemo {
         for (Map.Entry entry : beansOfType.entrySet()){
             System.out.printf("bean name : %s , content : %s\n",entry.getKey(),entry.getValue());
         }
+        System.out.println(applicationContext.getBean(AnnotationIOCConfigurationMetadataDemo.class).id);
 
         //关闭应用上下文
         applicationContext.close();
