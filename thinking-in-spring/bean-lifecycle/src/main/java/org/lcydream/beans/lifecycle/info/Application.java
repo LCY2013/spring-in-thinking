@@ -101,4 +101,9 @@ public class Application {
 	            if (!beanFactory.hasEmbeddedValueResolver()) {
                     beanFactory.addEmbeddedValueResolver(strVal -> getEnvironment().resolvePlaceholders(strVal));
                 }
+
+     也许你会发现在Spring MVC中不存在这样的问题？
+        这是因为SpringMVC中会默认
+        org.springframework.web.method.annotation.AbstractNamedValueMethodArgumentResolver.resolveArgument ->
+         org.springframework.web.method.annotation.AbstractNamedValueMethodArgumentResolver.resolveStringValue ->
  */
