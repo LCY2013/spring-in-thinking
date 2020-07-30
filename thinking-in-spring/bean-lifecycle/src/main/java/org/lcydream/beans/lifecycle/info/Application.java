@@ -82,6 +82,15 @@ public class Application {
 		}
 	这里的this.embeddedValueResolvers
 	< spring4.3.27  没有注入一个StringValueResolver 实现
+	解决方案如下:
+        新增一个配置Bean,配置Bean类实现BeanFactoryAware接口，然后在下面的方法中注入一个StringValueResolver实现
+        @Override
+        public void setBeanFactory(BeanFactory beanFactory) throws BeansException {
+            if (beanFactory instanceof DefaultListableBeanFactory){
+                DefaultListableBeanFactory bf = (DefaultListableBeanFactory)beanFactory;
+                bf.addEmbeddedValueResolver(strVal -> environment.resolvePlaceholders(strVal));
+            }
+        }
 	>=spring4.3.27 && <spring5.X 注入一个实现
 	    代码位置:
 	        org.springframework.context.support.AbstractApplicationContext.finishBeanFactoryInitialization()
