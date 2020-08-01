@@ -53,7 +53,9 @@ public class ApplicationListenerInfo implements ApplicationEventPublisherAware {
 
         //方式一: 添加一个Spring 监听器，基于接口实现
         // 1、通过添加ApplicationListener实现事件监听
-        applicationContext.addApplicationListener((event) ->
+        /*applicationContext.addApplicationListener((ContextClosedEvent event) ->
+                print("Spring Event :" + event));*/
+        applicationContext.addApplicationListener(event ->
                 print("Spring Event :" + event));
 
         // 2、通过注册一个ApplicationListener 的Spring Bean 实现
