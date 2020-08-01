@@ -15,41 +15,38 @@
  * THE SOFTWARE IS PROVIDED “AS IS”, WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
  *
  */
-package org.fufeng.project.annotation.aliases;
+package org.fufeng.project.annotation.overrides;
 
-import org.springframework.context.annotation.ComponentScan;
-import org.springframework.core.annotation.AliasFor;
-
-import java.lang.annotation.*;
+import org.fufeng.project.annotation.aliases.TwoCustomAliasesComponentScan;
+import org.fufeng.project.annotation.derive.User;
+import org.fufeng.project.annotation.derive.UserService;
+import org.springframework.context.annotation.AnnotationConfigApplicationContext;
 
 /**
  * @program: spring-in-thinking
- * @description: {@link AliasFor} 别名显示传递演示 {@link ComponentScan} 组件扫描器
+ * @description: 注解属性显性/隐性覆盖演示
  * @author: <a href="https://github.com/lcy2013">MagicLuo(扶风)</a>
  * @create: 2020-08-01
- * @see ComponentScan
- * @see AliasFor
  */
-@Target(ElementType.TYPE)
-@Retention(RetentionPolicy.RUNTIME)
-@Documented
-@Inherited
-@OneCustomAliasesComponentScan
-public @interface TwoCustomAliasesComponentScan {
+// 定义扫描的包路径
+@TwoCustomAliasesComponentScan(scanPackages = "org.fufeng.project.annotation.derive")
+public class OverridesAnnotationApplication {
 
-    @AliasFor(annotation = OneCustomAliasesComponentScan.class, attribute = "scanBasePackages") // 隐性别名
-    String[] scanPackages() default {};
+    public static void main(String[] args) {
+        // 定义上下文
+        AnnotationConfigApplicationContext context =
+                new AnnotationConfigApplicationContext();
+        // 注册一个主配置类
+        context.register(OverridesAnnotationApplication.class);
+        // 刷新启动容器上下文
+        context.refresh();
 
-    // 本例子传递关系如下
-    // TwoCustomAliasesComponentScan.scanPackages ->
-    //          @AliasFor OneCustomAliasesComponentScan.scanBasePackages ->
-    //             @AliasFor ComponentScan.value ->
-    //                @AliasFor ComponentScan.basePackages
+        // 获取自定义注解的元素
+        System.out.println(context.getBean(User.class));
+        System.out.println(context.getBean(UserService.class));
 
-    // 属性隐性覆盖
-    String[] scanBasePackages() default {};
+        // 关闭应用上下文
+        context.close();
+    }
 
-    // 显性属性覆盖 覆盖了注解中的属性 -> 又覆盖了元注解中的scanBasePackages
-    @AliasFor("scanBasePackages")
-    String[] packages() default {};
 }
