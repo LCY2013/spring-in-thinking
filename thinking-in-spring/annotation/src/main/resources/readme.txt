@@ -138,14 +138,42 @@ Spring @Enable模块驱动
             基于ImportSelector接口实现
             基于ImportBeanDefinitionRegistrar接口实现
 
+Spring条件注解
+    基于配置条件注解 - org.springframework.context.annotation.Profile
+        关联对象 - org.springframework.core.env.Environment 中的Profiles
+        实现变化 - 从Spring4.0开始，@Profile基于@Conditional实现
+    基于编程条件注解 - org.springframework.context.annotation.Conditional
+        关联对象 - org.springframework.context.annotation.Condition 具体实现
+    @Conditional 实现原理
+        上下文对象 - org.springframework.context.annotation.ConditionContext
+        条件判断 - org.springframework.context.annotation.ConditionEvaluator
+        配置阶段 - org.springframework.context.annotation.ConfigurationCondition.ConfigurationPhase
+        判断入口 - org.springframework.context.annotation.ConfigurationClassPostProcessor
+            org.springframework.context.annotation.ConfigurationClassParser
 
+Spring Boot 注解
+    注解                          场景说明               起始版本
+@SpringBootConfiguration        SpringBoot配置类        1.4.0
+@SpringBootApplication          SpringBoot应用引导注解   1.2.0
+@EnableAutoConfiguration        SpringBoot激活自动装配   1.0.0
 
+Spring Cloud 注解
+    注解                          场景说明                            起始版本
+@SpringCloudApplication         SpringCloud应用引导注解               1.0.0
+@EnableDiscoveryClient          SpringCloud激活服务发现客户端注解       1.0.0
+@EnableCircuitBreaker           SpringCloud激活熔断注解               1.0.0
 
+Spring 模式注解有哪些
+    @Component
+    @Repository
+    @Service
+    @Controller
+    @Configuration
 
+@EventListener的工作原理
+    org.springframework.context.event.EventListenerMethodProcessor
 
-
-
-
+@PropertySource的工作原理
 
 
 
