@@ -65,7 +65,7 @@ public class WebApplication extends SpringBootServletInitializer {
     @ResponseBody
     public Map<String, Object> rest() {
 
-        Map<String, Object> data = new HashMap<String, Object>();
+        Map<String, Object> data = new HashMap<>();
 
         data.put("1", "A");
         data.put("2", 2);
