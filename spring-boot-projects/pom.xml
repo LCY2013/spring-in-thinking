@@ -9,7 +9,8 @@
     <version>1.0-SNAPSHOT</version>
     <modules>
         <module>spring-boot-with-web</module>
-        <module>spring-boot-with-web01</module>
+        <module>spring-boot-with-rest</module>
+        <module>spring-boot-with-jsp</module>
     </modules>
     <packaging>pom</packaging>
 
