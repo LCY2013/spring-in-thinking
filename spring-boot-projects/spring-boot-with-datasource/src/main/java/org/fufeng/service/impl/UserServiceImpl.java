@@ -20,8 +20,6 @@ package org.fufeng.service.impl;
 import org.fufeng.domain.User;
 import org.fufeng.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.dao.DataAccessException;
-import org.springframework.jdbc.core.CallableStatementCallback;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.PreparedStatementCallback;
 import org.springframework.stereotype.Service;
@@ -31,8 +29,6 @@ import org.springframework.transaction.annotation.EnableTransactionManagement;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.transaction.support.DefaultTransactionDefinition;
 
-import java.sql.CallableStatement;
-import java.sql.SQLException;
 import java.util.Objects;
 
 /**
