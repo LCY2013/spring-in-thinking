@@ -13,6 +13,7 @@
         <module>spring-boot-with-jsp</module>
         <module>spring-boot-with-datasource</module>
         <module>spring-boot-with-mybatis</module>
+        <module>spring-boot-with-jpa</module>
     </modules>
     <packaging>pom</packaging>
 
