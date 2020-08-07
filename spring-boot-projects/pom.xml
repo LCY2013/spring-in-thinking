@@ -12,6 +12,7 @@
         <module>spring-boot-with-rest</module>
         <module>spring-boot-with-jsp</module>
         <module>spring-boot-with-datasource</module>
+        <module>spring-boot-with-mybatis</module>
     </modules>
     <packaging>pom</packaging>
 
