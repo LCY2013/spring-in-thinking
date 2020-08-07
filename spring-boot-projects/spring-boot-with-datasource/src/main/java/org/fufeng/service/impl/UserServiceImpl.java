@@ -20,11 +20,20 @@ package org.fufeng.service.impl;
 import org.fufeng.domain.User;
 import org.fufeng.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.dao.DataAccessException;
+import org.springframework.jdbc.core.CallableStatementCallback;
 import org.springframework.jdbc.core.JdbcTemplate;
+import org.springframework.jdbc.core.PreparedStatementCallback;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.PlatformTransactionManager;
+import org.springframework.transaction.TransactionStatus;
 import org.springframework.transaction.annotation.EnableTransactionManagement;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.transaction.support.DefaultTransactionDefinition;
+
+import java.sql.CallableStatement;
+import java.sql.SQLException;
+import java.util.Objects;
 
 /**
  * @program: spring-in-thinking
@@ -46,12 +55,30 @@ public class UserServiceImpl implements UserService {
     @Override
     @Transactional
     public boolean save(User user) {
-        return false;
+        if (Objects.isNull(user)){
+            throw new RuntimeException("user 信息不能为空");
+        }
+        return jdbcTemplate.execute("insert into user(name,age) values(?,?)", (PreparedStatementCallback<Boolean>) ps -> {
+            ps.setString(1,user.getName());
+            ps.setInt(2,user.getAge());
+            return ps.executeUpdate() > 0;
+        });
     }
 
     @Override
     @Transactional
     public boolean add(User user) {
+        final DefaultTransactionDefinition defaultTransactionDefinition =
+                new DefaultTransactionDefinition();
+        final TransactionStatus transactionStatus =
+                platformTransactionManager.getTransaction(defaultTransactionDefinition);
+        try {
+            final boolean save = save(user);
+            platformTransactionManager.commit(transactionStatus);
+            return save;
+        }catch (Exception e){
+            platformTransactionManager.rollback(transactionStatus);
+        }
         return false;
     }
 }
