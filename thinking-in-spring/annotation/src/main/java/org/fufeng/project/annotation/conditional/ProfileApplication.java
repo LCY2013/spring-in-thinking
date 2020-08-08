@@ -40,8 +40,11 @@ public class ProfileApplication {
         final ConfigurableEnvironment environment = context.getEnvironment();
         // 设置一个默认的偶数激活Profile (默认兜底方案)
         environment.setDefaultProfiles("even");
+        // org.springframework.core.env.AbstractEnvironment.doGetActiveProfiles
+        // springboot 也可以使用--spring.profiles.active=odd
+        // spring 也可以使用-Dspring.profiles.active=odd
         // 设置一个激活的Profile
-        environment.setActiveProfiles("odd");
+        //environment.setActiveProfiles("odd");
 
         // 刷新启动容器上下文
         context.refresh();
