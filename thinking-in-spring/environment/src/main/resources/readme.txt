@@ -35,6 +35,72 @@ Environment 占位符处理
         组件: org.springframework.context.support.PropertySourcesPlaceholderConfigurer
         接口: org.springframework.beans.factory.config.EmbeddedValueResolver(Spring 4.3)
 
+理解条件配置Spring Profiles
+    Spring 3.1 条件配置
+        API : org.springframework.core.env.ConfigurableEnvironment
+            修改 : setActiveProfiles(String... profiles)、addActiveProfile(String profile)、setDefaultProfiles(String... profiles)
+            获取 : getActiveProfiles()、getDefaultProfiles()
+            匹配 : acceptsProfiles(String... profiles)、acceptsProfiles(Profiles profiles)
+        注解 : org.springframework.context.annotation.Profile
+
+Spring 4 重构 @Profile
+    基于 Spring 4 org.springframework.context.annotation.Condition 接口实现
+        org.springframework.context.annotation.ProfileCondition
+
+依赖注入Environment
+    直接依赖注入
+        通过org.springframework.context.EnvironmentAware接口回调
+        通过@Autowired注入Environment
+    间接依赖注入
+        通过org.springframework.context.ApplicationContextAware接口回调
+        通过@Autowired注入ApplicationCOntextAware
+
+依赖查找Environment
+    直接依赖查找
+        通过org.springframework.context.ConfigurableApplicationContext.ENVIRONMENT_BEAN_NAME
+    间接依赖查找
+        通过org.springframework.context.ConfigurableApplicationContext.getEnvironment
+
+依赖注入@Value
+    通过注入@Value
+        实现 -
+            org.springframework.beans.factory.annotation.AutowiredAnnotationBeanPostProcessor
+
+Spring 类型转换在Environment中的运用
+    Environment底层实现
+        底层实现 - org.springframework.core.env.PropertySourcesPropertyResolver
+            核心方法 - convertValueIfNecessary(Object value, @Nullable Class<T> targetType)
+        底层服务 - org.springframework.core.convert.ConversionService
+            默认实现 - org.springframework.core.convert.support.DefaultConversionService
+
+Spring 类型转换在@Value中的运用
+    @Value底层实现
+        底层实现 - org.springframework.beans.factory.annotation.AutowiredAnnotationBeanPostProcessor
+            org.springframework.beans.factory.support.DefaultListableBeanFactory.doResolveDependency
+        底层服务 - org.springframework.beans.TypeConverter
+            默认实现 : org.springframework.beans.TypeConverterDelegate
+                java.beans.PropertyEditor
+                org.springframework.core.convert.ConversionService
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
