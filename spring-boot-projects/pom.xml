@@ -15,6 +15,7 @@
         <module>spring-boot-with-mybatis</module>
         <module>spring-boot-with-jpa</module>
         <module>spring-boot-with-es</module>
+        <module>spring-boot-with-redis</module>
     </modules>
     <packaging>pom</packaging>
 
