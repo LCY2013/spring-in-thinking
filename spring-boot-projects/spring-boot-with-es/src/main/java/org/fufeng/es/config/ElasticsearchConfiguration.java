@@ -44,8 +44,12 @@ public class ElasticsearchConfiguration {
     @Bean
     public ElasticsearchOperations elasticsearchTemplate(){
         final List<Node> nodes = new ArrayList<>();
-        final Node node = new Node(new HttpHost("127.0.0.1",9200));
-        nodes.add(node);
+        final Node node1 = new Node(new HttpHost("127.0.0.1",9200));
+        final Node node2 = new Node(new HttpHost("127.0.0.1",9201));
+        final Node node3 = new Node(new HttpHost("127.0.0.1",9202));
+        nodes.add(node1);
+        nodes.add(node2);
+        nodes.add(node3);
         final RestClientBuilder restClientBuilder = RestClient.builder(nodes.toArray(new Node[]{}));
         final RestHighLevelClient restHighLevelClient = new RestHighLevelClient(restClientBuilder);
         return new ElasticsearchRestTemplate(restHighLevelClient);

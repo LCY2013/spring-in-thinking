@@ -54,6 +54,7 @@ public class BookController {
         return bookRepository.findByName(name);
     }
 
+    // curl -H "Content-Type: application/json" -X POST -d '{"id": "1", "name":"k8s", "price":99.8, "publishedDate":"2020-08-10 12:12:12" }' "http://127.0.0.1:8846/book/1"
     @PostMapping("/book/{id}")
     public Book publishBook(@PathVariable String id, @RequestBody Book book){
         book.setId(id);

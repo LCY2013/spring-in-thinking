@@ -17,7 +17,9 @@
  */
 package org.fufeng.es.entity;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 import org.springframework.data.elasticsearch.annotations.Document;
+import org.springframework.format.annotation.DateTimeFormat;
 
 import java.io.Serializable;
 import java.util.Date;
@@ -40,6 +42,8 @@ public class Book implements Serializable {
 
     private Float price;
 
+    @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")
+    @DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss")
     private Date publishedDate;
 
     public String getId() {
