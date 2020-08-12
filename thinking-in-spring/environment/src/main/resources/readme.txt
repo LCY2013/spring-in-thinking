@@ -82,18 +82,53 @@ Spring 类型转换在@Value中的运用
                 java.beans.PropertyEditor
                 org.springframework.core.convert.ConversionService
 
+Spring 配置属性源 PropertySource
+    API
+        单配置属性源 - org.springframework.core.env.PropertySource
+        多配置属性源 = org.springframework.core.env.PropertySources
+    注解
+        单配置属性源 - @org.springframework.context.annotation.PropertySource
+        多配置属性源 - @org.springframework.context.annotation.PropertySources
+    关联
+        存储对象 - org.springframework.core.env.MutablePropertySources
+        关联方法 - org.springframework.core.env.ConfigurableEnvironment#getPropertySources()
+
+Spring 内建的配置属性源
+    内建PropertySource
+    PropertySource类型                                         说明
+org.springframework.core.env.CommandLinePropertySource        命令行配置属性源
+org.springframework.jndi.JndiPropertySource                   jndi配置属性源
+org.springframework.core.env.PropertiesPropertySource         Properties配置属性源
+org.springframework.web.context.support.ServletConfigPropertySource     Servlet配置属性源
+org.springframework.core.env.SystemEnvironmentPropertySource    系统环境变量配置属性源
+
+基于注解扩展Spring属性配置源
+    @org.springframework.context.annotation.PropertySource实现原理
+        入口 - org.springframework.context.annotation.ConfigurationClassParser#doProcessConfigurationClass()
+            org.springframework.context.annotation.ConfigurationClassParser#processPropertySource()
+    4.3新增语义
+        配置属性字符编码 - encoding
+        org.springframework.core.io.support.PropertySourceFactory
+    适配对象 - org.springframework.core.env.CompositePropertySource
+
+基于API扩展Spring配置属性源
+    Spring应用上下文启动前装配PropertySource
+    Spring应用上下文启动后装配PropertySource
+
+Spring 4.1 测试配置属性源 - @org.springframework.test.context.TestPropertySource
+
+简单介绍Spring Environment接口?
+    核心接口 - org.springframework.core.env.Environment
+    父接口 - org.springframework.core.env.PropertyResolver
+    可配置接口 - org.springframework.core.env.ConfigurableEnvironment
+    职责:
+        管理Spring配置属性源
+        管理Profiles
+
+如何控制PropertySource优先级?
 
 
-
-
-
-
-
-
-
-
-
-
+Environment 完整生命周期？
 
 
 
