@@ -82,12 +82,62 @@ Spring 应用上下文刷新阶段
             org.springframework.boot.web.servlet.context.ServletWebServerApplicationContext.onRefresh
             org.springframework.web.context.support.StaticWebApplicationContext.onRefresh
 
+Spring事件监听器注册阶段
+    AbstractApplicationContext.registerListeners()方法
+        添加当前应用上下文关联的ApplicationListener对象(集合)
+        添加BeanFactory所注册的ApplicationListener Beans
+        广播早期Spring事件
 
+BeanFactory初始化完成阶段
+    AbstractApplicationContext.finishBeanFactoryInitialization()方法
+        BeanFactory关联的ConversionService Bean，如果存在就设置ConversionService
+        如果内置的EmbeddedValueResolver不存在，就添加一个String类型的Placeholders解析器
+        依赖查找LoadTimeWeaverAware Bean
+        BeanFactory 设置临时ClassLoader 为null
+        BeanFactory冻结配置信息
+        BeanFactory实例化所有的非延迟单例Beans
 
+Spring应用上下文刷新完成阶段
+    AbstractApplicationContext.finishRefresh()方法
+        清除上下文级别的资源缓存信息 - DefaultResourceLoader.clearResourceCaches()@Since 5
+        初始化LifeCycleProcessor对象 - AbstractApplicationContext.initLifecycleProcessor()
+        调用LifeCycleProcessor#onRefresh()方法
+        发布应用上下文刷新事件 - ContextRefreshedEvent
+        向MBean托管Live Beans
 
+Spring应用上下文启动阶段
+    AbstractApplicationContext.start()方法
+        启动LifeCycleProcessor
+            依赖查找LifeCycle Beans
+            启动LifeCycle Beans
+        发布应用上下文启动事件 - ContextStartedEvent
 
+Spring应用上下文停止阶段
+    AbstractApplicationContext.stop()方法
+        停止LifeCycleProcessor
+            依赖查找LifeCycle Beans
+            停止LifeCycle Beans
+        发布应用上下文停止事件 - ContextStoppedEvent
 
+Spring应用上下文关闭阶段
+    AbstractApplicationContext.close()方法
+        状态标识: active(false)、closed(true)
+        Live Beans JMX撤销管理
+            LiveBeansView.unregisterApplicationContext(this)
+        发布Spring应用上下文关闭事件 - ContextClosedEvent
+        LifecycleProcessor 关闭
+            依赖查找Lifecycle Beans
+            关闭LifeCycle Beans
+        销毁所有的Spring Beans
+        关闭BeanFactory
+        回调onClose()方法
+        如果存在ShutDownHook就移除 - Runtime.getRuntime().removeShutdownHook(this.shutdownHook)
 
+Spring应用上下文中生命周期存在哪些？
+    AbstractApplicationContext.refresh()
+    AbstractApplicationContext.start()
+    AbstractApplicationContext.stop()
+    AbstractApplicationContext.close()
 
 
 
