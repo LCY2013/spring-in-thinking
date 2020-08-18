@@ -17,6 +17,7 @@
         <module>spring-boot-with-es</module>
         <module>spring-boot-with-redis</module>
         <module>spring-boot-with-kafka</module>
+        <module>spring-boot-with-volidator</module>
     </modules>
     <packaging>pom</packaging>
 
