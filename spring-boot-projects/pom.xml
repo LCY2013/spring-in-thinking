@@ -19,6 +19,7 @@
         <module>spring-boot-with-kafka</module>
         <module>spring-boot-with-volidator</module>
         <module>spring-boot-with-websocket</module>
+        <module>spring-boot-with-web-asyn</module>
     </modules>
     <packaging>pom</packaging>
 
