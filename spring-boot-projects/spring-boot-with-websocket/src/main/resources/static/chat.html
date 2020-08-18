@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>聊天室</title>
+    <!--<script src="https://code.jquery.com/jquery-3.2.1.min.js"></script>-->
+    <script src="js/jquery-3.5.1.min.js"></script>
+</head>
+<body>
+聊天消息内容：
+<br/>
+<textarea id="text_chat_content" readonly="readonly" cols="100" rows="9">
+</textarea>
+
+<br/>
+
+用户：<input id="in_user_name" value=""/>
+<button id="btn_join">加入聊天室</button>
+<button id="btn_exit">离开聊天室</button>
+
+<br/>
+
+输入框：<input id="in_msg" value=""/>
+<button id="btn_send">发送消息</button>
+
+<script type="text/javascript">
+    $(document).ready(function () {
+        const urlPrefix = 'ws://127.0.0.1:8846/ws/';
+        let ws = null;
+        $('#btn_join').click(function () {
+            if (ws == null) {
+                const username = $('#in_user_name').val();
+                const url = urlPrefix + username;
+                ws = new WebSocket(url);
+                ws.onopen = function (event) {
+                    console.log("ws connect success")
+                    $('#text_chat_content').append("欢迎用户 [" + username + "] 来到聊天室! \n");
+                }
+                ws.onmessage = function (event) {
+                    console.log(event)
+                    //服务端发送的消息
+                    $('#text_chat_content').append(event.data + '\n');
+                }
+                ws.onclose = function (event) {
+                    $('#text_chat_content').append('用户[' + username + '] 已经离开聊天室!\n');
+                }
+            }
+        });
+
+        //客户端发送消息到服务器
+        $('#btn_send').click(function () {
+            const username = $('#in_user_name').val();
+            const msg = $('#in_msg').val();
+            if (ws) {
+                ws.send(msg);
+                $('#text_chat_content').append("用户 [ " + username + " ] : " + msg + "\n");
+            }
+        });
+
+        //离开聊天室
+        $('#btn_exit').click(function () {
+            if (ws) {
+                ws.close();
+            }
+        });
+
+    })
+</script>
+</body>
+</html>

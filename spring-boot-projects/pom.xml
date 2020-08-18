@@ -18,6 +18,7 @@
         <module>spring-boot-with-redis</module>
         <module>spring-boot-with-kafka</module>
         <module>spring-boot-with-volidator</module>
+        <module>spring-boot-with-websocket</module>
     </modules>
     <packaging>pom</packaging>
 
