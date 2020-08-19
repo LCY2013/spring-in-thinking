@@ -1,0 +1,42 @@
+<?xml version="1.0"?>
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema" elementFormDefault="qualified"
+           targetNamespace="http://fufeng.org/schemas" xmlns="http://fufeng.org/schemas">
+
+    <!--
+        https://www.w3cschool.cn/jaxb2/jaxb2-ntbr2zov.html
+        通过jaxb技术反向生成 javaclass
+            ->  xjc *.xsd -p bean
+            ->  xjc *.xsd -p com.cpp.interconnection.bean
+
+        本例命令如下 :
+              xjc ../resources/META-INF/schemas/user.xsd -p org.fufeng.domain
+    -->
+
+    <!--用户对象：ID，名字和年龄 -->
+    <xs:complexType name="User">
+        <xs:sequence>
+            <xs:element name="id" type="xs:long" minOccurs="1" maxOccurs="1" />
+            <xs:element name="name" type="xs:string" minOccurs="1" maxOccurs="1" />
+            <xs:element name="age" type="xs:int" minOccurs="0" maxOccurs="1" />
+        </xs:sequence>
+    </xs:complexType>
+
+    <xs:element name="UserIdRequest">
+        <xs:complexType>
+            <xs:sequence>
+                <xs:element name="userId" type="xs:long" />
+                <xs:element name="timestamp" type="xs:long" />
+            </xs:sequence>
+        </xs:complexType>
+    </xs:element>
+
+    <xs:element name="UserResponse">
+        <xs:complexType>
+            <xs:sequence>
+                <xs:element name="user" type="User" />
+                <xs:element name="timestamp" type="xs:long" />
+            </xs:sequence>
+        </xs:complexType>
+    </xs:element>
+
+</xs:schema>

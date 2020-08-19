@@ -20,6 +20,7 @@
         <module>spring-boot-with-volidator</module>
         <module>spring-boot-with-websocket</module>
         <module>spring-boot-with-web-asyn</module>
+        <module>spring-boot-with-webservice</module>
     </modules>
     <packaging>pom</packaging>
 
