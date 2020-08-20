@@ -23,6 +23,7 @@
         <module>spring-boot-with-webservice</module>
         <module>spring-boot-with-security</module>
         <module>spring-boot-with-logs</module>
+        <module>spring-boot-with-actuator</module>
     </modules>
     <packaging>pom</packaging>
 
