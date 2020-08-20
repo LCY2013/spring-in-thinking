@@ -22,6 +22,7 @@
         <module>spring-boot-with-web-asyn</module>
         <module>spring-boot-with-webservice</module>
         <module>spring-boot-with-security</module>
+        <module>spring-boot-with-logs</module>
     </modules>
     <packaging>pom</packaging>
 
