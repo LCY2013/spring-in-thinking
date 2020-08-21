@@ -24,6 +24,7 @@
         <module>spring-boot-with-security</module>
         <module>spring-boot-with-logs</module>
         <module>spring-boot-with-actuator</module>
+        <module>spring-boot-with-configuration</module>
     </modules>
     <packaging>pom</packaging>
 

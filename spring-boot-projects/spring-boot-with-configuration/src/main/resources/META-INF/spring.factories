@@ -1,0 +1,3 @@
+# 自定义一个ApplicationListener
+org.springframework.context.ApplicationListener=\
+  org.fufeng.context.CustomSpringApplicationListener
