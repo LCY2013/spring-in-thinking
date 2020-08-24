@@ -25,7 +25,6 @@
         <module>spring-boot-with-logs</module>
         <module>spring-boot-with-actuator</module>
         <module>spring-boot-with-configuration</module>
-        <module>spring-boo-with-testing</module>
         <module>spring-boot-with-starter</module>
     </modules>
     <packaging>pom</packaging>
