@@ -1,0 +1,3 @@
+org.springframework.cloud.bootstrap.BootstrapConfiguration=\
+  org.fufeng.cloud.property.locator.CustomPropertySourceLocator,\
+  org.fufeng.cloud.property.cofig.PropertySourceConfig
