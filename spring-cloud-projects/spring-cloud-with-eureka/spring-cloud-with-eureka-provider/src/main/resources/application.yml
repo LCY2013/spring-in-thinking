@@ -1,0 +1,13 @@
+server:
+  port: 3001
+eureka:
+  instance:
+    preferIpAddress: true
+  client:
+    serviceUrl:
+      ## 注册到 eureka
+      defaultZone: http://fufeng:123456@localhost:3000/eureka
+spring:
+  application:
+    ## 应用程序名称，后面会在消费者中用到
+    name: single-provider

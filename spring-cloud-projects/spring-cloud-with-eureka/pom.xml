@@ -11,6 +11,8 @@
     <packaging>pom</packaging>
     <modules>
         <module>spring-cloud-with-eureka-server</module>
+        <module>spring-cloud-with-eureka-provider</module>
+        <module>spring-cloud-with-eureka-consumer</module>
     </modules>
     <artifactId>spring-cloud-with-eureka</artifactId>
 
