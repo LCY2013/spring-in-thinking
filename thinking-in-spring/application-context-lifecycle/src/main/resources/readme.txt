@@ -64,6 +64,12 @@ BeanFactory注册BeanPostProcessor阶段
         注册普通BeanPostProcessor Beans
         注册MergedBeanDefinition类型的BeanPostProcessor Beans
         注册ApplicationListenerDetector对象
+    不同BeanPostProcessor最终执行顺序:
+        PriorityOrderedPostProcessor(但是不是MergedBeanDefinitionPostProcessor)
+        OrderedPostProcessor(但是不是MergedBeanDefinitionPostProcessor)
+        NonOrderedPostProcessor(但是不是MergedBeanDefinitionPostProcessor)
+        InternalPostProcessor(是MergedBeanDefinitionPostProcessor,并且进行了排序操作
+            (没有实现Ordered接口、标注@Order或者@Priority注解的BeanPostProcessor优先级高于实现了Ordered接口或者标注了排序注解的BeanPostProcessor))
 
 初始化内建Bean: MessageSource
     AbstractApplicationContext.initMessageSource()方法
