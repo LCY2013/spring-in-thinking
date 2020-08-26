@@ -9,14 +9,17 @@ Spring 国际化
 
 Spring 国际化使用场景
     • 普通国际化文案
-    • BeanValidation校验国际化文案 • Web站点页面渲染
+    • BeanValidation校验国际化文案
+    • Web站点页面渲染
     • WebMVC错误消息提示
 
 Spring 国际化接口
     • 核心接口
     • org.springframework.context.MessageSource
     • 主要概念
-    • 文案模板编码(code) • 文案模板参数(args) • 区域(Locale)
+    • 文案模板编码(code)
+    • 文案模板参数(args)
+    • 区域(Locale)
 
 层次性 MessageSource
     • Spring层次性接口回顾
@@ -29,7 +32,8 @@ Spring 国际化接口
 Java 国际化标准实现
     • 核心接口
     • 抽象实现-java.util.ResourceBundle
-    • Properties资源实现-java.util.PropertyResourceBundle • 例举实现-java.util.ListResourceBundle
+    • Properties资源实现-java.util.PropertyResourceBundle
+    • 例举实现-java.util.ListResourceBundle
 
 Java 国际化标准实现
     • ResourceBundle核心特性
