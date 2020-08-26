@@ -1,0 +1,31 @@
+# 启动的时候加上命令行参数 --spring.profiles.active=(eureka-center1 or eureka-center2)
+
+spring:
+  profiles: eureka-center1
+server:
+  port: 8846
+eureka:
+  instance:
+    hostname: 127.0.0.1
+    appname: register center
+  client:
+    registerWithEureka: true
+    fetchRegistry: true
+    serviceUrl:
+      defaultZone: http://localhost:8847/eureka
+
+
+---
+spring:
+  profiles: eureka-center2
+server:
+  port: 8847
+eureka:
+  instance:
+    hostname: 127.0.0.1
+    appname: register center
+  client:
+    registerWithEureka: true
+    fetchRegistry: true
+    serviceUrl:
+      defaultZone: http://localhost:8846/eureka

@@ -13,6 +13,9 @@
         <module>spring-cloud-with-eureka-server</module>
         <module>spring-cloud-with-eureka-provider</module>
         <module>spring-cloud-with-eureka-consumer</module>
+        <module>spring-cloud-with-ha-eureka-server</module>
+        <module>spring-cloud-with-ha-eureka-provider</module>
+        <module>spring-cloud-with-ha-eureka-consumer</module>
     </modules>
     <artifactId>spring-cloud-with-eureka</artifactId>
 

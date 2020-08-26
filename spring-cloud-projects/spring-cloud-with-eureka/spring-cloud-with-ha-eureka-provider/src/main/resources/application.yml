@@ -1,0 +1,35 @@
+spring:
+  profiles: ha-provider1
+  application:
+    name: ha-provider
+  security:
+    user:
+      name: root
+      password: root
+server:
+  port: 9526
+eureka:
+  instance:
+    preferIpAddress: true
+  client:
+    serviceUrl:
+      defaultZone: http://localhost:8846/eureka,http://localhost:8847/eureka
+
+
+---
+spring:
+  profiles: ha-provider2
+  application:
+    name: ha-provider
+  security:
+    user:
+      name: root
+      password: root
+server:
+  port: 9527
+eureka:
+  instance:
+    preferIpAddress: true
+  client:
+    serviceUrl:
+      defaultZone: http://localhost:8846/eureka,http://localhost:8847/eureka

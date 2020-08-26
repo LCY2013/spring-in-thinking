@@ -1,0 +1,13 @@
+spring:
+  application:
+    name: cloud-eureka-ha-center
+  cloud:
+    inetutils:
+      ignoredInterfaces:
+        - docker0
+        - veth.*
+        - VM.*
+      preferredNetworks:
+        - 192.168
+
+
