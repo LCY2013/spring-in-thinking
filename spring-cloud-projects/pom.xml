@@ -12,6 +12,7 @@
         <module>spring-cloud-with-config</module>
         <module>spring-cloud-with-configuration</module>
         <module>spring-cloud-with-eureka</module>
+        <module>spring-cloud-with-consul</module>
     </modules>
     <packaging>pom</packaging>
 
