@@ -5,7 +5,7 @@
  *
  * ProjectName: thinking-in-spring-boot
  * @Author : <a href="https://github.com/lcy2013">MagicLuo(扶风)</a>
- * @date : 2020-08-24
+ * @date : 2020-08-26
  * @version : 1.0.0-RELEASE
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy of this software and associated documentation files (the “Software”), to deal in the Software without restriction, including without limitation the rights to use, copy, modify, merge, publish, distribute, sublicense, and/or sell copies of the Software, and to permit persons to whom the Software is furnished to do so, subject to the following conditions:
@@ -15,50 +15,31 @@
  * THE SOFTWARE IS PROVIDED “AS IS”, WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
  *
  */
-package org.fufeng.config.client.web.controller;
+package org.fufeng.config.client.config;
 
-import org.fufeng.config.client.config.AutoConfigUser;
-import org.fufeng.config.client.config.UnAutoConfigUser;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.context.properties.EnableConfigurationProperties;
-import org.springframework.cloud.context.config.annotation.RefreshScope;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RestController;
+import lombok.Data;
+import lombok.ToString;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.stereotype.Component;
 
 /**
  * @program: thinking-in-spring-boot
- * @description: 用户API 控制器
+ * @description: 通过普通@Value注入远程配置文件中的信息
+ *      @Value 在Spring Cloud环境中只会初始化一次,配置中心的文件即使修改了也不会产生影响,
+ *  apollo这样的配置中心实现了@Value的动态刷新
+ *
  * @author: <a href="https://github.com/lcy2013">MagicLuo(扶风)</a>
- * @create: 2020-08-24
+ * @create: 2020-08-26
  */
-@RestController
-@EnableConfigurationProperties(AutoConfigUser.class)
-@RefreshScope
-public class UserController {
+@Data
+@ToString
+@Component
+public class UnAutoConfigUser {
 
-    private final AutoConfigUser autoConfigUser;
+    @Value("${user.info.id}")
+    private Long id;
 
-    private final UnAutoConfigUser unAutoConfigUser;
-
-    public UserController(@Autowired AutoConfigUser autoConfigUser,
-                          @Autowired UnAutoConfigUser unAutoConfigUser) {
-        this.autoConfigUser = autoConfigUser;
-        this.unAutoConfigUser = unAutoConfigUser;
-    }
-
-    /*
-        http://127.0.0.1:8080/user
-
-     */
-
-    @GetMapping("/auto")
-    public AutoConfigUser autoConfigUser(){
-        return this.autoConfigUser;
-    }
-
-    @GetMapping("/unauto")
-    public UnAutoConfigUser unAutoConfigUser(){
-        return this.unAutoConfigUser;
-    }
+    @Value("${user.info.name}")
+    private String name;
 
 }

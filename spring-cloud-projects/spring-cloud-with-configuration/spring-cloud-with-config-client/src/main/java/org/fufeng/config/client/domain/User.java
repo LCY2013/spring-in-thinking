@@ -17,10 +17,8 @@
  */
 package org.fufeng.config.client.domain;
 
-import lombok.AllArgsConstructor;
 import lombok.Data;
-import lombok.NoArgsConstructor;
-import org.springframework.boot.context.properties.ConfigurationProperties;
+import lombok.ToString;
 
 /**
  * @program: thinking-in-spring-boot
@@ -29,9 +27,7 @@ import org.springframework.boot.context.properties.ConfigurationProperties;
  * @create: 2020-08-24
  */
 @Data
-@AllArgsConstructor
-@NoArgsConstructor
-@ConfigurationProperties(prefix = "user.info")
+@ToString
 public class User {
 
     private Long id;
