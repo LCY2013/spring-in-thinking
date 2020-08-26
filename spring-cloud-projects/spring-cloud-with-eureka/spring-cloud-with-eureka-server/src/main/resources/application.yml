@@ -1,0 +1,16 @@
+server:
+  port: 3000
+eureka:
+  instance:
+    #hostname: eureka-center
+    hostname: localhost
+    appname: register centor
+  client:
+    registerWithEureka: false # 单点的时候设置为 false 禁止注册自身
+    fetchRegistry: false
+    serviceUrl:
+      defaultZone: http://fufeng:123456@localhost:3000/eureka
+  server:
+    enableSelfPreservation: false
+    evictionIntervalTimerInMs: 4000
+
