@@ -1,6 +1,5 @@
 package org.lcydream.project.i18n;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.config.ConfigurableListableBeanFactory;
 import org.springframework.boot.WebApplicationType;
 import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
@@ -37,7 +36,7 @@ public class CustomMessageResourceBeanDemo {
      *  2、Springboot想要实现配置MessageSource的话，需要满足条件MessageSourceAutoConfiguration.ResourceBundleCondition
      *      即String basename = context.getEnvironment().getProperty("spring.messages.basename", "messages");
      *      上下文环境中存在默认名称为messages.properties配置文件
-     *  3、springboot可以使用自定义的MessageResource去替换掉Springboot原有的配置实现，即存在一个名称为messageSource的MessageSource对象
+     *  3、springboot可以使用自定义的MessageResource去替换掉Spring原有的配置实现，即存在一个名称为messageSource的MessageSource对象
      *      具体MessageSourceAutoConfiguration上注解@ConditionalOnMissingBean(name = AbstractApplicationContext.MESSAGE_SOURCE_BEAN_NAME, search = SearchStrategy.CURRENT)
      * @param args
      */

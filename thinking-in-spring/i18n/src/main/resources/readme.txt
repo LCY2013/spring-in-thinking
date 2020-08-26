@@ -20,7 +20,8 @@ Spring 国际化接口
 
 层次性 MessageSource
     • Spring层次性接口回顾
-    • org.springframework.beans.factory.HierarchicalBeanFactory • org.springframework.context.ApplicationContext
+    • org.springframework.beans.factory.HierarchicalBeanFactory
+    • org.springframework.context.ApplicationContext
     • org.springframework.beans.factory.config.BeanDefinition
     • Spring层次性国际化接口
     • org.springframework.context.HierarchicalMessageSource
