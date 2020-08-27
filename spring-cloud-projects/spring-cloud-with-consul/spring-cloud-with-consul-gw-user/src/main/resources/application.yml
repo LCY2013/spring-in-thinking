@@ -1,0 +1,26 @@
+spring:
+  application:
+    name: consul-user
+  cloud:
+    consul:
+      discovery:
+        service-name: consul-user
+      host: localhost
+      port: 8500
+
+# 由于web flux 不支持全局根目录所以切换到servlet引擎下
+server:
+  port: 5005
+  servlet:
+    context-path: /user-service
+
+management:
+  endpoint:
+    health:
+      enabled: true
+  server:
+    port: 15005
+  endpoints:
+    web:
+      exposure:
+        include: '*'
