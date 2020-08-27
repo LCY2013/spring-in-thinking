@@ -1,0 +1,10 @@
+spring:
+  cloud:
+    consul:
+      discovery:
+        ## 服务提供者名称
+        service-name: consul-provider
+      ## consul 所在服务地址
+      host: 127.0.0.1
+      ## consul 端口
+      port: 8500

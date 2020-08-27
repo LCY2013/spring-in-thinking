@@ -7,8 +7,6 @@ server:
 
 management:
   endpoint:
-    health:
-      sensitive: false
     restart:
       enabled: true
     shutdown:

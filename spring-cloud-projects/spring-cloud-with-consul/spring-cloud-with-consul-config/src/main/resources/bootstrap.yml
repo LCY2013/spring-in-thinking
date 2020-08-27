@@ -13,3 +13,4 @@ spring:
       port: 8500
 
 # consul 创建 key/value config/mysql_config/mysql_config value: config.yml
+# 可以通过命令 consul agent -dev 来启动开发模式

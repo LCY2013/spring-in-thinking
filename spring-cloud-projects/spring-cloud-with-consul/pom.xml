@@ -11,6 +11,8 @@
     <packaging>pom</packaging>
     <modules>
         <module>spring-cloud-with-consul-config</module>
+        <module>spring-cloud-with-consul-provider</module>
+        <module>spring-cloud-with-consul-consumer</module>
     </modules>
     <artifactId>spring-cloud-with-consul</artifactId>
 
