@@ -16,6 +16,8 @@
         <module>spring-cloud-with-consul-gw-order</module>
         <module>spring-cloud-with-consul-gw-user</module>
         <module>spring-cloud-with-consul-gw-gateway</module>
+        <module>spring-cloud-with-consul-gw-oauth-server</module>
+        <module>spring-cloud-with-consul-gw-oauth-client</module>
     </modules>
     <artifactId>spring-cloud-with-consul</artifactId>
 

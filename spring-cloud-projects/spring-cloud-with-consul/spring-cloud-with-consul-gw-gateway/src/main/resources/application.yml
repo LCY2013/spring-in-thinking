@@ -3,17 +3,17 @@ server:
 spring:
   application:
     name: gateway
-  #  redis:
-  #    database: 0
-  #    host: localhost
-  #    port: 6379
-  #    password: 123456
-  #    jedis:
-  #      pool:
-  #        max-active: 8
-  #        max-idle: 8
-  #        min-idle: 0
-  #    timeout: 100ms
+  redis:
+    database: 0
+    host: localhost
+    port: 6379
+    password: 123456
+    jedis:
+      pool:
+        max-active: 8
+        max-idle: 8
+        min-idle: 0
+    timeout: 100ms
   cloud:
     gateway:
       discovery:
@@ -39,27 +39,41 @@ spring:
       port: 8500
       discovery:
         service-name: service-gateway
-#  security:
-#    oauth2:
-#      client:
-#        registration:
-#          gateway:
-#            client-id: gateway-client
-#            client-secret: gateway-secret
-#            authorization-grant-type: password
-#            #authorization-grant-type: authorization_code
-#            #redirect-uri-template: '{baseUrl}/login/oauth2/code/{registrationId}'
-#            clientName: gateway
-#        provider:
-#          oauth-server:
-#            user-authorization-uri: http://localhost:5010/oauth-service/oauth/authorize
-#            access-token-uri: http://localhost:5010/oauth-service/oauth/token
-#            jwt-key-uri: dev
+  security:
+    oauth2:
+      client:
+        registration:
+          gateway:
+            client-id: gateway-client
+            client-secret: gateway-secret
+            authorization-grant-type: password
+            #authorization-grant-type: authorization_code
+            #redirect-uri-template: '{baseUrl}/login/oauth2/code/{registrationId}'
+            clientName: gateway
+        provider:
+          oauth-server:
+            user-authorization-uri: http://localhost:5010/oauth-service/oauth/authorize
+            access-token-uri: http://localhost:5010/oauth-service/oauth/token
+            jwt-key-uri: dev
 
-#hystrix:
-#  command:
-#    second2Command:
-#      execution:
-#        isolation:
-#          thread:
-#            timeoutInMilliseconds: 1000
+hystrix:
+  command:
+    second2Command:
+      execution:
+        isolation:
+          thread:
+            timeoutInMilliseconds: 1000
+
+#  创建了两条路由规则，路由规则名称通过 id 设置，分别是 userServiceRouter 和 orderServiceRouter，
+#  通过 predicates.Path 设置待转发的 url，通过 uri 设置转发后的目标地址。
+#  上面配置将以/user-service/开头的地址转发到 lb://consul-user,固定格式 lb + 服务id，
+#  在有注册中心的情况下要这样写，如果没有注册中心，可以直接写目标 url。
+#
+#  下面的路由规则中多了一个 StripPrefix 的 filter ，这个是 Gateway 的内置 filter，
+#  作用就是去掉 Path 中的指定部分，StripPrefix=1，就是以 / 分隔，去掉第一部分，
+#  比如 /a/b/c 这个地址，在 StripPrefix=1 的作用下，就会转发到 /b/c/，
+#  当 StripPrefix=2 的时候，就会转发到 /c/。
+#
+# 配置好上述接口，然后启动网关服务。访问规则就会有如下对应关系:
+#  http://localhost:10000/user-service/user/get->http://localhost:5005/user-service/user/get
+#  http://localhost:10000/order-service/order/get->http://localhost:5006/order/get

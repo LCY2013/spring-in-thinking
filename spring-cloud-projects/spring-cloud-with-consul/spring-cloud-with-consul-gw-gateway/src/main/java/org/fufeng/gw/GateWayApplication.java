@@ -17,16 +17,40 @@
  */
 package org.fufeng.gw;
 
+import org.fufeng.gw.config.IpResolver;
+import org.fufeng.gw.config.filter.CustomerFilter;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.cloud.client.discovery.EnableDiscoveryClient;
+import org.springframework.cloud.gateway.filter.ratelimit.RedisRateLimiter;
 import org.springframework.cloud.gateway.route.RouteLocator;
 import org.springframework.cloud.gateway.route.builder.RouteLocatorBuilder;
 import org.springframework.context.annotation.Bean;
+import org.springframework.security.config.web.server.ServerHttpSecurity;
+import org.springframework.security.core.userdetails.MapReactiveUserDetailsService;
+import org.springframework.security.core.userdetails.User;
+import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.web.server.SecurityWebFilterChain;
 
 /**
  * @program: thinking-in-spring-boot
  * @description: 网关 启动实例
+ *   路由规则可以通过两种方式实现:
+ *      (1):通过配置文件实现 - application.yml or applicaiton.yml
+ *      (2):通过GateWay API实现 本列API配置如下:
+ *              builder.routes()
+ *                 .route("userRouter", r -> r.path("/user-service/**")
+ *                         .filters(f ->
+ *                                 f.addResponseHeader("X-CustomerHeader", "kite"))
+ *                         .uri("lb://consul-user")
+ *                 )
+ *                 .route("orderRouter", r -> r.path("/order-service/**")
+ *                         .filters(f -> f.stripPrefix(1)
+ *                         )
+ *                         .uri("lb://consul-order")
+ *                 )
+ *                 .build();
+ *
  * @author: <a href="https://github.com/lcy2013">MagicLuo(扶风)</a>
  * @create: 2020-08-27
  */
@@ -43,12 +67,12 @@ public class GateWayApplication {
      * @param builder 构建路由规则
      * @return 路由规则加载器
      */
-    @Bean
+    /*@Bean
     public RouteLocator kiteRouteLocator(RouteLocatorBuilder builder) {
         return builder.routes()
                 .route("userRouter", r -> r.path("/user-service/**")
                         .filters(f ->
-                                f.addResponseHeader("X-CustomerHeader", "kite"))
+                                f.addResponseHeader("X-CustomerHeader", "wkx"))
                         .uri("lb://consul-user")
                 )
                 .route("orderRouter", r -> r.path("/order-service/**")
@@ -57,6 +81,76 @@ public class GateWayApplication {
                         .uri("lb://consul-order")
                 )
                 .build();
+    }*/
+
+    //    @Autowired
+//    private KeyResolver ipResolver;
+
+    @Bean
+    public RouteLocator kiteRouteLocator(RouteLocatorBuilder builder) {
+        return builder.routes()
+                .route("userRouter", r -> r.path("/user-service/**")
+                        .filters(f ->
+                                f.addResponseHeader("X-CustomerHeader", "wkx"))
+                        .uri("lb://consul-user")
+                )
+                .route("orderRouter", r -> r.path("/order-service/**")
+                        .filters(f -> f.stripPrefix(1)
+                        )
+                        .uri("lb://consul-order")
+                )
+                .route("hystrixRouter", r -> r.path("/hystrix/**")
+                        .filters(f -> f.stripPrefix(1)
+                                .hystrix(h -> h.setName("second2Command").setFallbackUri("forward:/hystrixfallback"))
+                        )
+                        .uri("lb://consul-user")
+                )
+                .route("limit_route", r -> r.path("/limiter/**")
+                        .filters(f -> f.stripPrefix(1)
+                                .requestRateLimiter(
+                                        c -> c.setKeyResolver(ipResolver())
+                                                .setRateLimiter(redisRateLimiter())
+                                )
+                        )
+                        .uri("lb://consul-user"))
+                .route("oauth_server", r -> r.path("/oauth-service/**")
+                        .filters(f -> f.filter(new CustomerFilter()))
+                        .uri("http://localhost:5010"))
+                .route("oauth_client", r -> r.path("/consul-oauth-client/**")
+                        .uri("http://localhost:5012"))
+                .build();
+    }
+
+    @Bean
+    IpResolver ipResolver() {
+        return new IpResolver();
+    }
+
+    @Bean
+    RedisRateLimiter redisRateLimiter() {
+        return new RedisRateLimiter(1, 1);
+    }
+
+
+    @Bean
+    SecurityWebFilterChain springWebFilterChain(ServerHttpSecurity http) throws Exception {
+        return http.csrf().disable().authorizeExchange()
+                .anyExchange().permitAll()
+                .and()
+                .build();
+//        return http.httpBasic().and()
+//                .csrf().disable()
+//                .authorizeExchange()
+//                .pathMatchers("/limiter/**").authenticated()
+//                .anyExchange().permitAll()
+//                .and()
+//                .build();
+    }
+
+    @Bean
+    public MapReactiveUserDetailsService reactiveUserDetailsService() {
+        UserDetails user = User.withDefaultPasswordEncoder().username("user").password("password").roles("USER").build();
+        return new MapReactiveUserDetailsService(user);
     }
 
 }
