@@ -18,6 +18,7 @@
 package org.fufeng.config.config;
 
 import lombok.Data;
+import lombok.ToString;
 import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.stereotype.Component;
 
@@ -28,6 +29,7 @@ import org.springframework.stereotype.Component;
  * @create: 2020-08-26
  */
 @Data
+@ToString
 @Component
 @ConfigurationProperties(prefix = "mysql")
 public class MysqlComplexConfig {
@@ -37,6 +39,7 @@ public class MysqlComplexConfig {
     private MysqlUserInfo user;
 
     @Data
+    @ToString
     public static class MysqlUserInfo{
         private String username;
         private String password;

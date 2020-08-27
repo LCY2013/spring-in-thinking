@@ -9,3 +9,7 @@ spring:
         defaultContext: consul-config  # 可以理解为 mysql_config 的上级目录
       discovery:
         register: false
+      host: 127.0.0.1
+      port: 8500
+
+# consul 创建 key/value config/mysql_config/mysql_config value: config.yml
