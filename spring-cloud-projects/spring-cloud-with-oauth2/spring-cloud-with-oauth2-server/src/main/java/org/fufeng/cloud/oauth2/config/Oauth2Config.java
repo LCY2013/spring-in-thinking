@@ -23,6 +23,7 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.security.oauth2.config.annotation.builders.JdbcClientDetailsServiceBuilder;
 import org.springframework.security.oauth2.config.annotation.configurers.ClientDetailsServiceConfigurer;
 import org.springframework.security.oauth2.config.annotation.web.configuration.AuthorizationServerConfigurerAdapter;
 import org.springframework.security.oauth2.config.annotation.web.configuration.EnableAuthorizationServer;
@@ -33,6 +34,7 @@ import org.springframework.security.oauth2.provider.token.TokenEnhancerChain;
 import org.springframework.security.oauth2.provider.token.TokenStore;
 import org.springframework.security.oauth2.provider.token.store.JwtAccessTokenConverter;
 
+import javax.sql.DataSource;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -63,6 +65,10 @@ public class Oauth2Config extends AuthorizationServerConfigurerAdapter {
     private JwtAccessTokenConverter jwtAccessTokenConverter;
     @Autowired
     private TokenEnhancer jwtTokenEnhancer;
+
+    // JDBC实现
+    @Autowired
+    private DataSource dataSource;
 
     @Override
     public void configure(AuthorizationServerSecurityConfigurer security) throws Exception {
@@ -132,6 +138,10 @@ public class Oauth2Config extends AuthorizationServerConfigurerAdapter {
             GET/POST /oauth/token 获取 token 的接口
             POST /oauth/check_token 检查 token 合法性接口
          */
+        // JDBC操作
+//        JdbcClientDetailsServiceBuilder jcsb = clients.jdbc(dataSource);
+//        jcsb.passwordEncoder(passwordEncoder);
+
         clients.inMemory()
                 .withClient("order-client")
                 .secret(this.passwordEncoder.encode("order-secret-8888"))

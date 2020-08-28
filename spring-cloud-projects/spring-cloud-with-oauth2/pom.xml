@@ -12,6 +12,7 @@
     <modules>
         <module>spring-cloud-with-oauth2-server</module>
         <module>spring-cloud-with-oauth2-user</module>
+        <module>spring-cloud-with-oauth2-order</module>
     </modules>
     <artifactId>spring-cloud-with-oauth2</artifactId>
 
