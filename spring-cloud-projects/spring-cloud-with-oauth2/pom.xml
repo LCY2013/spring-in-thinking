@@ -13,6 +13,7 @@
         <module>spring-cloud-with-oauth2-server</module>
         <module>spring-cloud-with-oauth2-user</module>
         <module>spring-cloud-with-oauth2-order</module>
+        <module>spring-auth2-client-authorization-code-server</module>
     </modules>
     <artifactId>spring-cloud-with-oauth2</artifactId>
 

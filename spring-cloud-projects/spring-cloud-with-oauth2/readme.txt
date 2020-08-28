@@ -5,6 +5,8 @@
         收到请求后去认证中心验证
     spring-cloud-with-oauth2-user(用户服务) :
         收到请求后去认证中心验证
+    spring-auth2-client-authorization-code-server(授权码模式认证)
+
 
 测试流程:
     我是用 REST Client 来做访问请求的，请求格式如下：

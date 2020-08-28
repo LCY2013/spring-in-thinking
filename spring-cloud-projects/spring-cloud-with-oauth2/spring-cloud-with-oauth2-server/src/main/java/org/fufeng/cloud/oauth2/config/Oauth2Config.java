@@ -139,10 +139,10 @@ public class Oauth2Config extends AuthorizationServerConfigurerAdapter {
             POST /oauth/check_token 检查 token 合法性接口
          */
         // JDBC操作
-//        JdbcClientDetailsServiceBuilder jcsb = clients.jdbc(dataSource);
-//        jcsb.passwordEncoder(passwordEncoder);
+        JdbcClientDetailsServiceBuilder jcsb = clients.jdbc(dataSource);
+        jcsb.passwordEncoder(passwordEncoder);
 
-        clients.inMemory()
+        /*clients.inMemory()
                 .withClient("order-client")
                 .secret(this.passwordEncoder.encode("order-secret-8888"))
                 .authorizedGrantTypes("refresh_token", "authorization_code", "password")
@@ -153,7 +153,7 @@ public class Oauth2Config extends AuthorizationServerConfigurerAdapter {
                 .secret(this.passwordEncoder.encode("user-secret-8888"))
                 .authorizedGrantTypes("refresh_token", "authorization_code", "password")
                 .accessTokenValiditySeconds(3600)
-                .scopes("all");
+                .scopes("all");*/
     }
 
     @Override
