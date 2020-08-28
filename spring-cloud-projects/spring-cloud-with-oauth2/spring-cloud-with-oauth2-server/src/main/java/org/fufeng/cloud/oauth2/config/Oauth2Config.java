@@ -18,6 +18,7 @@
 package org.fufeng.cloud.oauth2.config;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.core.userdetails.UserDetailsService;
@@ -27,7 +28,13 @@ import org.springframework.security.oauth2.config.annotation.web.configuration.A
 import org.springframework.security.oauth2.config.annotation.web.configuration.EnableAuthorizationServer;
 import org.springframework.security.oauth2.config.annotation.web.configurers.AuthorizationServerEndpointsConfigurer;
 import org.springframework.security.oauth2.config.annotation.web.configurers.AuthorizationServerSecurityConfigurer;
+import org.springframework.security.oauth2.provider.token.TokenEnhancer;
+import org.springframework.security.oauth2.provider.token.TokenEnhancerChain;
 import org.springframework.security.oauth2.provider.token.TokenStore;
+import org.springframework.security.oauth2.provider.token.store.JwtAccessTokenConverter;
+
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * @program: thinking-in-spring-boot
@@ -45,8 +52,17 @@ public class Oauth2Config extends AuthorizationServerConfigurerAdapter {
     public UserDetailsService wkxUserDetailsService;
     @Autowired
     private AuthenticationManager authenticationManager;
+
+    //注释Redis相关配置信息
+//    @Autowired
+//    private TokenStore redisTokenStore;
+
     @Autowired
-    private TokenStore redisTokenStore;
+    private TokenStore jwtTokenStore;
+    @Autowired
+    private JwtAccessTokenConverter jwtAccessTokenConverter;
+    @Autowired
+    private TokenEnhancer jwtTokenEnhancer;
 
     @Override
     public void configure(AuthorizationServerSecurityConfigurer security) throws Exception {
@@ -139,9 +155,37 @@ public class Oauth2Config extends AuthorizationServerConfigurerAdapter {
             userDetailsService() 设置用户验证服务。
             tokenStore() 指定 token 的存储方式。
          */
-        endpoints.authenticationManager(this.authenticationManager)
+        /*endpoints.authenticationManager(this.authenticationManager)
                 .userDetailsService(this.wkxUserDetailsService)
-                .tokenStore(this.redisTokenStore);
+                .tokenStore(this.redisTokenStore);*/
+
+        /**
+         * jwt 增强模式
+         */
+        TokenEnhancerChain enhancerChain = new TokenEnhancerChain();
+        List<TokenEnhancer> enhancerList = new ArrayList<>();
+        enhancerList.add( jwtTokenEnhancer );
+        enhancerList.add( jwtAccessTokenConverter );
+        enhancerChain.setTokenEnhancers( enhancerList );
+        endpoints.tokenStore( jwtTokenStore )
+                .userDetailsService( wkxUserDetailsService )
+                /**
+                 * 支持 password 模式
+                 */
+                .authenticationManager( authenticationManager )
+                .tokenEnhancer( enhancerChain )
+                .accessTokenConverter( jwtAccessTokenConverter );
+
+        /**
+         * 普通 jwt 模式
+         */
+        /*endpoints.tokenStore(jwtTokenStore)
+                .accessTokenConverter(jwtAccessTokenConverter)
+                .userDetailsService(wkxUserDetailsService)
+                *//**
+                 * 支持 password 模式
+                 *//*
+                .authenticationManager(authenticationManager);*/
     }
 
 }

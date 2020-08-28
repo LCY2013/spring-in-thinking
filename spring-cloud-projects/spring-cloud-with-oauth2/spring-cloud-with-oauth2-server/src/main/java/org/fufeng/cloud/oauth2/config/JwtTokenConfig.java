@@ -17,22 +17,44 @@
  */
 package org.fufeng.cloud.oauth2.config;
 
+import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.security.oauth2.provider.token.TokenEnhancer;
+import org.springframework.security.oauth2.provider.token.TokenStore;
+import org.springframework.security.oauth2.provider.token.store.JwtAccessTokenConverter;
+import org.springframework.security.oauth2.provider.token.store.JwtTokenStore;
 
 /**
  * @program: thinking-in-spring-boot
- * @description: Redis store token configuration
+ * @description: jwt token 配置
  * @author: <a href="https://github.com/lcy2013">MagicLuo(扶风)</a>
  * @create: 2020-08-28
  */
 @Configuration
-public class RedisTokenStoreConfig {
+public class JwtTokenConfig {
 
-//    @Autowired
-//    private RedisConnectionFactory redisConnectionFactory;
-//    @Bean
-//    public TokenStore redisTokenStore (){
-//        return new RedisTokenStore(redisConnectionFactory);
-//    }
+    /**
+     *  jwt oauth token增强类
+     * @return 增强实现
+     */
+    @Bean
+    public TokenEnhancer jwtTokenEnhancer(){
+        return new JWTokenEnhancer();
+    }
 
+    @Bean
+    public TokenStore jwtTokenStore() {
+        return new JwtTokenStore(jwtAccessTokenConverter());
+    }
+
+    /**
+     * JwtAccessTokenConverter是为了做 JWT 数据转换，这样做是因为 JWT 有自身独特的数据格式。
+     * @return jwt 访问token转换器
+     */
+    @Bean
+    public JwtAccessTokenConverter jwtAccessTokenConverter() {
+        JwtAccessTokenConverter accessTokenConverter = new JwtAccessTokenConverter();
+        accessTokenConverter.setSigningKey("dev");
+        return accessTokenConverter;
+    }
 }

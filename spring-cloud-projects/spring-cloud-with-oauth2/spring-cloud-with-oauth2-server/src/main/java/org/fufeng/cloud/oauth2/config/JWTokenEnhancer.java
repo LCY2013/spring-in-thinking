@@ -17,22 +17,29 @@
  */
 package org.fufeng.cloud.oauth2.config;
 
-import org.springframework.context.annotation.Configuration;
+import lombok.extern.slf4j.Slf4j;
+import org.springframework.security.oauth2.common.DefaultOAuth2AccessToken;
+import org.springframework.security.oauth2.common.OAuth2AccessToken;
+import org.springframework.security.oauth2.provider.OAuth2Authentication;
+import org.springframework.security.oauth2.provider.token.TokenEnhancer;
+
+import java.util.HashMap;
+import java.util.Map;
 
 /**
  * @program: thinking-in-spring-boot
- * @description: Redis store token configuration
+ * @description: jwt 增强器
  * @author: <a href="https://github.com/lcy2013">MagicLuo(扶风)</a>
  * @create: 2020-08-28
  */
-@Configuration
-public class RedisTokenStoreConfig {
-
-//    @Autowired
-//    private RedisConnectionFactory redisConnectionFactory;
-//    @Bean
-//    public TokenStore redisTokenStore (){
-//        return new RedisTokenStore(redisConnectionFactory);
-//    }
-
+@Slf4j
+public class JWTokenEnhancer implements TokenEnhancer {
+    @Override
+    public OAuth2AccessToken enhance(OAuth2AccessToken oAuth2AccessToken, OAuth2Authentication oAuth2Authentication) {
+        log.info("jwt enhancer information");
+        Map<String, Object> info = new HashMap<>();
+        info.put("jwt-ext", "JWT information"+System.currentTimeMillis());
+        ((DefaultOAuth2AccessToken) oAuth2AccessToken).setAdditionalInformation(info);
+        return oAuth2AccessToken;
+    }
 }

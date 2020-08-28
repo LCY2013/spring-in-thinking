@@ -28,12 +28,15 @@ security:
       client-secret: user-secret-8888
       user-authorization-uri: http://localhost:6001/oauth/authorize
       access-token-uri: http://localhost:6001/oauth/token
-    resource:
-      id: user-client
-      user-info-uri: user-info
-    authorization:
-      check-token-access: http://localhost:6001/oauth/check_token
+# 注释原有存储验证逻辑
 #    resource:
-#      jwt:
-#        key-uri: http://localhost:6001/oauth/token_key
-#        key-value: dev
+#      id: user-client
+#      user-info-uri: user-info
+#    authorization:
+#      check-token-access: http://localhost:6001/oauth/check_token
+
+#注意认证服务端 JwtAccessTokenConverter设置的 SigningKey 要和配置文件中的 key-value 相同，不然会导致无法正常解码 JWT ，导致验证不通过
+    resource:
+      jwt:
+        key-uri: http://localhost:6001/oauth/token_key
+        key-value: dev

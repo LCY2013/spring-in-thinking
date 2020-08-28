@@ -17,12 +17,15 @@
  */
 package org.fufeng.cloud.oauth2.controller;
 
+import io.jsonwebtoken.Jwts;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.oauth2.provider.authentication.OAuth2AuthenticationDetails;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RestController;
+
+import java.nio.charset.StandardCharsets;
 
 /**
  * @program: thinking-in-spring-boot
@@ -40,13 +43,25 @@ public class UserController {
      * @param authentication 认证服务相关
      * @return token
      */
-    @GetMapping(value = "get")
+    @GetMapping(value = "/get")
     //@PreAuthorize("hasAuthority('ROLE_ADMIN')")
     @PreAuthorize("hasAnyRole('ROLE_ADMIN')")
     public Object get(Authentication authentication) {
-        //Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        // Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         authentication.getCredentials();
         OAuth2AuthenticationDetails details = (OAuth2AuthenticationDetails) authentication.getDetails();
         return details.getTokenValue();
+    }
+
+    @GetMapping(value = "/jwt")
+    @PreAuthorize("hasAnyRole('ROLE_ADMIN')")
+    public Object jwtParser(Authentication authentication){
+        // authentication.getCredentials();
+        OAuth2AuthenticationDetails details = (OAuth2AuthenticationDetails)authentication.getDetails();
+        String jwtToken = details.getTokenValue();
+        return Jwts.parser()
+                .setSigningKey("dev".getBytes(StandardCharsets.UTF_8))
+                .parseClaimsJws(jwtToken)
+                .getBody();
     }
 }
