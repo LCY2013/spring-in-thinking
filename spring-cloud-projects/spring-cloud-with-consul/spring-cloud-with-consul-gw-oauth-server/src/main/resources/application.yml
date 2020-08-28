@@ -10,17 +10,17 @@ spring:
       idle-timeout: 600000
       max-lifetime: 1800000
       maximum-pool-size: 9
-  redis:
-    database: 2
-    host: localhost
-    port: 6379
-    password: 123456
-    jedis:
-      pool:
-        max-active: 8
-        max-idle: 8
-        min-idle: 0
-    timeout: 100ms
+#  redis:
+#    database: 2
+#    host: localhost
+#    port: 6379
+#    password: 123456
+#    jedis:
+#      pool:
+#        max-active: 8
+#        max-idle: 8
+#        min-idle: 0
+#    timeout: 100ms
   cloud:
     consul:
       discovery:
@@ -40,3 +40,7 @@ management:
       show-details: always
   server:
     port: 15015
+  endpoints:
+    web:
+      exposure:
+        include: '*'

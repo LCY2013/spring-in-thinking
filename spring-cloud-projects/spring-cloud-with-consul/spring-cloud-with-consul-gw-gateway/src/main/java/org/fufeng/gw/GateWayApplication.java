@@ -30,6 +30,8 @@ import org.springframework.security.config.web.server.ServerHttpSecurity;
 import org.springframework.security.core.userdetails.MapReactiveUserDetailsService;
 import org.springframework.security.core.userdetails.User;
 import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.crypto.factory.PasswordEncoderFactories;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.server.SecurityWebFilterChain;
 
 /**
@@ -87,7 +89,7 @@ public class GateWayApplication {
 //    private KeyResolver ipResolver;
 
     @Bean
-    public RouteLocator kiteRouteLocator(RouteLocatorBuilder builder) {
+    public RouteLocator wkxRouteLocator(RouteLocatorBuilder builder) {
         return builder.routes()
                 .route("userRouter", r -> r.path("/user-service/**")
                         .filters(f ->
@@ -147,10 +149,13 @@ public class GateWayApplication {
 //                .build();
     }
 
-    @Bean
-    public MapReactiveUserDetailsService reactiveUserDetailsService() {
-        UserDetails user = User.withDefaultPasswordEncoder().username("user").password("password").roles("USER").build();
-        return new MapReactiveUserDetailsService(user);
-    }
+//    @Bean
+//    public MapReactiveUserDetailsService reactiveUserDetailsService() {
+//        PasswordEncoder encoder = PasswordEncoderFactories.createDelegatingPasswordEncoder();
+//        UserDetails user = User.withUsername("fufeng")
+//                .password(encoder.encode("123456"))
+//                .roles("USER").build();
+//        return new MapReactiveUserDetailsService(user);
+//    }
 
 }

@@ -18,10 +18,12 @@
 package org.fufeng.gw.oauth.config;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.security.oauth2.config.annotation.builders.JdbcClientDetailsServiceBuilder;
 import org.springframework.security.oauth2.config.annotation.configurers.ClientDetailsServiceConfigurer;
 import org.springframework.security.oauth2.config.annotation.web.configuration.AuthorizationServerConfigurerAdapter;
 import org.springframework.security.oauth2.config.annotation.web.configuration.EnableAuthorizationServer;
@@ -50,6 +52,7 @@ public class OAuth2Config extends AuthorizationServerConfigurerAdapter {
     public PasswordEncoder passwordEncoder;
 
     @Autowired
+    @Qualifier("wkxUserDetailsService")
     public UserDetailsService wkxUserDetailsService;
 
     @Autowired
@@ -111,7 +114,12 @@ public class OAuth2Config extends AuthorizationServerConfigurerAdapter {
 
     @Override
     public void configure(ClientDetailsServiceConfigurer clients) throws Exception {
-        clients.jdbc(dataSource);
+        // 需要向数据库插入相关配置信息
+        // INSERT INTO `spring_cloud`.`oauth_client_details`(`client_id`, `resource_ids`, `client_secret`, `scope`, `authorized_grant_types`, `web_server_redirect_uri`, `authorities`, `access_token_validity`, `refresh_token_validity`, `additional_information`, `autoapprove`)
+        //  VALUES ('gateway-client', NULL, '$2a$10$vJvrQvbuVGmL3nRl6d5eWuRfK/vEG4gv97WNNLtrqhefCsxcG2RbC',
+        //'all', 'authorization_code,refresh_token,password', NULL, NULL, 3600, 36000, NULL, '1');
+        final JdbcClientDetailsServiceBuilder builder = clients.jdbc(dataSource);
+        builder.passwordEncoder(passwordEncoder);
 
 //        clients.inMemory()
 //                .withClient("order-client")

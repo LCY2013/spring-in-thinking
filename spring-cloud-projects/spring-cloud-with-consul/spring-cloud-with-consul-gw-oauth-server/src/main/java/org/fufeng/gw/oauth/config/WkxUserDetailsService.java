@@ -43,14 +43,13 @@ import java.util.List;
 @Component(value = "wkxUserDetailsService")
 public class WkxUserDetailsService implements UserDetailsService {
 
-
     @Autowired
     private PasswordEncoder passwordEncoder;
 
-    private RedisTokenStoreSerializationStrategy serializationStrategy = new JdkSerializationStrategy();
+    //private RedisTokenStoreSerializationStrategy serializationStrategy = new JdkSerializationStrategy();
 
-    @Autowired
-    private TokenStore redisTokenStore;
+    //@Autowired
+    //private TokenStore redisTokenStore;
 
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {

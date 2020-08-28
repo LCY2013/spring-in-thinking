@@ -36,7 +36,7 @@ public class JWTokenEnhancer implements TokenEnhancer {
     @Override
     public OAuth2AccessToken enhance(OAuth2AccessToken oAuth2AccessToken, OAuth2Authentication oAuth2Authentication) {
         Map<String, Object> info = new HashMap<>();
-        info.put("jwt-ext", "JWT ext information");
+        info.put("jwt-ext", "JWT ext information-"+System.currentTimeMillis());
         ((DefaultOAuth2AccessToken) oAuth2AccessToken).setAdditionalInformation(info);
         return oAuth2AccessToken;
     }

@@ -1,17 +1,17 @@
 spring:
   application:
     name: consul-oauth-client
-  redis:
-    database: 2
-    host: localhost
-    port: 6379
-    password: 123456
-    jedis:
-      pool:
-        max-active: 8
-        max-idle: 8
-        min-idle: 0
-    timeout: 100ms
+#  redis:
+#    database: 2
+#    host: localhost
+#    port: 6379
+#    password: 123456
+#    jedis:
+#      pool:
+#        max-active: 8
+#        max-idle: 8
+#        min-idle: 0
+#    timeout: 100ms
   cloud:
     consul:
       discovery:
@@ -31,6 +31,7 @@ security:
       client-secret: user-secret-8888
       user-authorization-uri: http://localhost:5010/oauth-service/oauth/authorize
       access-token-uri: http://localhost:5010/oauth-service/oauth/token
+# redis
     #    resource:
     #      id: user-client
     #      user-info-uri: user-info
