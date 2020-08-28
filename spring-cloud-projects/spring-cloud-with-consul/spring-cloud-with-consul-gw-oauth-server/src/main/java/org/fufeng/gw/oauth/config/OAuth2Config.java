@@ -77,7 +77,7 @@ public class OAuth2Config extends AuthorizationServerConfigurerAdapter {
          */
 //         endpoints.tokenStore(jwtTokenStore)
 //                .accessTokenConverter(jwtAccessTokenConverter)
-//                .userDetailsService(kiteUserDetailsService)
+//                .userDetailsService(wkxUserDetailsService)
 //                /**
 //                 * 支持 password 模式
 //                 */
@@ -105,7 +105,7 @@ public class OAuth2Config extends AuthorizationServerConfigurerAdapter {
          */
 //        endpoints.authenticationManager(authenticationManager)
 //                .tokenStore(redisTokenStore)
-//                .userDetailsService(kiteUserDetailsService);
+//                .userDetailsService(wkxUserDetailsService);
 
     }
 

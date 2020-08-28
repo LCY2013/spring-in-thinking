@@ -13,6 +13,7 @@
         <module>spring-cloud-with-configuration</module>
         <module>spring-cloud-with-eureka</module>
         <module>spring-cloud-with-consul</module>
+        <module>spring-cloud-with-oauth2</module>
     </modules>
     <packaging>pom</packaging>
 
