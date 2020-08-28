@@ -43,11 +43,9 @@ public class CustomerFilter implements GatewayFilter, Ordered {
         return chain.filter(exchange).then(
                 Mono.fromRunnable(() -> {
                     HttpHeaders headers = exchange.getRequest().getHeaders();
-                    Iterator<Map.Entry<String, List<String>>> iterator = headers.entrySet().iterator();
-                    while (iterator.hasNext()){
-                        Map.Entry<String,List<String>> entry = iterator.next();
+                    for (Map.Entry<String, List<String>> entry : headers.entrySet()) {
                         log.info(entry.getKey());
-                        for(String s : entry.getValue()){
+                        for (String s : entry.getValue()) {
                             log.info(s);
                         }
                     }

@@ -32,7 +32,7 @@ import java.util.Calendar;
 public class FallbackController {
 
     @RequestMapping("/hystrixfallback")
-    public String hystrixfallback() {
+    public String hystrixFallback() {
         Calendar.getInstance().get(Calendar.MONTH);
         return "已超时，不用等了";
     }
