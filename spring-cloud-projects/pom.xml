@@ -15,6 +15,7 @@
         <module>spring-cloud-with-consul</module>
         <module>spring-cloud-with-oauth2</module>
         <module>spring-cloud-with-docker</module>
+        <module>spring-cloud-with-monitor</module>
     </modules>
     <packaging>pom</packaging>
 
