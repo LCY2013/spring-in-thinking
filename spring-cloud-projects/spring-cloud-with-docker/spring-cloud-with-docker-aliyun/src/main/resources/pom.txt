@@ -1,12 +1,12 @@
 <properties>
         <!--docker镜像仓库的路径-->
-        <docker.repository.url>reg.our51.com</docker.repository.url>
+        <docker.repository.url>reg.docker.com</docker.repository.url>
         <!---镜像仓库的命名空间即 项目名-->
         <docker.repository.namespace>goalgo</docker.repository.namespace>
         <!--对应maven setting.xml中的配置 请看本文标题五-->
         <docker.repository.serverId>docker-goalgo</docker.repository.serverId>
         <!--编译docker镜像的主机-->
-        <docker.host>http://192.168.30.108:2375</docker.host>
+        <docker.host>http://192.168.0.122:2375</docker.host>
 </properties>
 <dependencies>
     ...
@@ -61,3 +61,32 @@
         </plugin>
     </plugins>
 </build>
+
+maven setting 加上server相关信息:
+    <servers>
+        <server>
+            <!-- serverId 对应pom.xml中的docker配置的serverId -->
+            <id>serverId</id>
+            <!-- username 登陆docker仓储的用户名 -->
+            <username>username</username>
+            <!-- password 登陆docker仓储的密码 -->
+            <password>password</password>
+            <!-- 配置一个邮箱地址 -->
+            <configuration>
+                <email>magic@fufeng.com</email>
+            </configuration>
+        </server>
+    </servers>
+
+
+
+
+
+
+
+
+
+
+
+
+
