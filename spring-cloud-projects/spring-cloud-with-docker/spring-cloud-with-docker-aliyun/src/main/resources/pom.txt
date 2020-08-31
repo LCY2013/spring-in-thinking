@@ -1,0 +1,63 @@
+<properties>
+        <!--docker镜像仓库的路径-->
+        <docker.repository.url>reg.our51.com</docker.repository.url>
+        <!---镜像仓库的命名空间即 项目名-->
+        <docker.repository.namespace>goalgo</docker.repository.namespace>
+        <!--对应maven setting.xml中的配置 请看本文标题五-->
+        <docker.repository.serverId>docker-goalgo</docker.repository.serverId>
+        <!--编译docker镜像的主机-->
+        <docker.host>http://192.168.30.108:2375</docker.host>
+</properties>
+<dependencies>
+    ...
+</dependencies>
+<build>
+    <defaultGoal>compile</defaultGoal>
+    <plugins>
+        <plugin>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-maven-plugin</artifactId>
+        </plugin>
+        <plugin>
+            <groupId>org.apache.maven.plugins</groupId>
+            <artifactId>maven-surefire-plugin</artifactId>
+        </plugin>
+        <plugin>
+            <groupId>org.apache.maven.plugins</groupId>
+            <artifactId>maven-compiler-plugin</artifactId>
+            <version>3.3</version>
+            <configuration>
+                <source>1.8</source>
+                <target>1.8</target>
+            </configuration>
+        </plugin>
+        <plugin>
+            <groupId>org.codehaus.mojo</groupId>
+            <artifactId>cobertura-maven-plugin</artifactId>
+            <version>2.5.1</version>
+        </plugin>
+        <plugin>
+            <groupId>com.spotify</groupId>
+            <artifactId>docker-maven-plugin</artifactId>
+            <version>0.4.13</version>
+            <configuration>
+                <forceTags>true</forceTags>
+                <pushImage>true</pushImage>
+                <imageName>
+                    ${docker.repository.url}/${docker.repository.namespace}/${project.artifactId}:${version}
+                </imageName>
+                <serverId>${docker.repository.serverId}</serverId>
+                <registryUrl>${docker.repository.url}</registryUrl>
+                <dockerDirectory>src/main</dockerDirectory>
+                <dockerHost>${docker.host}</dockerHost>
+                <resources>
+                    <resource>
+                        <targetPath>/</targetPath>
+                        <directory>${project.build.directory}</directory>
+                        <include>${project.build.finalName}.jar</include>
+                    </resource>
+                </resources>
+            </configuration>
+        </plugin>
+    </plugins>
+</build>
