@@ -1,0 +1,20 @@
+spring:
+  cloud:
+    stream:
+      bindings:
+        log_output:
+          destination: wkx.log.messages
+          binder: local_rabbit
+          group: logConsumer-group1
+      binders:
+        local_rabbit:
+          type: rabbit
+          environment:
+            spring:
+              rabbitmq:
+                host: localhost
+                port: 5672
+                username: admin
+                password: admin
+server:
+  port: 8202

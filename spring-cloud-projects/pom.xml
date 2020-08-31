@@ -16,6 +16,7 @@
         <module>spring-cloud-with-oauth2</module>
         <module>spring-cloud-with-docker</module>
         <module>spring-cloud-with-monitor</module>
+        <module>spring-cloud-with-stream</module>
     </modules>
     <packaging>pom</packaging>
 
