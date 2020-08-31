@@ -5,7 +5,7 @@
  *
  * ProjectName: thinking-in-spring-boot
  * @Author : <a href="https://github.com/lcy2013">MagicLuo(扶风)</a>
- * @date : 2020-08-30
+ * @date : 2020-08-31
  * @version : 1.0.0-RELEASE
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy of this software and associated documentation files (the “Software”), to deal in the Software without restriction, including without limitation the rights to use, copy, modify, merge, publish, distribute, sublicense, and/or sell copies of the Software, and to permit persons to whom the Software is furnished to do so, subject to the following conditions:
@@ -17,37 +17,47 @@
  */
 package org.fufeng.context.lifucycle;
 
+import org.springframework.context.ApplicationEvent;
+import org.springframework.context.ApplicationListener;
 import org.springframework.context.annotation.AnnotationConfigApplicationContext;
-import org.springframework.context.support.LiveBeansView;
+import org.springframework.context.event.ContextClosedEvent;
+import org.springframework.context.support.GenericApplicationContext;
 
 import java.io.IOException;
 
-import static org.springframework.context.support.LiveBeansView.MBEAN_DOMAIN_PROPERTY_NAME;
-
 /**
  * @program: thinking-in-spring-boot
- * @description: {@link LiveBeansView} 示例
+ * @description: Shutdown Hook 应用
  * @author: <a href="https://github.com/lcy2013">MagicLuo(扶风)</a>
- * @create: 2020-08-30
- * @see LiveBeansView
- * @since spring3.2
+ * @create: 2020-08-31
  */
-public class LiveBeansViewInfo {
+public class SpringShutdownHookInfo {
 
     public static void main(String[] args) throws IOException {
-        System.setProperty(MBEAN_DOMAIN_PROPERTY_NAME,"spring-liveBeansView");
         // 创建上下文
-        AnnotationConfigApplicationContext context =
-                new AnnotationConfigApplicationContext(LiveBeansViewInfo.class);
+        GenericApplicationContext context =
+                new GenericApplicationContext();
 
+        context.addApplicationListener((ApplicationListener<ContextClosedEvent>) event -> {
+            System.out.printf("Thread-[%s] 处理 事件 %s\n",Thread.currentThread().getName(),event);
+        });
+
+        context.refresh();
+
+        // 注册一个ShutdownHook
+        context.registerShutdownHook();
+
+        // kill -3 PID
+        // kill -11 PID
+        // kill -5 PID
+        // kill -9 PID
+        // kill -number PID
+        // kill PID 会触发回调Shutdown Hook
         System.out.println("按任意键关闭应用...");
-        // 休眠通过jconsole查看jmx MBean信息
         System.in.read();
 
         // 关闭应用上下文
         context.close();
     }
-
-    //[ { "context": "org.springframework.context.annotation.AnnotationConfigApplicationContext@31dc339b", "parent": null, "beans": [ { "bean": "liveBeansViewInfo", "aliases": [], "scope": "singleton", "type": "org.fufeng.context.lifucycle.LiveBeansViewInfo", "resource": "null", "dependencies": [] }] }]
 
 }
