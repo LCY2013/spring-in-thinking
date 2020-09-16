@@ -1,0 +1,33 @@
+JPA
+jpa官方地址: https://github.com/eclipse-ee4j/jpa-api
+
+1、一套 API 标准定义了一套接口，在 javax.persistence 的包下面，用来操作实体对象，执行 CRUD 操作，
+  而实现的框架（Hibernate）替代我们完成所有的事情，让开发者从烦琐的 JDBC 和 SQL 代码中解脱出来，
+  更加聚焦自己的业务代码，并且使架构师架构出来的代码更加可控。
+
+2、定义了一套基于对象的 SQL：Java Persistence Query Language（JPQL），像 Hibernate 一样，
+  我们通过写面向对象（JPQL）而非面向数据库的查询语言（SQL）查询数据，避免了程序与数据库 SQL 语句耦合严重，
+  比较适合跨数据源的场景（一会儿 MySQL，一会儿 Oracle 等）。
+
+3、ORM（Object/Relational Metadata）对象注解映射关系，
+    JPA 直接通过注解的方式来表示 Java 的实体对象及元数据对象和数据表之间的映射关系，
+    框架将实体对象与 Session 进行关联，通过操作 Session 中不通实体的状态，
+    从而实现数据库的操作，并实现持久化到数据库表中的操作，与 DB 实现同步。
+
+Spring Data
+1、Spring Data 项目是从 2010 年开发发展起来的，Spring Data 利用一个大家熟悉的、一致的、
+    基于“注解”的数据访问编程模型，做一些公共操作的封装，它可以轻松地让开发者使用数据库访问技术，
+    包括关系数据库、非关系数据库（NoSQL）。同时又有不同的数据框架的实现，
+    保留了每个底层数据存储结构的特殊特性。
+
+2、Spring Data Common 是 Spring Data 所有模块的公共部分，该项目提供了基于 Spring 的共享基础设施，
+    它提供了基于 repository 接口以 DB 操作的一些封装，以及一个坚持在 Java 实体类上标注元数据的模型。
+
+3、Spring Data 不仅对传统的数据库访问技术如 JDBC、Hibernate、JDO、TopLick、JPA、MyBatis
+    做了很好的支持和扩展、抽象、提供方便的操作方法，还对 MongoDb、KeyValue、Redis、LDAP、Cassandra
+    等非关系数据的 NoSQL 做了不同的实现版本，方便我们开发者触类旁通。
+
+
+
+
+
