@@ -15,17 +15,80 @@ jpa官方地址: https://github.com/eclipse-ee4j/jpa-api
     从而实现数据库的操作，并实现持久化到数据库表中的操作，与 DB 实现同步。
 
 Spring Data
-1、Spring Data 项目是从 2010 年开发发展起来的，Spring Data 利用一个大家熟悉的、一致的、
-    基于“注解”的数据访问编程模型，做一些公共操作的封装，它可以轻松地让开发者使用数据库访问技术，
-    包括关系数据库、非关系数据库（NoSQL）。同时又有不同的数据框架的实现，
-    保留了每个底层数据存储结构的特殊特性。
+    1、Spring Data 项目是从 2010 年开发发展起来的，Spring Data 利用一个大家熟悉的、一致的、
+        基于“注解”的数据访问编程模型，做一些公共操作的封装，它可以轻松地让开发者使用数据库访问技术，
+        包括关系数据库、非关系数据库（NoSQL）。同时又有不同的数据框架的实现，
+        保留了每个底层数据存储结构的特殊特性。
 
-2、Spring Data Common 是 Spring Data 所有模块的公共部分，该项目提供了基于 Spring 的共享基础设施，
-    它提供了基于 repository 接口以 DB 操作的一些封装，以及一个坚持在 Java 实体类上标注元数据的模型。
+    2、Spring Data Common 是 Spring Data 所有模块的公共部分，该项目提供了基于 Spring 的共享基础设施，
+        它提供了基于 repository 接口以 DB 操作的一些封装，以及一个坚持在 Java 实体类上标注元数据的模型。
 
-3、Spring Data 不仅对传统的数据库访问技术如 JDBC、Hibernate、JDO、TopLick、JPA、MyBatis
-    做了很好的支持和扩展、抽象、提供方便的操作方法，还对 MongoDb、KeyValue、Redis、LDAP、Cassandra
-    等非关系数据的 NoSQL 做了不同的实现版本，方便我们开发者触类旁通。
+    3、Spring Data 不仅对传统的数据库访问技术如 JDBC、Hibernate、JDO、TopLick、JPA、MyBatis
+        做了很好的支持和扩展、抽象、提供方便的操作方法，还对 MongoDb、KeyValue、Redis、LDAP、Cassandra
+        等非关系数据的 NoSQL 做了不同的实现版本，方便我们开发者触类旁通。
+
+Spring Data Common
+    定义了很多公用的接口和一些相对数据操作的公共实现（如分页排序、结果映射、Autiting 信息、事务等），
+    而 Spring Data JPA 就是 Spring Data Common 的关系数据库的查询实现。
+
+    数据库连接用的是 JDBC，连接池用的是 HikariCP，强依赖 Hibernate；
+    Spring Boot Starter Data JPA 依赖 Spring Data JPA；
+    而 Spring Data JPA 依赖 Spring Data Commons。
+
+    Repository
+        Repository 是 Spring Data Common 里面的顶级父类接口，操作 DB 的入口类。
+        首先介绍 Repository 接口的源码、类层次关系和使用实例。
+            package org.springframework.data.repository;
+            import org.springframework.stereotype.Indexed;
+            @Indexed
+            public interface Repository<T, ID> {
+            }
+        Repository 是 Spring Data 里面进行数据库操作顶级的抽象接口，里面什么方法都没有，
+        但是如果任何接口继承它，就能得到一个 Repository，还可以实现 JPA 的一些默认实现方法。
+        Spring 利用 Respository 作为 DAO 操作的 Type，以及利用 Java 动态代理机制就可以实现很多功能，
+        比如为什么接口就能实现 DB 的相关操作？这就是 Spring 框架的高明之处。
+
+        Spring 在做动态代理的时候，只要是它的子类或者实现类，再利用 T 类以及 T 类的 主键 ID 类型作为泛型的类型参数，
+        就可以来标记出来、并捕获到要使用的实体类型，就能帮助使用者进行数据库操作。
+
+        Repository 类层次关系
+        下面我们来根据这个基类 Repository 接口，顺藤摸瓜看看 Spring Data JPA 里面都有什么。
+        打开类 Repository.class，fn + control + H :
+            1、ReactiveCrudRepository： 这条线是响应式编程，主要支持当前 NoSQL 方面的操作，因为这方面大部分操作都是分布式的，
+                        所以由此我们可以看出 Spring Data 想统一数据操作的“野心”，即想提供关于所有 Data 方面的操作。
+                        目前 Reactive 主要有 Cassandra、MongoDB、Redis 的实现。
+
+            2、RxJava2CrudRepository： 这条线是为了支持 RxJava 2 做的标准响应式编程的接口。
+
+            3、CoroutineCrudRepository： 这条继承关系链是为了支持 Kotlin 语法而实现的。
+
+            4、CrudRepository： 这条继承关系是 JPA Crud 相关的操作接口。
+
+        7 个大 Repository 接口：
+            Repository(org.springframework.data.repository)，没有暴露任何方法；
+
+            CrudRepository(org.springframework.data.repository)，简单的 Curd 方法；
+
+            PagingAndSortingRepository(org.springframework.data.repository)，带分页和排序的方法；
+
+            QueryByExampleExecutor(org.springframework.data.repository.query)，简单 Example 查询；
+
+            JpaRepository(org.springframework.data.jpa.repository)，JPA 的扩展方法；
+
+            JpaSpecificationExecutor(org.springframework.data.jpa.repository)，JpaSpecification 扩展查询；
+
+            QueryDslPredicateExecutor(org.springframework.data.querydsl)，QueryDsl 的封装。
+
+        两大 Repository 实现类：
+            SimpleJpaRepository(org.springframework.data.jpa.repository.support)，JPA 所有接口的默认实现类；
+                关系数据库的所有 Repository 接口的实现类就是 SimpleJpaRepository，如果有些业务场景需要进行扩展了，可以继续继承此类，如 QueryDsl 的扩展（虽然不推荐使用了，但可以参考它的做法，自定义自己的 SimpleJpaRepository）
+                看出 SimpleJpaRepository 的实现机制，是通过 EntityManger 进行实体的操作，而 JpaEntityInforMation 里面存在实体的相关信息和 Crud 方法的元数据等。
+                利用 Java 动态代理机制帮我们生成的实现类，那么关于动态代理的实现，我们可以在 RepositoryFactorySupport 设置一个断点，启动的时候，在断点处就会发现 UserRepository 的接口会被动态代理成 SimpleJapRepository 的实现。
+                代码位置: org.springframework.data.repository.core.support.RepositoryFactorySupport.getRepository
+                需要注意的是每一个 Repository 的子类，都会通过这里的动态代理生成实现类。
+
+            QueryDslJpaRepository(org.springframework.data.jpa.repository.support)，QueryDsl 的实现类。
+
 
 
 

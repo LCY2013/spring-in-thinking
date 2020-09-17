@@ -20,6 +20,8 @@ package org.fufeng.data.springjpaoprator.repository;
 import org.fufeng.data.springjpaoprator.domain.User;
 import org.springframework.data.jpa.repository.JpaRepository;
 
+import java.util.List;
+
 /**
  * @program: thinking-in-spring-boot
  * @description: 领域对象 仓储
@@ -27,5 +29,23 @@ import org.springframework.data.jpa.repository.JpaRepository;
  * @create: 2020-09-16
  */
 public interface UserRepository extends JpaRepository<User,Long> {
+//public interface UserRepository extends Repository<User,Long> {
+//public interface UserRepository extends CrudRepository<User,Long> {
+//public interface UserRepository extends PagingAndSortingRepository<User,Long> {
+
+    /**
+     *  通过用户名称查询用户集合
+     * @param name 用户名称
+     * @return 用户集合
+     */
+    List<User> findByName(String name);
+
+    /**
+     *
+     * @param name 名称
+     * @param email 邮箱
+     * @return 用户集合
+     */
+    List<User> findByNameAndEmail(String name,String email);
 
 }

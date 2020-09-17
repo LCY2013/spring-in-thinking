@@ -21,7 +21,9 @@ import org.fufeng.data.springjpaoprator.domain.User;
 import org.fufeng.data.springjpaoprator.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.*;
 
@@ -60,4 +62,25 @@ public class UserController {
     public Page<User> findAllUser(Pageable request){
         return this.userRepository.findAll(request);
     }
+
+    /**
+     * 验证排序和分页查询方法，Pageable的默认实现类：PageRequest
+     * @return 分页的用户信息
+     */
+    @GetMapping(path = "/page")
+    @ResponseBody
+    public Page<User> getAllUserByPage() {
+        return userRepository.findAll(
+                PageRequest.of(1, 20, Sort.by(new Sort.Order(Sort.Direction.ASC,"name"))));
+    }
+    /**
+     * 排序查询方法，使用Sort对象
+     * @return 分页的用户信息
+     */
+    @GetMapping(path = "/sort")
+    @ResponseBody
+    public Iterable<User> getAllUsersWithSort() {
+        return userRepository.findAll(Sort.by(new Sort.Order(Sort.Direction.ASC,"name")));
+    }
+
 }
