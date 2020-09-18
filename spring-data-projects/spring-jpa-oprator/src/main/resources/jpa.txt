@@ -53,7 +53,7 @@ Spring Data Common
 
         Repository 类层次关系
         下面我们来根据这个基类 Repository 接口，顺藤摸瓜看看 Spring Data JPA 里面都有什么。
-        打开类 Repository.class，fn + control + H :
+        打开类 Repository，fn + control + H :
             1、ReactiveCrudRepository： 这条线是响应式编程，主要支持当前 NoSQL 方面的操作，因为这方面大部分操作都是分布式的，
                         所以由此我们可以看出 Spring Data 想统一数据操作的“野心”，即想提供关于所有 Data 方面的操作。
                         目前 Reactive 主要有 Cassandra、MongoDB、Redis 的实现。
@@ -86,6 +86,7 @@ Spring Data Common
                 利用 Java 动态代理机制帮我们生成的实现类，那么关于动态代理的实现，我们可以在 RepositoryFactorySupport 设置一个断点，启动的时候，在断点处就会发现 UserRepository 的接口会被动态代理成 SimpleJapRepository 的实现。
                 代码位置: org.springframework.data.repository.core.support.RepositoryFactorySupport.getRepository
                 需要注意的是每一个 Repository 的子类，都会通过这里的动态代理生成实现类。
+                动态代理的实现类是SimpleJpaRepository，代理类集成了自定义的接口Repository、Repository、以及TransactionalProxy接口。
 
             QueryDslJpaRepository(org.springframework.data.jpa.repository.support)，QueryDsl 的实现类。
 
