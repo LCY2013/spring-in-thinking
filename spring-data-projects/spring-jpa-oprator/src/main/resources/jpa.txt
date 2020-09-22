@@ -90,6 +90,397 @@ Spring Data Common
 
             QueryDslJpaRepository(org.springframework.data.jpa.repository.support)，QueryDsl 的实现类。
 
+Spring Data JPA 的最大特色 - 方法名定义查询方法（Defining Query Methods）DQM来做 CRUD 操作
+
+    DQM的两种语法:
+        1、直接通过方法名就可以实现
+
+        2、@Query 手动在方法上定义
+
+    定义查询方法的配置和使用方法
+        1、User 实体的 UserRepository 继承 Spring Data Common 里面的 Repository 接口或者它的子接口
+            interface UserRepository extends CrudRepository<User, Long> {
+                 User findByEmailAddress(String emailAddress);
+            }
+
+        2、对于 Service 层就可以直接使用 UserRepository 接口
+            @Service
+            public class UserServiceImpl{
+                @Autowired
+                UserRepository userRepository;
+                public void testJpa() {
+                    userRepository.deleteAll();
+                    userRepository.findAll();
+                    userRepository.findByEmailAddress("fufeng@magic.com");
+                }
+            }
+
+        如果需要限制一些Repository的功能，那么可以定义一个基类Repository，定义需要暴露的方法名称
+            @NoRepositoryBean
+            interface BaseRepository<T, ID extends Serializable> extends Repository<T, ID> {
+                T findOne(ID id);
+                T save(T entity);
+            }
+            interface UserRepository extends BaseRepository<User, Long> {
+                 User findByEmailAddress(String emailAddress);
+            }
+
+        结论:
+            1、CustomerRepository Extends Repository 接口可以实现 Defining Query Methods 的功能
+
+            2、继承其他 Repository 的子接口，或者自定义子接口，可以选择性地暴露 SimpleJpaRepository 里面已经实现的基础公用方法
+
+    方法的查询策略设置 - 选择具体的DQM语法
+        目前在实际生产中还没有遇到要修改默认策略的情况，但我们必须要知道有这样的配置方法，做到心中有数，这样我们才能知道为什么方法名可以，@Query 也可以。
+
+        通过 @EnableJpaRepositories 注解来配置方法的查询策略:
+            @EnableJpaRepositories(queryLookupStrategy= QueryLookupStrategy.Key.CREATE_IF_NOT_FOUND)
+
+            QueryLookupStrategy.Key 的值共 3 个，具体如下：
+                Create：直接根据方法名进行创建，规则是根据方法名称的构造进行尝试，一般的方法是从方法名中删除给定的一组已知前缀，并解析该方法的其余部分。
+                    如果方法名不符合规则，启动的时候会报异常，这种情况可以理解为，即使配置了 @Query 也是没有用的。
+
+                USE_DECLARED_QUERY：声明方式创建，启动的时候会尝试找到一个声明的查询，如果没有找到将抛出一个异常，可以理解为必须配置 @Query。
+
+                CREATE_IF_NOT_FOUND：这个是默认的，除非有特殊需求，可以理解为这是以上 2 种方式的兼容版。
+                    先用声明方式（@Query）进行查找，如果没有找到与方法相匹配的查询，那用 Create 的方法名创建规则创建一个查询；
+                    这两者都不满足的情况下，启动就会报错。
+
+            springboot 项目配置如下:
+                @EnableJpaRepositories(queryLookupStrategy= QueryLookupStrategy.Key.CREATE_IF_NOT_FOUND)
+                public class Example1Application {
+                   public static void main(String[] args) {
+                      SpringApplication.run(Example1Application.class, args);
+                   }
+                }
+
+    Defining Query Method（DQM）语法
+        该语法是：带查询功能的方法名由查询策略（关键字）+ 查询字段 + 一些限制性条件组成，具有语义清晰、功能完整的特性，我们实际工作中 80% 的 API 查询都可以简单实现。
+
+        举例如下:
+            interface PersonRepository extends Repository<User, Long> {
+               // and 的查询关系
+               List<User> findByEmailAddressAndLastname(EmailAddress emailAddress, String lastname);
+               // 包含 distinct 去重，or 的 sql 语法
+               List<User> findDistinctPeopleByLastnameOrFirstname(String lastname, String firstname);
+               // 根据 lastname 字段查询忽略大小写
+               List<User> findByLastnameIgnoreCase(String lastname);
+               // 根据 lastname 和 firstname 查询 equal 并且忽略大小写
+               List<User> findByLastnameAndFirstnameAllIgnoreCase(String lastname, String firstname);
+               // 对查询结果根据 lastname 排序，正序
+               List<User> findByLastnameOrderByFirstnameAsc(String lastname);
+               // 对查询结果根据 lastname 排序，倒序
+               List<User> findByLastnameOrderByFirstnameDesc(String lastname);
+            }
+
+        总结:
+            1、方法名的表达式通常是实体属性连接运算符的组合，如 And、or、Between、LessThan、GreaterThan、Like 等属性连接运算表达式，
+                不同的数据库（NoSQL、MySQL）可能产生的效果不一样，如果遇到问题，我们可以打开 SQL 日志观察。
+
+            2、IgnoreCase 可以针对单个属性（如 findByLastnameIgnoreCase(…)），也可以针对查询条件里面所有的实体属性忽略大小写
+                （所有属性必须在 String 情况下，如 findByLastnameAndFirstnameAllIgnoreCase(…)）。
+
+            3、OrderBy 可以在某些属性的排序上提供方向（Asc 或 Desc），称为静态排序，
+                也可以通过一个方便的参数 Sort 实现指定字段的动态排序的查询方法（如 repository.findAll(Sort.by(Sort.Direction.ASC, "myField"))）。
+
+        除此之外，JPA 还支持read、get、query、stream、count、exists、delete、remove等前缀，如字面意思一样。
+        举例如下:
+            interface UserRepository extends CrudRepository<User, Long> {
+                 long countByLastname(String lastname);//查询总数
+                 long deleteByLastname(String lastname);//根据一个字段进行删除操作，并返回删除行数
+                 List<User> removeByLastname(String lastname);//根据Lastname删除一堆User,并返回删除的User
+            }
+
+    ----> 处理源码类，具体通过正则表达式解析匹配关键字
+            org.springframework.data.repository.query.parser.PartTree 查看相关源码的逻辑和处理方法
+            org.springframework.data.repository.query.parser.PartTree.Subject
+
+            org.springframework.data.repository.query.parser.Part.Type 定义关键字
+
+    特定类型的参数：Sort 排序和 Pageable 分页
+        Spring Data JPA 为了方便我们排序和分页，支持了两个特殊类型的参数：Sort 和 Pageable。
+
+        举例如下:
+            方法一: Page<User> findByLastname(String lastname, Pageable pageable);//根据分页参数查询User，返回一个带分页结果的Page
+            方法二: Slice<User> findByLastname(String lastname, Pageable pageable);//我们根据分页参数返回一个Slice的user结果
+            方法三: List<User> findByLastname(String lastname, Sort sort);//根据排序结果返回一个List
+            方法四: List<User> findByLastname(String lastname, Pageable pageable);//根据分页参数返回一个List对象
+
+            方法一：允许将 org.springframework.data.domain.Pageable 实例传递给查询方法，将分页参数添加到静态定义的查询中，通过 Page 返回的结果得知可用的元素和页面的总数。
+                这种分页查询方法可能是昂贵的（会默认执行一条 count 的 SQL 语句），所以用的时候要考虑一下使用场景。
+
+            方法二：返回结果是 Slice，因为只知道是否有下一个 Slice 可用，而不知道 count，
+                所以当查询较大的结果集时，只知道数据是足够的，也就是说用在业务场景中时不用关心一共有多少页。
+
+            方法三：如果只需要排序，需在 org.springframework.data.domain.Sort 参数中添加一个参数，正如上面看到的，只需返回一个 List 也是有可能的。
+
+            方法四：排序选项也通过 Pageable 实例处理，在这种情况下，Page 将不会创建构建实际实例所需的附加元数据（即不需要计算和查询分页相关数据），
+                而仅仅用来做限制查询给定范围的实体。
+
+        Pageable 实现子类 - org.springframework.data.domain.PageRequest
+            举例如下:
+                //查询user里面的lastname=jk的第一页，每页大小是20条；并会返回一共有多少页的信息
+                Page<User> users = userRepository.findByLastname("jk",PageRequest.of(1, 20));
+                //查询user里面的lastname=jk的第一页的20条数据，不知道一共多少条
+                Slice<User> users = userRepository.findByLastname("jk",PageRequest.of(1, 20));
+                //查询出来所有的user里面的lastname=jk的User数据，并按照name正序返回List
+                List<User> users = userRepository.findByLastname("jk",new Sort(Sort.Direction.ASC, "name"))
+                //按照createdAt倒序，查询前一百条User数据
+                List<User> users = userRepository.findByLastname("jk",PageRequest.of(0, 100, Sort.Direction.DESC, "createdAt"));
+
+    限制查询结果 First 和 Top
+        想直接查询前几条数据，也不需要动态排序，那么就可以简单地在方法名字中使用 First 和 Top 关键字，来限制返回条数。
+
+            举例如下:
+                User findFirstByOrderByLastnameAsc();
+                User findTopByOrderByAgeDesc();
+                List<User> findDistinctUserTop3ByLastname(String lastname, Pageable pageable);
+                List<User> findFirst10ByLastname(String lastname, Sort sort);
+                List<User> findTop10ByLastname(String lastname, Pageable pageable);
+
+        注意事项:
+            查询方法在使用 First 或 Top 时，数值可以追加到 First 或 Top 后面，指定返回最大结果的大小。
+
+            如果数字被省略，则假设结果大小为 1。
+
+            限制表达式也支持 Distinct 关键字。
+
+            支持将结果包装到 Optional 中。
+
+            如果将 Pageable 作为参数，以 Top 和 First 后面的数字为准，即分页将在限制结果中应用。
+
+    NULL 的情况作了哪些支持
+        @NonNull、@NonNullApi、@Nullable
+
+        从 Spring Data 2.0 开始，JPA 新增了@NonNull @NonNullApi @Nullable，是对 null 的参数和返回结果做的支持:
+            @NonNullApi：在包级别用于声明参数，以及返回值的默认行为是不接受或产生空值的。
+
+            @NonNull：用于不能为空的参数或返回值（在 @NonNullApi 适用的参数和返回值上不需要）。
+
+            @Nullable：用于可以为空的参数或返回值。
+
+            使用案例如下:
+                在自己的 Repository 所在 package 的 package-info.java 类里面做如下声明：
+                @org.springframework.lang.NonNullApi
+                package com.my.repository;
+
+                com.my.repository 下面的 UserRepository 实现如下：
+                package com.my.repository;
+                interface UserRepository extends Repository<User, Long> {
+                  User getByEmailAddress(EmailAddress emailAddress);
+                }
+                当 emailAddress 参数为 null 的时候就会抛异常，当返回结果为 null 的时候也会抛异常。因为我们在package 的 package-info.java里面指定了NonNullApi，所有返回结果和参数不能为 Null。
+
+                //当我们添加@Nullable 注解之后，参数和返回结果这个时候就都会允许为 null 了；
+                @Nullable
+                User findByEmailAddress(@Nullable EmailAddress emailAddress);
+                //返回结果允许为 null,参数不允许为 null 的情况
+                Optional<User> findOptionalByEmailAddress(EmailAddress emailAddress);
+
+    DQM 应用到其他地方
+
+        在实际工作中，也可以将方法名（非常语义化的 repository 里面所定义方法命名规范）的强制约定规范运用到 controller 和 service 层，这样全部统一后，可以减少很多的沟通成本。
+
+        定一个BaseService接口
+            public interface BaseService<T, ID> {
+                Class<T> getDomainClass();
+                <S extends T> S save(S entity);
+                <S extends T> List<S> saveAll(Iterable<S> entities);
+                void delete(T entity);
+                void deleteById(ID id);
+                void deleteAll();
+                void deleteAll(Iterable<? extends T> entities);
+                void deleteInBatch(Iterable<T> entities);
+                void deleteAllInBatch();
+                T getOne(ID id);
+                <S extends T> Optional<S> findOne(Example<S> example);
+                Optional<T> findById(ID id);
+                List<T> findAll();
+                List<T> findAll(Sort sort);
+                Page<T> findAll(Pageable pageable);
+                <S extends T> List<S> findAll(Example<S> example);
+                <S extends T> List<S> findAll(Example<S> example, Sort sort);
+                <S extends T> Page<S> findAll(Example<S> example, Pageable pageable);
+                List<T> findAllById(Iterable<ID> ids);
+                long count();
+                <S extends T> long count(Example<S> example);
+                <S extends T> boolean exists(Example<S> example);
+                boolean existsById(ID id);
+                void flush();
+                <S extends T> S saveAndFlush(S entity);
+            }
+
+            public class BaseServiceImpl<T, ID, R extends JpaRepository<T, ID>> implements BaseService<T, ID> {
+                private static final Map<Class, Class> DOMAIN_CLASS_CACHE = new ConcurrentHashMap<>();
+                private final R repository;
+                public BaseServiceImpl(R repository) {
+                    this.repository = repository;
+                }
+                @Override
+                public Class<T> getDomainClass() {
+                    Class thisClass = getClass();
+                    Class<T> domainClass = DOMAIN_CLASS_CACHE.get(thisClass);
+                    if (Objects.isNull(domainClass)) {
+                        domainClass = GenericsUtils.getGenericClass(thisClass, 0);
+                        DOMAIN_CLASS_CACHE.putIfAbsent(thisClass, domainClass);
+                    }
+                    return domainClass;
+                }
+                protected R getRepository() {
+                    return repository;
+                }
+                @Override
+                public <S extends T> S save(S entity) {
+                    return repository.save(entity);
+                }
+                @Override
+                public <S extends T> List<S> saveAll(Iterable<S> entities) {
+                    return repository.saveAll(entities);
+                }
+                @Override
+                public void delete(T entity) {
+                    repository.delete(entity);
+                }
+                @Override
+                public void deleteById(ID id) {
+                    repository.deleteById(id);
+                }
+                @Override
+                public void deleteAll() {
+                    repository.deleteAll();
+                }
+                @Override
+                public void deleteAll(Iterable<? extends T> entities) {
+                    repository.deleteAll(entities);
+                }
+                @Override
+                public void deleteInBatch(Iterable<T> entities) {
+                    repository.deleteInBatch(entities);
+                }
+                @Override
+                public void deleteAllInBatch() {
+                    repository.deleteAllInBatch();
+                }
+                @Override
+                public T getOne(ID id) {
+                    return repository.getOne(id);
+                }
+                @Override
+                public <S extends T> Optional<S> findOne(Example<S> example) {
+                    return repository.findOne(example);
+                }
+                @Override
+                public Optional<T> findById(ID id) {
+                    return repository.findById(id);
+                }
+                @Override
+                public List<T> findAll() {
+                    return repository.findAll();
+                }
+                @Override
+                public List<T> findAll(Sort sort) {
+                    return repository.findAll(sort);
+                }
+                @Override
+                public Page<T> findAll(Pageable pageable) {
+                    return repository.findAll(pageable);
+                }
+                @Override
+                public <S extends T> List<S> findAll(Example<S> example) {
+                    return repository.findAll(example);
+                }
+                @Override
+                public <S extends T> List<S> findAll(Example<S> example, Sort sort) {
+                    return repository.findAll(example, sort);
+                }
+                @Override
+                public <S extends T> Page<S> findAll(Example<S> example, Pageable pageable) {
+                    return repository.findAll(example, pageable);
+                }
+                @Override
+                public List<T> findAllById(Iterable<ID> ids) {
+                    return repository.findAllById(ids);
+                }
+                @Override
+                public long count() {
+                    return repository.count();
+                }
+                @Override
+                public <S extends T> long count(Example<S> example) {
+                    return repository.count(example);
+                }
+                @Override
+                public <S extends T> boolean exists(Example<S> example) {
+                    return repository.exists(example);
+                }
+                @Override
+                public boolean existsById(ID id) {
+                    return repository.existsById(id);
+                }
+                @Override
+                public void flush() {
+                    repository.flush();
+                }
+                @Override
+                public <S extends T> S saveAndFlush(S entity) {
+                    return repository.saveAndFlush(entity);
+                }
+            }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
