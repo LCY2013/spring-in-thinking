@@ -18,9 +18,18 @@
 package org.fufeng.data.springjpaoprator.repository;
 
 import org.fufeng.data.springjpaoprator.domain.User;
+import org.fufeng.data.springjpaoprator.dto.UserPojo;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Slice;
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.Query;
+import org.springframework.scheduling.annotation.Async;
+import org.springframework.util.concurrent.ListenableFuture;
 
 import java.util.List;
+import java.util.concurrent.CompletableFuture;
+import java.util.concurrent.Future;
+import java.util.stream.Stream;
 
 /**
  * @program: thinking-in-spring-boot
@@ -47,5 +56,53 @@ public interface UserRepository extends JpaRepository<User,Long> {
      * @return 用户集合
      */
     List<User> findByNameAndEmail(String name,String email);
+
+    /**
+     *  自定义查询返回Stream信息
+     * @param pageable 分页信息
+     * @return Stream
+     */
+    @Query("select u from User u")
+    Stream<User> findAllByCustomQueryAndStream(Pageable pageable);
+
+    /**
+     *  自定义查询返回Slice信息
+     * @param pageable 分页信息
+     * @return Slice
+     */
+    @Query("select u from User u")
+    Slice<User> findAllByCustomQueryAndSlice(Pageable pageable);
+
+    /**
+     *  异步获取User 相关数据
+     * @param name 用户名称
+     * @return Future
+     */
+    @Async
+    Future<User> getByName(String name);
+
+    /**
+     *  异步获取User 相关数据
+     * @param name 用户名称
+     * @return CompletableFuture
+     */
+    @Async
+    CompletableFuture<User> getOneByName(String name);
+
+    /**
+     *  异步获取User 相关数据
+     * @param email 邮箱地址
+     * @return ListenableFuture
+     */
+    @Async
+    ListenableFuture<User> getByEmail(String email);
+
+    /**
+     *  User 对象的pojo
+     *
+     * @param email 邮箱
+     * @return User 对象的接口pojo
+     */
+    UserPojo getOneByEmail(String email);
 
 }

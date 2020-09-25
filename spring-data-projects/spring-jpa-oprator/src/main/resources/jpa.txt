@@ -427,14 +427,83 @@ Spring Data JPA 的最大特色 - 方法名定义查询方法（Defining Query M
                 }
             }
 
+    Repository 的返回结果有哪些？
+        实现的方法，以及父类接口的方法和返回类型包括：Optional、Iterable、List、Page、Long、Boolean、Entity 对象等。
 
+        Spring Data 里面定义了一个特殊的子类 Steamable，Streamable 可以替代 Iterable 或任何集合类型。
+        它还提供了方便的方法来访问 Stream，可以直接在元素上进行 ….filter(…) 和 ….map(…) 操作，并将 Streamable 连接到其他元素。
 
+        自定义 Streamable 流程如下:
+            class Product { (1)
+              MonetaryAmount getPrice() { … }
+            }
+            @RequiredArgConstructor(staticName = "of")
+            class Products implements Streamable<Product> { (2)
+              private Streamable<Product> streamable;
+              public MonetaryAmount getTotal() { (3)
+                return streamable.stream() //
+                  .map(Priced::getPrice)
+                  .reduce(Money.of(0), MonetaryAmount::add);
+              }
+            }
+            interface ProductRepository implements Repository<Product, Long> {
+              Products findAllByDescriptionContaining(String text); (4)
+            }
+            （1）Product 实体，公开 API 以访问产品价格。
 
+            （2）Streamable<Product> 的包装类型可以通过 Products.of(…) 构造（通过 Lombok 注解创建的工厂方法）。
 
+            （3）包装器类型在 Streamable<Product> 上公开了计算新值的其他 API。
 
+            （4）可以将包装器类型直接用作查询方法返回类型。无须返回 Stremable<Product> 并将其手动包装在存储库 Client 端中。
 
+           源码位置:
+                // 判断方法返回值是否是一个Streamable类型
+                org.springframework.data.repository.core.support.QueryExecutionResultHandler.requiresConversion
 
+    Repository 对 Feature/CompletableFuture 异步返回结果的支持?
+        @Async
+        Future<User> getByName(String name);
+        注意事项:
+            在实际工作中，直接在 Repository 这一层使用异步方法的场景不多，一般都是把异步注解放在 Service 的方法上面，这样的话，可以有一些额外逻辑，如发短信、发邮件、发消息等配合使用；
+            使用异步的时候一定要配置线程池；
+            万一失败我们会怎么处理？关于事务是怎么处理的呢？
 
+    对 Reactive 支持 flux 与 Mono?
+        JPA里面没有做相关的Reactive 的实现，但是本身Spring Data Common里面对 Reactive 是支持的，
+        提供了相关接口，但是具体实现是在Spring-data-common的子模块中有实现。
+
+    返回结果支持总结？
+        ResultProcessor 类的源码
+            org.springframework.data.repository.query.ResultProcessor.processResult(java.lang.Object, org.springframework.core.convert.converter.Converter<java.lang.Object,java.lang.Object>)
+
+    org.springframework.data.mapping.model.PreferredConstructorDiscoverer.Discoverers.discover
+
+    JPA 获取返回集的三种方式:
+        1、通过定义一个只需要某些字段的实体对象，比如User
+            Class UserName {
+                private String name;
+            }
+           然后在对这个实体做一个Repository
+           interface UserNameRepository extends Repository{
+
+           }
+        2、通过定义一个dto的方式直接返回
+            class UserNameDto {
+                private String name;
+            }
+            interface UserRepository extends JpaRepository{
+                UserNameDto findOneByName(String name);
+            }
+        3、通过定义一个返回pojo的接口（推荐）
+            interface UserNamePojo{
+                String getName();
+            }
+            interface UserRepository extends JpaRepository{
+                UserNamePojo findOneByName(String name);
+            }
+            源码实现位置:
+               org.hibernate.query.criteria.internal.QueryStructure.render
 
 
 

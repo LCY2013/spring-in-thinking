@@ -17,13 +17,22 @@
  */
 package org.fufeng.data.springjpaoprator.repository;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import org.fufeng.data.springjpaoprator.domain.User;
+import org.fufeng.data.springjpaoprator.dto.UserPojo;
 import org.junit.Assert;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Slice;
+import org.springframework.data.domain.Sort;
+import org.springframework.data.util.Streamable;
 
 import java.util.List;
+import java.util.stream.Stream;
 
 /**
  * @program: thinking-in-spring-boot
@@ -38,7 +47,7 @@ public class UserRepositoryTest {
     UserRepository userRepository;
 
     @Test
-    public void testSaveUser(){
+    public void testSaveUser() {
         final User user = this.userRepository
                 .save(User.builder().name("fufeng").email("fufeng@magic.com").build());
         Assert.assertNotNull(user);
@@ -46,6 +55,65 @@ public class UserRepositoryTest {
         final List<User> users = this.userRepository.findAll();
         Assert.assertNotNull(users);
         System.out.println(users);
+    }
+
+    @Test
+    public void testStreamable() {
+        final User user = this.userRepository
+                .save(User.builder().name("fufeng").email("fufeng@magic.com").build());
+        Assert.assertNotNull(user);
+        System.out.println(user);
+        final Streamable<User> users = this.userRepository.findAll(
+                PageRequest.of(0, 10, Sort.by("name")))
+                .and(User.builder().name("fufeng").build());
+        users.map(userMap -> {
+            userMap.setName(userMap.getName() + " - Streamable");
+            return userMap;
+        }).forEach(System.out::println);
+    }
+
+    @Test
+    public void testQuery() throws JsonProcessingException {
+
+        // 插入测试数据
+        this.userRepository.save(User.builder().name("fufeng1").email("fufeng@magic.com").build());
+        this.userRepository.save(User.builder().name("fufeng2").email("fufeng@magic.com").build());
+        this.userRepository.save(User.builder().name("fufeng3").email("fufeng@magic.com").build());
+        this.userRepository.save(User.builder().name("fufeng4").email("fufeng@magic.com").build());
+        this.userRepository.save(User.builder().name("fufeng5").email("fufeng@magic.com").build());
+        this.userRepository.save(User.builder().name("fufeng6").email("fufeng@magic.com").build());
+
+        // json to String
+        ObjectMapper objectMapper = new ObjectMapper();
+
+        final Slice<User> allByCustomQueryAndSlice =
+                this.userRepository.findAllByCustomQueryAndSlice(PageRequest.of(0, 10));
+        allByCustomQueryAndSlice.map(user -> {
+            user.setName("slice - "+user.getName());
+            return user;
+        }).forEach(System.out::println);
+
+        System.out.println("-----------------------");
+
+        final Stream<User> allByCustomQueryAndStream =
+                this.userRepository.findAllByCustomQueryAndStream(PageRequest.of(0, 10));
+        allByCustomQueryAndStream.map(user -> {
+            user.setName("stream - "+user.getName());
+            return user;
+        }).forEach(System.out::println);
+
+        System.out.println("-----------------------");
+
+        final Page<User> users = this.userRepository.findAll(PageRequest.of(0, 3));
+        System.out.println(objectMapper.writeValueAsString(users));
+
+    }
+
+    @Test
+    public void testUserPojo(){
+        this.userRepository.save(User.builder().name("fufeng").email("fufeng@magic.com").build());
+        final UserPojo userPojo = this.userRepository.getOneByEmail("fufeng@magic.com");
+        System.out.println(userPojo.getName());
     }
 
 }
