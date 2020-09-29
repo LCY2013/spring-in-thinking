@@ -104,5 +104,4 @@ public interface UserRepository extends JpaRepository<User,Long> {
      * @return User 对象的接口pojo
      */
     UserPojo getOneByEmail(String email);
-
 }

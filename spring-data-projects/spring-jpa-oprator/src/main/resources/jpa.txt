@@ -437,7 +437,7 @@ Spring Data JPA 的最大特色 - 方法名定义查询方法（Defining Query M
             class Product { (1)
               MonetaryAmount getPrice() { … }
             }
-            @RequiredArgConstructor(staticName = "of")
+            @RequiredArgsConstructor(staticName = "of")
             class Products implements Streamable<Product> { (2)
               private Streamable<Product> streamable;
               public MonetaryAmount getTotal() { (3)
@@ -505,8 +505,90 @@ Spring Data JPA 的最大特色 - 方法名定义查询方法（Defining Query M
             源码实现位置:
                org.hibernate.query.criteria.internal.QueryStructure.render
 
+    @Query 的魔法
 
+        JpaQueryLookupStrategy 关键源码剖析:
+            org.springframework.data.jpa.repository.query.JpaQueryLookupStrategy
+            org.springframework.data.repository.core.support.QueryExecutorMethodInterceptor
 
+            第一步: org.springframework.data.repository.core.support.QueryExecutorMethodInterceptor.lookupQuery
+            第二步: org.springframework.data.jpa.repository.query.JpaQueryLookupStrategy.CreateIfNotFoundQueryLookupStrategy.resolveQuery
+            第三步: org.springframework.data.jpa.repository.query.JpaQueryLookupStrategy.DeclaredQueryLookupStrategy.resolveQuery
+            第四步: org.springframework.data.jpa.repository.query.JpaQueryFactory.fromQueryAnnotation
+            第五步: org.springframework.data.jpa.repository.query.JpaQueryMethod.getAnnotatedQuery
+            第六步: org.springframework.data.jpa.repository.query.JpaQueryMethod.getAnnotationValue
+            第七步: org.springframework.data.jpa.repository.query.JpaQueryMethod.getMergedOrDefaultAnnotationValue
+
+        内涵字段的含义
+            package org.springframework.data.jpa.repository;
+            public @interface Query {
+               /**
+                * 指定JPQL的查询语句。（nativeQuery=true的时候，是原生的Sql语句）
+            	*/
+               String value() default "";
+               /**
+            	* 指定count的JPQL语句，如果不指定将根据query自动生成。
+                * （如果当nativeQuery=true的时候，指的是原生的Sql语句）
+                */
+               String countQuery() default "";
+               /**
+                * 根据哪个字段来count，一般默认即可。
+            	*/
+               String countProjection() default "";
+               /**
+                * 默认是false，表示value里面是不是原生的sql语句
+            	*/
+               boolean nativeQuery() default false;
+               /**
+                * 可以指定一个query的名字，必须唯一的。
+            	* 如果不指定，默认的生成规则是：
+                * {$domainClass}.${queryMethodName}
+                */
+               String name() default "";
+               /*
+                * 可以指定一个count的query的名字，必须唯一的。
+            	* 如果不指定，默认的生成规则是：
+                * {$domainClass}.${queryMethodName}.count
+                */
+               String countName() default "";
+            }
+
+    JPQL 官方网址: https://docs.oracle.com/html/E13946_04/ejb3_langref.html
+
+    @Param 用法
+
+        @Entity
+        @Data
+        @Builder
+        @AllArgsConstructor
+        @NoArgsConstructor
+        public class PersonExtend { //用户扩展信息表
+           @Id
+           @GeneratedValue(strategy= GenerationType.AUTO)
+           private Long id;
+           private Long userId;
+           private String idCard;
+           private Integer ages;
+           private String studentNumber;
+        }
+        @Entity
+        @Data
+        @Builder
+        @AllArgsConstructor
+        @NoArgsConstructor
+        public class Person { //用户基本信息表
+           @Id
+           @GeneratedValue(strategy= GenerationType.AUTO)
+           private Long id;
+           private String name;
+           private String email;
+           @Version
+           private Long version;
+           private String sex;
+           private String address;
+        }
+
+    @Query 动态查询解决方法
 
 
 
