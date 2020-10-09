@@ -15,25 +15,25 @@
  * THE SOFTWARE IS PROVIDED “AS IS”, WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
  *
  */
-package org.fufeng.server;
+package org.fufeng.user;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
-import org.springframework.cloud.netflix.eureka.server.EnableEurekaServer;
+import org.springframework.cloud.netflix.eureka.EnableEurekaClient;
 
 /**
- * @program: thinking-in-spring-boot
- * @description: 高可用Eureka 服务端配置
- *  Eureka 暴露的端点 http://localhost:9999/eureka/apps/application-name
- * @author: <a href="https://github.com/lcy2013">MagicLuo(扶风)</a>
- * @create: 2020-10-09
+ * @program thinking-in-spring-boot
+ * @description 用户服务启动类
+ * @create 2020-10-09
+ * @author <a href="https://github.com/lcy2013">MagicLuo(扶风)</a>
  */
 @SpringBootApplication
-@EnableEurekaServer
-public class EurekaServerApplication {
+@EnableEurekaClient
+//@SpringCloudApplication
+public class UserApplication {
 
     public static void main(String[] args) {
-        SpringApplication.run(EurekaServerApplication.class,args);
+        SpringApplication.run(UserApplication.class,args);
     }
 
 }

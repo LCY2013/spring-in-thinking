@@ -1,0 +1,30 @@
+# 定义服务端口号
+server:
+  port: 8888
+
+spring:
+  profiles: user1
+  application:
+    name: user-service
+
+eureka:
+  client:
+    service-url:
+      defaultZone: http://localhost:9999/eureka,http://localhost:9998/eureka
+
+---
+
+# 定义服务端口号
+server:
+  port: 8889
+
+spring:
+  profiles: user2
+  application:
+    name: user-service
+
+eureka:
+  client:
+    service-url:
+      defaultZone: http://localhost:9999/eureka,http://localhost:9998/eureka
+
