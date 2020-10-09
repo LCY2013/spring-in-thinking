@@ -1,0 +1,30 @@
+# 命令行参数 --spring.profiles.active=eureka1
+
+# 定义eureka 第一个节点
+spring:
+  profiles: eureka1
+  application:
+    name: eureka-server
+server:
+  port: 9998
+eureka:
+  instance:
+    hostname: localhost
+  client:
+    service-url:
+      defaultZone: http://localhost:9999/eureka
+
+---
+# 定义eureka 第二个节点
+spring:
+  profiles: eureka2
+  application:
+    name: eureka-server
+server:
+  port: 9999
+eureka:
+  instance:
+    hostname: localhost
+  client:
+    service-url:
+      defaultZone: http://localhost:9998/eureka
