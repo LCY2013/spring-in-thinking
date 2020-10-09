@@ -17,6 +17,7 @@
         <module>spring-cloud-with-docker</module>
         <module>spring-cloud-with-monitor</module>
         <module>spring-cloud-with-stream</module>
+        <module>sc-project</module>
     </modules>
     <packaging>pom</packaging>
 
@@ -25,7 +26,7 @@
         <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
         <java.version>11</java.version>
         <spring-cloud.version>Hoxton.SR7</spring-cloud.version>
-        <spring-boot.version>2.3.3.RELEASE</spring-boot.version>
+        <spring-boot.version>2.3.4.RELEASE</spring-boot.version>
     </properties>
 
     <dependencyManagement>

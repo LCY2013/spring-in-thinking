@@ -1,0 +1,10 @@
+# 定义Eureka服务端口
+server:
+  port: 9999
+# 定义Eureka相关配置信息
+eureka:
+  client:
+    register-with-eureka: false # 单点Eureka取消注册自身
+    fetch-registry: false # 不去拉取注册信息
+    service-url:
+      defaultZone: http://localhost:9999
