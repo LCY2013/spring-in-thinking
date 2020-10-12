@@ -1027,7 +1027,7 @@ Entity 如何处理关联关系?
 
             此外，mappedBy 的值是指另一方的实体里面属性的字段，而不是数据库字段，也不是实体的对象的名字。也就是维护关联关系的一方属性字段名称，或者加了 @JoinColumn / @JoinTable 注解的属性字段名称。如上面的 User 例子 user 里面 mappedBy 的值，就是 UserInfo 里面的 user 字段的名字。
 
-        CascadeType用法
+        CascadeType 属性用法
             在 CascadeType 的用法中，CascadeType 的枚举值只有五个，分别如下：
 
             CascadeType.PERSIST 级联新建
@@ -1040,7 +1040,10 @@ Entity 如何处理关联关系?
 
             CascadeType.ALL 四项全选
 
+        orphanRemoval 属性用法
+            orphanRemoval 表示当关联关系被删除的时候，是否应用级联删除，默认 false。
 
+            
 
 
 

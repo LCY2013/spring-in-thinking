@@ -54,7 +54,7 @@ public class OneToOneTwoWayRepositoryTest {
     @Test
     public void testCascadeType(){
         final User user = User.builder().address("CD").email("fufeng@magic.com").name("fufeng").sex("nan").build();
-        final UserInfo userInfo = UserInfo.builder().id(1L).ages(18).telephone("2274842").user(user).build();
+        final UserInfo userInfo = UserInfo.builder().ages(18).telephone("2274842").user(user).build();
 
         // 保存UserInfo的时候级联保存User
         oneToOneTwoWayUserInfoRepository.saveAndFlush(userInfo);
