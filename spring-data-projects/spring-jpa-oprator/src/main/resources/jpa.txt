@@ -1348,8 +1348,53 @@ Entity 如何处理关联关系?
         ForeignKey inverseForeignKey() default @Forei gnKey(PROVIDER_DEFAULT);
     }
 
+    如何利用ManyToOne和OneToMany 表示ManyToMany？
 
+    新建中间表UserRoomRelation:
+    import lombok.*;
+    import javax.persistence.*;
+    import java.util.Date;
+    @Entity
+    @Data
+    @Builder
+    @AllArgsConstructor
+    @NoArgsConstructor
+    public class UserRoomRelation {
+       @Id
+       @GeneratedValue(strategy = GenerationType.AUTO)
+       private Long id;
+       private Date createTime,udpateTime;
+       @ManyToOne
+       private Room room;
+       @ManyToOne
+       private User user;
+    }
 
+    public class User implements Serializable {
+       @Id
+       @GeneratedValue(strategy= GenerationType.AUTO)
+       private Long id;
+       @OneToMany(mappedBy = "user")
+       private List<UserRoomRelation> userRoomRelations;
+        ....
+    }
+
+    Room 变化如下：
+    public class Room {
+       @Id
+       @GeneratedValue(strategy = GenerationType.AUTO)
+       private Long id;
+       @OneToMany(mappedBy = "room")
+       private List<UserRoomRelation> userRoomRelations;
+        ...
+    }
+
+    @ManyToMany 的最佳实践
+    上面介绍的 @OneToMany 的最佳实践同样适用，采用的是双向关联，而实际生产一般是在中间表对象里面做单向关联，这样会让实体之间的关联关系简单很多。
+
+    与 @OneToMany 一样的道理，不要用级联删除和 orphanRemoval=true。
+
+    FetchType 采用默认方式：fetch = FetchType.LAZY 的方式。
 
 
 
