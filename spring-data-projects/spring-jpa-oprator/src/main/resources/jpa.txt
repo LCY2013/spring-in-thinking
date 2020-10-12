@@ -1143,9 +1143,121 @@ Entity 如何处理关联关系?
            PROVIDER_DEFAULT
         }
 
+        JoinCloumns 举例如下:
 
+        @Entity
+        public class CompanyOffice {
+           @ManyToOne(fetch = FetchType.LAZY)
+           @JoinColumns({
+                 @JoinColumn(name="ADDR_ID", referencedColumnName="ID"),
+                 @JoinColumn(name="ADDR_ZIP", referencedColumnName="ZIP")
+           })
+           private Address address;
+        }
 
+    @ManyToOne& @OneToMany
 
+        @ManyToOne 代表多对一的关联关系，而 @OneToMany 代表一对多，一般两个成对使用表示双向关联关系。而 JPA 协议中也是明确规定：维护关联关系的是拥有外键的一方，而另一方必须配置 mappedBy。
+
+        public @interface ManyToOne {
+            Class targetEntity() default void.class;
+            CascadeType[] cascade() default {};
+            FetchType fetch() default EAGER;
+            boolean optional() default true;
+        }
+
+        public @interface OneToMany {
+            Class targetEntity() default void.class;
+            //cascade 级联操作策略：(CascadeType.PERSIST、CascadeType.REMOVE、CascadeType.REFRESH、CascadeType.MERGE、CascadeType.ALL) 如果不填，默认关系表不会产生任何影响。
+            CascadeType[] cascade() default {};
+            //数据获取方式EAGER(立即加载)/LAZY(延迟加载)
+            FetchType fetch() default LAZY;
+            //关系被谁维护，单项的。注意：只有关系维护方才能操作两者的关系。
+            String mappedBy() default "";
+            //是否级联删除。和CascadeType.REMOVE的效果一样。两种配置了一个就会自动级联删除
+            boolean orphanRemoval() default false;
+        }
+
+        OneToMany 和 ManyToOne 注意点:
+            1、@ManyToOne 一定是维护外键关系的一方，所以没有 mappedBy 字段。
+
+            2、@ManyToOne 删除的时候一定不能把 One 的一方删除了，所以也没有 orphanRemoval 的选项。
+
+            3、@ManyToOne 的 Lazy 效果和 @OneToOne 的一样，所以和上面的用法基本一致。
+
+            4、@OneToMany 的 Lazy 是有效果的。
+
+        @Entity
+        @Data
+        @Builder
+        @AllArgsConstructor
+        @NoArgsConstructor
+        public class User implements Serializable {
+           @Id
+           @GeneratedValue(strategy= GenerationType.AUTO)
+           private Long id;
+           private String name;
+           private String email;
+           private String sex;
+           @OneToMany(mappedBy = "user",fetch = FetchType.LAZY)
+           private List<UserAddress> address;
+        }
+
+        @Entity
+        @Data
+        @Builder
+        @AllArgsConstructor
+        @NoArgsConstructor
+        @ToString(exclude = "user")
+        public class UserAddress {
+           @Id
+           @GeneratedValue(strategy= GenerationType.AUTO)
+           private Long id;
+           private String address;
+           @ManyToOne(cascade = CascadeType.ALL)
+           private User user;
+        }
+
+        import com.fasterxml.jackson.core.JsonProcessingException;
+        import org.assertj.core.util.Lists;
+        import org.junit.jupiter.api.BeforeAll;
+        import org.junit.jupiter.api.Test;
+        import org.junit.jupiter.api.TestInstance;
+        import org.springframework.beans.factory.annotation.Autowired;
+        import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
+        import org.springframework.test.annotation.Rollback;
+        import javax.transaction.Transactional;
+        @DataJpaTest
+        @TestInstance(TestInstance.Lifecycle.PER_CLASS)
+        public class UserAddressRepositoryTest {
+           @Autowired
+           private UserAddressRepository userAddressRepository;
+           @Autowired
+           private UserRepository userRepository;
+           /**
+            * 负责添加数据
+            */
+           @BeforeAll
+           @Rollback(false)
+           @Transactional
+           void init() {
+              User user = User.builder().name("jackxx").email("123456@126.com").build();
+              UserAddress userAddress = UserAddress.builder().address("shanghai1").user(user).build();
+              UserAddress userAddress2 = UserAddress.builder().address("shanghai2").user(user).build();
+              userAddressRepository.saveAll(Lists.newArrayList(userAddress,userAddress2));
+           }
+           /**
+            * 测试用User关联关系操作
+            * @throws JsonProcessingException
+            */
+           @Test
+           @Rollback(false)
+           public void testUserRelationships() throws JsonProcessingException {
+              User user = userRepository.getOne(2L);
+              System.out.println(user.getName());
+              System.out.println(user.getAddress());
+           }
+        }
 
 
 
