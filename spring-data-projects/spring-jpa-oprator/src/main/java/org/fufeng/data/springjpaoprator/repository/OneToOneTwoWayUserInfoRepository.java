@@ -17,13 +17,8 @@
  */
 package org.fufeng.data.springjpaoprator.repository;
 
-import org.fufeng.data.springjpaoprator.domain.relationship.onetoone.twoway.User;
 import org.fufeng.data.springjpaoprator.domain.relationship.onetoone.twoway.UserInfo;
-import org.junit.jupiter.api.Test;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
-
-import java.util.Optional;
+import org.springframework.data.jpa.repository.JpaRepository;
 
 /**
  * @author <a href="https://github.com/lcy2013">MagicLuo(扶风)</a>
@@ -31,38 +26,5 @@ import java.util.Optional;
  * @description TODO
  * @create 2020-10-12
  */
-@DataJpaTest
-public class OneToOneTwoWayRepositoryTest {
-
-    @Autowired
-    OneToOneTwoWayUserRepository oneToOneTwoWayUserRepository;
-
-    @Autowired
-    OneToOneTwoWayUserInfoRepository oneToOneTwoWayUserInfoRepository;
-
-    @Test
-    public void testOneToOneTwoWayUser(){
-        oneToOneTwoWayUserRepository.save(User.builder()
-        .address("cd").email("fufeng@magic.com").name("fufeng").sex("nan")
-        .userInfo(UserInfo.builder().id(1L).ages(18).telephone("2274842").build()).build());
-
-        final Optional<User> user = oneToOneTwoWayUserRepository.findById(1L);
-
-        System.out.println(user.get());
-    }
-
-    @Test
-    public void testCascadeType(){
-        final User user = User.builder().address("CD").email("fufeng@magic.com").name("fufeng").sex("nan").build();
-        final UserInfo userInfo = UserInfo.builder().id(1L).ages(18).telephone("2274842").user(user).build();
-
-        // 保存UserInfo的时候级联保存User
-        oneToOneTwoWayUserInfoRepository.saveAndFlush(userInfo);
-
-        // 删除UserInfo的时候级联删除User
-        oneToOneTwoWayUserInfoRepository.delete(userInfo);
-
-        System.out.println();
-    }
-
+public interface OneToOneTwoWayUserInfoRepository extends JpaRepository<UserInfo,Long> {
 }

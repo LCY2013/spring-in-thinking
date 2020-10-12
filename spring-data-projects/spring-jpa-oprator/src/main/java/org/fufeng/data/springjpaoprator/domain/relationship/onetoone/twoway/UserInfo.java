@@ -39,6 +39,7 @@ public class UserInfo {
     private Long id;
     private Integer ages;
     private String telephone;
-    @OneToOne //维护user的外键关联关系，配置一对一
+    //@OneToOne(cascade = {CascadeType.PERSIST,CascadeType.REMOVE}) //维护user的外键关联关系，配置一对一
+    @OneToOne(cascade = {CascadeType.ALL}) //维护user的外键关联关系，配置一对一
     private User user;
 }

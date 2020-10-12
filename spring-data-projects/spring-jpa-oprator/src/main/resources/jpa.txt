@@ -963,11 +963,82 @@ Entity 如何处理关联关系?
 
         如果是双项关联，写法如下：
 
+            import lombok.AllArgsConstructor;
+            import lombok.Builder;
+            import lombok.Data;
+            import lombok.NoArgsConstructor;
+            import javax.persistence.*;
+            @Entity
+            @Data
+            @Builder
+            @AllArgsConstructor
+            @NoArgsConstructor
+            public class User {
+               @Id
+               @GeneratedValue(strategy= GenerationType.AUTO)
+               private Long id;
+               private String name;
+               private String email;
+               private String sex;
+               private String address;
+               @OneToOne(mappedBy = "user")
+               private UserInfo userInfo;
+            }
 
+            import lombok.*;
+            import javax.persistence.*;
+            @Entity
+            @Data
+            @Builder
+            @AllArgsConstructor
+            @NoArgsConstructor
+            @ToString(exclude = "user")
+            public class UserInfo {
+               @Id
+               @GeneratedValue(strategy= GenerationType.AUTO)
+               private Long id;
+               private Integer ages;
+               private String telephone;
+               @OneToOne //维护user的外键关联关系，配置一对一
+               private User user;
+            }
 
+        源码分析:
 
+            public @interface OneToOne {
+                //表示关系目标实体，默认该注解标识的返回值的类型的类。
+                Class targetEntity() default void.class;
+                //cascade 级联操作策略，就是我们常说的级联操作
+                CascadeType[] cascade() default {};
+                //数据获取方式EAGER(立即加载)/LAZY(延迟加载)
+                FetchType fetch() default EAGER;
+                //是否允许为空，默认是可选的，也就表示可以为空；
+                boolean optional() default true;
+                //关联关系被谁维护的一方对象里面的属性名字。 双向关联的时候必填
+                String mappedBy() default "";
+                //当被标识的字段发生删除或者置空操作之后，是否同步到关联关系的一方，即进行通过删除操作，默认flase，注意与CascadeType.REMOVE 级联删除的区别
+                boolean orphanRemoval() default false;
+            }
 
+        mappedBy 注意事项:
+            只有关联关系的维护方才能操作两个实体之间外键的关系，被维护方即使设置了维护方属性进行存储也不会更新外键关联。
 
+            mappedBy 不能与 @JoinColumn 或者 @JoinTable 同时使用，因为没有意义，关联关系不在这里面维护。
+
+            此外，mappedBy 的值是指另一方的实体里面属性的字段，而不是数据库字段，也不是实体的对象的名字。也就是维护关联关系的一方属性字段名称，或者加了 @JoinColumn / @JoinTable 注解的属性字段名称。如上面的 User 例子 user 里面 mappedBy 的值，就是 UserInfo 里面的 user 字段的名字。
+
+        CascadeType用法
+            在 CascadeType 的用法中，CascadeType 的枚举值只有五个，分别如下：
+
+            CascadeType.PERSIST 级联新建
+
+            CascadeType.REMOVE 级联删除
+
+            CascadeType.REFRESH 级联刷新
+
+            CascadeType.MERGE 级联更新
+
+            CascadeType.ALL 四项全选
 
 
 
