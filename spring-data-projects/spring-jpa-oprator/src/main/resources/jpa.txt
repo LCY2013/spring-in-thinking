@@ -1261,7 +1261,92 @@ Entity 如何处理关联关系?
 
     @ManyToOne 的 lazy 机制和用法，与 @OneToOne 的一样。而 @ManyToOne 和 @OneToMany 的最佳实践，与 @OneToOne 的完全一样，也是尽量避免双向关联，一切级联更新和 orphanRemoval 都保持默认规则，并且 fetch 采用 lazy 延迟加载。
 
+    @ManyToMany
 
+        @ManyToMany 代表多对多的关联关系，这种关联关系任何一方都可以维护关联关系。
+
+        import lombok.*;
+        import javax.persistence.*;
+        import java.io.Serializable;
+        import java.util.List;
+        @Entity
+        @Data
+        @Builder
+        @AllArgsConstructor
+        @NoArgsConstructor
+        public class User{
+           @Id
+           @GeneratedValue(strategy= GenerationType.AUTO)
+           private Long id;
+           private String name;
+           @ManyToMany(mappedBy = "users")
+           private List<Room> rooms;
+        }
+
+        Room 维护映射关系
+        import lombok.*;
+        import javax.persistence.*;
+        import java.util.List;
+        @Entity
+        @Data
+        @Builder
+        @AllArgsConstructor
+        @NoArgsConstructor
+        @ToString(exclude = "users")
+        public class Room {
+           @Id
+           @GeneratedValue(strategy = GenerationType.AUTO)
+           private Long id;
+           private String title;
+           @ManyToMany
+           private List<User> users;
+        }
+
+    当用到 @ManyToMany 的时候一定是三张表，不要想着建两张表，两张表肯定是违背表的设计原则的。
+
+    public @interface ManyToMany {
+        Class targetEntity() default void.class;
+        CascadeType[] cascade() default {};
+        FetchType fetch() default LAZY;
+        String mappedBy() default "";
+    }
+
+    修改Room来定义中间表的表名称，中间字段，如下:
+    @Entity
+    @Data
+    @Builder
+    @AllArgsConstructor
+    @NoArgsConstructor
+    @ToString(exclude = "users")
+    public class Room {
+       @Id
+       @GeneratedValue(strategy = GenerationType.AUTO)
+       private Long id;
+       private String title;
+       @ManyToMany
+       @JoinTable(name = "user_room_ref",
+             joinColumns = @JoinColumn(name = "room_id_x"),
+             inverseJoinColumns = @JoinColumn(name = "user_id_x")
+       )
+       private List<User> users;
+    }
+
+    public @interface JoinTable {
+        //中间关联关系表明
+        String name() default "";
+        //表的catalog
+        String catalog() default "";
+        //表的schema
+        String schema() default "";
+        //维护关联关系一方的外键字段的名字
+        JoinColumn[] joinColumns() default {};
+        //另一方的表外键字段
+        JoinColumn[] inverseJoinColumns() default {};
+        //指定维护关联关系一方的外键创建规则
+        ForeignKey foreignKey() default @ForeignKey(PROVIDER_DEFAULT);
+        //指定另一方的外键创建规则
+        ForeignKey inverseForeignKey() default @Forei gnKey(PROVIDER_DEFAULT);
+    }
 
 
 
