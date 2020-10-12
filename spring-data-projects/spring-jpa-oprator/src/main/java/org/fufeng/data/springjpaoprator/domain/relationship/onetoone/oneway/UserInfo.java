@@ -15,7 +15,7 @@
  * THE SOFTWARE IS PROVIDED “AS IS”, WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
  *
  */
-package org.fufeng.data.springjpaoprator.domain;
+package org.fufeng.data.springjpaoprator.domain.relationship.onetoone.oneway;
 
 /**
  * @author <a href="https://github.com/lcy2013">MagicLuo(扶风)</a>
@@ -23,14 +23,21 @@ package org.fufeng.data.springjpaoprator.domain;
  * @description TODO
  * @create 2020-10-12
  */
-import lombok.Data;
-import lombok.EqualsAndHashCode;
-import javax.persistence.Entity;
-import javax.persistence.PrimaryKeyJoinColumn;
-@Entity
-@PrimaryKeyJoinColumn(name = "book_id", referencedColumnName = "id")
+import lombok.*;
+import javax.persistence.*;
+@Entity(name = "one_to_one_user_info")
 @Data
-@EqualsAndHashCode(callSuper=false)
-public class RedJoinBook extends JoinBook {
-    private String redMark;
+@Builder
+@AllArgsConstructor
+@NoArgsConstructor
+//@ToString(exclude = "user")
+@ToString
+public class UserInfo {
+    @Id
+    @GeneratedValue(strategy= GenerationType.AUTO)
+    private Long id;
+    private Integer ages;
+    private String telephone;
+    @OneToOne //维护user的外键关联关系，配置一对一
+    private User user;
 }

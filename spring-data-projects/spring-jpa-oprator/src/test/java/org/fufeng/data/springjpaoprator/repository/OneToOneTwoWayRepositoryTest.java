@@ -17,14 +17,35 @@
  */
 package org.fufeng.data.springjpaoprator.repository;
 
+import org.fufeng.data.springjpaoprator.domain.relationship.onetoone.twoway.User;
+import org.fufeng.data.springjpaoprator.domain.relationship.onetoone.twoway.UserInfo;
+import org.junit.jupiter.api.Test;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
+
+import java.util.Optional;
+
 /**
  * @author <a href="https://github.com/lcy2013">MagicLuo(扶风)</a>
  * @program thinking-in-spring-boot
  * @description TODO
  * @create 2020-10-12
  */
-import org.fufeng.data.springjpaoprator.domain.sington.UserInfo;
-import org.fufeng.data.springjpaoprator.domain.sington.UserInfoID;
-import org.springframework.data.jpa.repository.JpaRepository;
-public interface UserInfoRepository extends JpaRepository<UserInfo, UserInfoID> {
+@DataJpaTest
+public class OneToOneTwoWayRepositoryTest {
+
+    @Autowired
+    OneToOneTwoWayUserRepository oneToOneTwoWayUserRepository;
+
+    @Test
+    public void testOneToOneTwoWayUser(){
+        oneToOneTwoWayUserRepository.save(User.builder()
+        .address("cd").email("fufeng@magic.com").name("fufeng").sex("nan")
+        .userInfo(UserInfo.builder().id(1L).ages(18).telephone("2274842").build()).build());
+
+        final Optional<User> user = oneToOneTwoWayUserRepository.findById(1L);
+
+        System.out.println(user.get());
+    }
+
 }

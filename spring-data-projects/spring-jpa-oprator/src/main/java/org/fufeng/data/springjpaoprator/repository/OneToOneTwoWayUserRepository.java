@@ -17,14 +17,14 @@
  */
 package org.fufeng.data.springjpaoprator.repository;
 
+import org.fufeng.data.springjpaoprator.domain.relationship.onetoone.twoway.User;
+import org.springframework.data.jpa.repository.JpaRepository;
+
 /**
  * @author <a href="https://github.com/lcy2013">MagicLuo(扶风)</a>
  * @program thinking-in-spring-boot
  * @description TODO
  * @create 2020-10-12
  */
-import org.fufeng.data.springjpaoprator.domain.sington.UserInfo;
-import org.fufeng.data.springjpaoprator.domain.sington.UserInfoID;
-import org.springframework.data.jpa.repository.JpaRepository;
-public interface UserInfoRepository extends JpaRepository<UserInfo, UserInfoID> {
+public interface OneToOneTwoWayUserRepository extends JpaRepository<User,Long> {
 }

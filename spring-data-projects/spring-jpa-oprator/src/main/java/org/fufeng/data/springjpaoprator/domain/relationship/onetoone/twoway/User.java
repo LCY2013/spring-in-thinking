@@ -15,33 +15,34 @@
  * THE SOFTWARE IS PROVIDED “AS IS”, WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
  *
  */
-package org.fufeng.data.springjpaoprator.domain;
-
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Data;
-import lombok.NoArgsConstructor;
-
-import javax.persistence.Entity;
-import javax.persistence.Id;
-import javax.persistence.IdClass;
+package org.fufeng.data.springjpaoprator.domain.relationship.onetoone.twoway;
 
 /**
  * @author <a href="https://github.com/lcy2013">MagicLuo(扶风)</a>
  * @program thinking-in-spring-boot
- * @description @IdClass注解 联合主键演示
+ * @description TODO
  * @create 2020-10-12
  */
-@Entity
+
+import lombok.*;
+
+import javax.persistence.*;
+
+@Entity(name = "one_to_one_user_two_way")
 @Data
 @Builder
-@IdClass(UserInfoID.class)
 @AllArgsConstructor
 @NoArgsConstructor
-public class UserInfo {
-    private Integer ages;
+@ToString
+public class User {
     @Id
+    @GeneratedValue(strategy= GenerationType.AUTO)
+    private Long id;
     private String name;
-    @Id
-    private String telephone;
+    private String email;
+    private String sex;
+    private String address;
+
+    @OneToOne(mappedBy = "user")
+    private UserInfo userInfo;
 }

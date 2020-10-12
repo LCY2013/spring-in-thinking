@@ -17,7 +17,7 @@
  */
 package org.fufeng.data.springjpaoprator.repository;
 
-import org.fufeng.data.springjpaoprator.domain.User;
+import org.fufeng.data.springjpaoprator.domain.sington.User;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;

@@ -17,7 +17,7 @@
  */
 package org.fufeng.data.springjpaoprator.controller;
 
-import org.fufeng.data.springjpaoprator.domain.User;
+import org.fufeng.data.springjpaoprator.domain.sington.User;
 import org.fufeng.data.springjpaoprator.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;

@@ -23,7 +23,7 @@ package org.fufeng.data.springjpaoprator.repository;
  * @description 红皮书仓储
  * @create 2020-10-12
  */
-import org.fufeng.data.springjpaoprator.domain.RedSubBook;
+import org.fufeng.data.springjpaoprator.domain.sington.RedSubBook;
 import org.springframework.data.jpa.repository.JpaRepository;
 public interface RedSubBookRepository extends JpaRepository<RedSubBook,Long>{
 }

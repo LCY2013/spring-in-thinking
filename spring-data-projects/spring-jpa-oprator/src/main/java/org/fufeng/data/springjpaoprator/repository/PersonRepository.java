@@ -17,7 +17,7 @@
  */
 package org.fufeng.data.springjpaoprator.repository;
 
-import org.fufeng.data.springjpaoprator.domain.Person;
+import org.fufeng.data.springjpaoprator.domain.sington.Person;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;

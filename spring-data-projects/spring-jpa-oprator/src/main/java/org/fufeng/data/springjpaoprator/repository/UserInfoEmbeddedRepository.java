@@ -24,8 +24,8 @@ package org.fufeng.data.springjpaoprator.repository;
  * @create 2020-10-12
  */
 
-import org.fufeng.data.springjpaoprator.domain.UserInfoEmbedded;
-import org.fufeng.data.springjpaoprator.domain.UserInfoEmbeddedID;
+import org.fufeng.data.springjpaoprator.domain.sington.UserInfoEmbedded;
+import org.fufeng.data.springjpaoprator.domain.sington.UserInfoEmbeddedID;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 public interface UserInfoEmbeddedRepository extends JpaRepository<UserInfoEmbedded, UserInfoEmbeddedID> {

@@ -913,7 +913,55 @@ JPA - jsr338 Java Entity persistent (https://download.oracle.com/otn-pub/jcp/per
            private String blueMark;
         }
 
+Entity 如何处理关联关系?
 
+    实体与实体之间的关联关系一共分为四种，分别为 OneToOne、OneToMany、ManyToOne 和 ManyToMany，而实体之间的关联关系又分为双向的和单向的。
+
+    OneToOne 关联关系
+
+        @OneToOne 一般表示对象之间一对一的关联关系，它可以放在 field 上面，也可以放在 get/set 方法上面。其中 JPA 协议有规定，如果是配置双向关联，维护关联关系的是拥有外键的一方，而另一方必须配置 mappedBy；如果是单项关联，直接配置在拥有外键的一方即可。
+
+        举例：user 表是用户的主信息，user_info 是用户的扩展信息，两者之间是一对一的关系。user_info 表里面有一个 user_id 作为关联关系的外键，如果是单项关联，写法如下：
+
+            import lombok.AllArgsConstructor;
+            import lombok.Builder;
+            import lombok.Data;
+            import lombok.NoArgsConstructor;
+            import javax.persistence.*;
+            @Entity
+            @Data
+            @Builder
+            @AllArgsConstructor
+            @NoArgsConstructor
+            public class User {
+               @Id
+               @GeneratedValue(strategy= GenerationType.AUTO)
+               private Long id;
+               private String name;
+               private String email;
+               private String sex;
+               private String address;
+            }
+
+            import lombok.*;
+            import javax.persistence.*;
+            @Entity
+            @Data
+            @Builder
+            @AllArgsConstructor
+            @NoArgsConstructor
+            @ToString(exclude = "user")
+            public class UserInfo {
+               @Id
+               @GeneratedValue(strategy= GenerationType.AUTO)
+               private Long id;
+               private Integer ages;
+               private String telephone;
+               @OneToOne //维护user的外键关联关系，配置一对一
+               private User user;
+            }
+
+        如果是双项关联，写法如下：
 
 
 

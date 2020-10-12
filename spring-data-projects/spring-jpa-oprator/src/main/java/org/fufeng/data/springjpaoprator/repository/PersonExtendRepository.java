@@ -17,7 +17,7 @@
  */
 package org.fufeng.data.springjpaoprator.repository;
 
-import org.fufeng.data.springjpaoprator.domain.PersonExtend;
+import org.fufeng.data.springjpaoprator.domain.sington.PersonExtend;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 /**

@@ -17,12 +17,10 @@
  */
 package org.fufeng.data.springjpaoprator.controller;
 
-import org.fufeng.data.springjpaoprator.domain.Book;
+import org.fufeng.data.springjpaoprator.domain.sington.Book;
 import org.fufeng.data.springjpaoprator.repository.BookRepository;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
-import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.data.util.Streamable;
 import org.springframework.web.bind.annotation.GetMapping;

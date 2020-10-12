@@ -15,16 +15,33 @@
  * THE SOFTWARE IS PROVIDED “AS IS”, WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
  *
  */
-package org.fufeng.data.springjpaoprator.repository;
+package org.fufeng.data.springjpaoprator.domain.sington;
+
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.Data;
+import lombok.NoArgsConstructor;
+
+import javax.persistence.Entity;
+import javax.persistence.Id;
+import javax.persistence.IdClass;
 
 /**
  * @author <a href="https://github.com/lcy2013">MagicLuo(扶风)</a>
  * @program thinking-in-spring-boot
- * @description TODO
+ * @description @IdClass注解 联合主键演示
  * @create 2020-10-12
  */
-import org.fufeng.data.springjpaoprator.domain.sington.UserInfo;
-import org.fufeng.data.springjpaoprator.domain.sington.UserInfoID;
-import org.springframework.data.jpa.repository.JpaRepository;
-public interface UserInfoRepository extends JpaRepository<UserInfo, UserInfoID> {
+@Entity
+@Data
+@Builder
+@IdClass(UserInfoID.class)
+@AllArgsConstructor
+@NoArgsConstructor
+public class UserInfo {
+    private Integer ages;
+    @Id
+    private String name;
+    @Id
+    private String telephone;
 }

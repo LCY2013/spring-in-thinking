@@ -15,22 +15,39 @@
  * THE SOFTWARE IS PROVIDED “AS IS”, WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
  *
  */
-package org.fufeng.data.springjpaoprator.domain;
+package org.fufeng.data.springjpaoprator.repository;
+
+import org.fufeng.data.springjpaoprator.domain.relationship.onetoone.oneway.User;
+import org.fufeng.data.springjpaoprator.domain.relationship.onetoone.oneway.UserInfo;
+import org.junit.jupiter.api.Test;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
+
+import java.util.Optional;
 
 /**
  * @author <a href="https://github.com/lcy2013">MagicLuo(扶风)</a>
  * @program thinking-in-spring-boot
- * @description TODO
+ * @description one to one 测试用例
  * @create 2020-10-12
  */
-import lombok.Data;
-import javax.persistence.*;
-@Entity(name="PerBook")
-@Data
-@Inheritance(strategy = InheritanceType.TABLE_PER_CLASS)
-public class PerBook {
-    @Id
-    @GeneratedValue(strategy= GenerationType.AUTO)
-    private Long id;
-    private String title;
+@DataJpaTest
+public class OneToOneOneWayRepositoryTest {
+
+    @Autowired
+    OneToOneUserInfoRepository oneToOneUserInfoRepository;
+
+    @Autowired
+    OneToOneUserRepository oneToOneUserRepository;
+
+    @Test
+    public void testOneToOne(){
+//        oneToOneUserRepository
+//                .save(User.builder().address("cd").email("fufeng@magic.com").id(1L).sex("nan").name("fufeng").build());
+        oneToOneUserInfoRepository.save(UserInfo.builder().ages(18).telephone("238742").user(User.builder().address("cd").email("fufeng@magic.com").id(1L).sex("nan").name("fufeng").build()).build());
+
+        final Optional<UserInfo> userInfo = oneToOneUserInfoRepository.findById(1L);
+        System.out.println(userInfo.get());
+    }
+
 }

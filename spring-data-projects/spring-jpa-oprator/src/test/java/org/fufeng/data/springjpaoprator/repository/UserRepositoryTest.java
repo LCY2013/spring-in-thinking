@@ -19,7 +19,7 @@ package org.fufeng.data.springjpaoprator.repository;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import org.fufeng.data.springjpaoprator.domain.User;
+import org.fufeng.data.springjpaoprator.domain.sington.User;
 import org.fufeng.data.springjpaoprator.dto.UserPojo;
 import org.junit.Assert;
 import org.junit.jupiter.api.Test;

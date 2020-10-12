@@ -15,21 +15,20 @@
  * THE SOFTWARE IS PROVIDED “AS IS”, WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
  *
  */
-package org.fufeng.data.springjpaoprator.domain;
+package org.fufeng.data.springjpaoprator.domain.sington;
 
 /**
  * @author <a href="https://github.com/lcy2013">MagicLuo(扶风)</a>
  * @program thinking-in-spring-boot
- * @description 主类book，公共参数
+ * @description TODO
  * @create 2020-10-12
  */
 import lombok.Data;
 import javax.persistence.*;
-@Entity(name="MainBook")
+@Entity(name="PerBook")
 @Data
-@Inheritance(strategy = InheritanceType.SINGLE_TABLE)
-@DiscriminatorColumn(name="color", discriminatorType = DiscriminatorType.STRING)
-public class MainBook {
+@Inheritance(strategy = InheritanceType.TABLE_PER_CLASS)
+public class PerBook {
     @Id
     @GeneratedValue(strategy= GenerationType.AUTO)
     private Long id;

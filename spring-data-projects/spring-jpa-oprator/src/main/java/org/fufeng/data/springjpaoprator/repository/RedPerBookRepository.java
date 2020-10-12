@@ -24,7 +24,7 @@ package org.fufeng.data.springjpaoprator.repository;
  * @create 2020-10-12
  */
 
-import org.fufeng.data.springjpaoprator.domain.RedPerBook;
+import org.fufeng.data.springjpaoprator.domain.sington.RedPerBook;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 public interface RedPerBookRepository extends JpaRepository<RedPerBook,Long>{

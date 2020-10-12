@@ -17,7 +17,7 @@
  */
 package org.fufeng.data.springjpaoprator.repository;
 
-import org.fufeng.data.springjpaoprator.domain.User;
+import org.fufeng.data.springjpaoprator.domain.sington.User;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;

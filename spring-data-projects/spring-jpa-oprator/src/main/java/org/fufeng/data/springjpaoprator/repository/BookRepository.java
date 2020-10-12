@@ -17,7 +17,7 @@
  */
 package org.fufeng.data.springjpaoprator.repository;
 
-import org.fufeng.data.springjpaoprator.domain.Book;
+import org.fufeng.data.springjpaoprator.domain.sington.Book;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 /**

@@ -15,7 +15,10 @@
  * THE SOFTWARE IS PROVIDED “AS IS”, WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
  *
  */
-package org.fufeng.data.springjpaoprator.domain;
+package org.fufeng.data.springjpaoprator.repository;
+
+import org.fufeng.data.springjpaoprator.domain.relationship.onetoone.oneway.User;
+import org.springframework.data.jpa.repository.JpaRepository;
 
 /**
  * @author <a href="https://github.com/lcy2013">MagicLuo(扶风)</a>
@@ -23,14 +26,5 @@ package org.fufeng.data.springjpaoprator.domain;
  * @description TODO
  * @create 2020-10-12
  */
-import lombok.Data;
-import javax.persistence.*;
-@Entity(name="JoinBook")
-@Data
-@Inheritance(strategy = InheritanceType.JOINED)
-public class JoinBook {
-    @Id
-    @GeneratedValue(strategy= GenerationType.AUTO)
-    private Long id;
-    private String title;
+public interface OneToOneUserRepository extends JpaRepository<User,Long> {
 }

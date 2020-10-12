@@ -17,8 +17,7 @@
  */
 package org.fufeng.data.springjpaoprator.repository;
 
-import org.fufeng.data.springjpaoprator.domain.RedJoinBook;
-import org.fufeng.data.springjpaoprator.domain.RedSubBook;
+import org.fufeng.data.springjpaoprator.domain.sington.RedJoinBook;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;

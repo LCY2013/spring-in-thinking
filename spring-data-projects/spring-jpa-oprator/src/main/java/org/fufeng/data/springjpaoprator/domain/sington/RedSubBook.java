@@ -15,16 +15,24 @@
  * THE SOFTWARE IS PROVIDED “AS IS”, WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
  *
  */
-package org.fufeng.data.springjpaoprator.repository;
+package org.fufeng.data.springjpaoprator.domain.sington;
+
+import lombok.Data;
+import lombok.EqualsAndHashCode;
+
+import javax.persistence.DiscriminatorValue;
+import javax.persistence.Entity;
 
 /**
  * @author <a href="https://github.com/lcy2013">MagicLuo(扶风)</a>
  * @program thinking-in-spring-boot
- * @description TODO
+ * @description
  * @create 2020-10-12
  */
-import org.fufeng.data.springjpaoprator.domain.sington.UserInfo;
-import org.fufeng.data.springjpaoprator.domain.sington.UserInfoID;
-import org.springframework.data.jpa.repository.JpaRepository;
-public interface UserInfoRepository extends JpaRepository<UserInfo, UserInfoID> {
+@Entity
+@DiscriminatorValue("red")
+@Data
+@EqualsAndHashCode(callSuper=false)
+public class RedSubBook extends MainBook {
+    private String redMark;
 }

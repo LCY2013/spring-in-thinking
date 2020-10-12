@@ -17,7 +17,7 @@
  */
 package org.fufeng.data.springjpaoprator.repository;
 
-import org.fufeng.data.springjpaoprator.domain.Person;
+import org.fufeng.data.springjpaoprator.domain.sington.Person;
 import org.fufeng.data.springjpaoprator.dto.PersonDTO;
 import org.fufeng.data.springjpaoprator.dto.PersonInterfaceDTO;
 import org.fufeng.data.springjpaoprator.dto.PersonOnlyName;

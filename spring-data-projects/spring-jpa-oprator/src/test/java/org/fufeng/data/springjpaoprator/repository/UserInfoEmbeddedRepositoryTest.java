@@ -17,9 +17,8 @@
  */
 package org.fufeng.data.springjpaoprator.repository;
 
-import org.fufeng.data.springjpaoprator.domain.UserInfoEmbedded;
-import org.fufeng.data.springjpaoprator.domain.UserInfoEmbeddedID;
-import org.fufeng.data.springjpaoprator.domain.UserInfoID;
+import org.fufeng.data.springjpaoprator.domain.sington.UserInfoEmbedded;
+import org.fufeng.data.springjpaoprator.domain.sington.UserInfoEmbeddedID;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;

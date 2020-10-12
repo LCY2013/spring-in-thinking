@@ -23,7 +23,7 @@ package org.fufeng.data.springjpaoprator.repository;
  * @description TODO
  * @create 2020-10-12
  */
-import org.fufeng.data.springjpaoprator.domain.RedJoinBook;
+import org.fufeng.data.springjpaoprator.domain.sington.RedJoinBook;
 import org.springframework.data.jpa.repository.JpaRepository;
 public interface RedJoinBookRepository extends JpaRepository<RedJoinBook,Long>{
 }
