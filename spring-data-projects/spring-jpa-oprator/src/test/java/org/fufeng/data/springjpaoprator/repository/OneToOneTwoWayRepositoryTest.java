@@ -19,10 +19,14 @@ package org.fufeng.data.springjpaoprator.repository;
 
 import org.fufeng.data.springjpaoprator.domain.relationship.onetoone.twoway.User;
 import org.fufeng.data.springjpaoprator.domain.relationship.onetoone.twoway.UserInfo;
+import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.TestInstance;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
+import org.springframework.test.annotation.Rollback;
 
+import javax.transaction.Transactional;
 import java.util.Optional;
 
 /**
@@ -32,6 +36,7 @@ import java.util.Optional;
  * @create 2020-10-12
  */
 @DataJpaTest
+@TestInstance(TestInstance.Lifecycle.PER_CLASS)
 public class OneToOneTwoWayRepositoryTest {
 
     @Autowired
@@ -40,11 +45,20 @@ public class OneToOneTwoWayRepositoryTest {
     @Autowired
     OneToOneTwoWayUserInfoRepository oneToOneTwoWayUserInfoRepository;
 
+    @BeforeAll
+    @Rollback(false)
+    @Transactional
+    void init() {
+        User user = User.builder().name("fufeng").email("fufeng@magic.com").build();
+        UserInfo userInfo = UserInfo.builder().ages(18).user(user).telephone("12345678").build();
+        oneToOneTwoWayUserInfoRepository.saveAndFlush(userInfo);
+    }
+
     @Test
     public void testOneToOneTwoWayUser(){
         oneToOneTwoWayUserRepository.save(User.builder()
         .address("cd").email("fufeng@magic.com").name("fufeng").sex("nan")
-        .userInfo(UserInfo.builder().id(1L).ages(18).telephone("2274842").build()).build());
+        .userInfo(UserInfo.builder().ages(18).telephone("2274842").build()).build());
 
         final Optional<User> user = oneToOneTwoWayUserRepository.findById(1L);
 
@@ -63,6 +77,14 @@ public class OneToOneTwoWayRepositoryTest {
         oneToOneTwoWayUserInfoRepository.delete(userInfo);
 
         System.out.println();
+    }
+
+    @Test
+    @Rollback(value = false)
+    public void testUserRelationships(){
+        final UserInfo userInfo = oneToOneTwoWayUserInfoRepository.getOne(1L);
+        System.out.println(userInfo);
+        System.out.println(userInfo.getUser().getId());
     }
 
 }

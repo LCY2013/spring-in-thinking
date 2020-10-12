@@ -32,7 +32,6 @@ import javax.persistence.*;
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor
-@ToString
 public class UserInfo {
     @Id
     @GeneratedValue(strategy= GenerationType.AUTO)
@@ -40,6 +39,16 @@ public class UserInfo {
     private Integer ages;
     private String telephone;
     //@OneToOne(cascade = {CascadeType.PERSIST,CascadeType.REMOVE}) //维护user的外键关联关系，配置一对一
-    @OneToOne(cascade = {CascadeType.ALL},orphanRemoval = true) //维护user的外键关联关系，配置一对一
+    @MapsId // 作用是把关联关系实体里面的 ID（默认）值 copy 到 @MapsId 标注的字段上面（这里指的是 user_id 字段）
+    @OneToOne(cascade = {CascadeType.ALL},orphanRemoval = true,fetch = FetchType.LAZY) //维护user的外键关联关系，配置一对一
     private User user;
+
+    @Override
+    public String toString() {
+        return "UserInfo{" +
+                "id=" + id +
+                ", ages=" + ages +
+                ", telephone='" + telephone + '\'' +
+                '}';
+    }
 }

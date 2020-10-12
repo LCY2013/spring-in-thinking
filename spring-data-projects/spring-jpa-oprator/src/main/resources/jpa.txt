@@ -1043,15 +1043,105 @@ Entity 如何处理关联关系?
         orphanRemoval 属性用法
             orphanRemoval 表示当关联关系被删除的时候，是否应用级联删除，默认 false。
 
-            
+    主键和外键都是同一个字段
 
+        假设 user 表是主表，user_info 的主键是 user_id，并且 user_id=user 是表里面的 id，那我们应该怎么写？
 
+        public class UserInfo implements Serializable {
+           @Id
+           private Long userId;
+           private Integer ages;
+           private String telephone;
+           @MapsId  // 作用是把关联关系实体里面的 ID（默认）值 copy 到 @MapsId 标注的字段上面（这里指的是 user_id 字段）
+           @OneToOne(cascade = {CascadeType.PERSIST},orphanRemoval = true)
+           private User user;
+        }
 
+    @OneToOne 延迟加载，只需要 ID 值
 
+        在 @OneToOne 延迟加载的情况下，我们假设只想查下 user_id，而不想查看 user 表其他的信息，因为当前用不到，可以有以下几种做法：
 
+        第一种做法：还是 User 实体不变，改一下 UserInfo 对象，如下所示：
+            import lombok.*;
+            import javax.persistence.*;
+            @Entity
+            @Data
+            @Builder
+            @AllArgsConstructor
+            @NoArgsConstructor
+            @ToString(exclude = "user")
+            public class UserInfo{
+               @Id
+               @GeneratedValue(strategy= GenerationType.AUTO)
+               private Long id;
+               private Integer ages;
+               private String telephone;
+               @MapsId
+               @OneToOne(cascade = {CascadeType.PERSIST},orphanRemoval = true,fetch = FetchType.LAZY)
+               private User user;
+            }
 
+            @OneToOne 上面我们添加 @MapsId 注解
 
+            @OneToOne 里面的 fetch = FetchType.LAZY 设置延迟加载
 
+        第二种做法：只要在 UserInfo 对象里面直接去掉 @OneToOne 关联关系，新增下面的字段即可。
+            import lombok.*;
+            import javax.persistence.*;
+            @Entity
+            @Data
+            @Builder
+            @AllArgsConstructor
+            @NoArgsConstructor
+            @ToString(exclude = "user")
+            public class UserInfo{
+               @Id
+               @GeneratedValue(strategy= GenerationType.AUTO)
+               private Long id;
+               private Integer ages;
+               private String telephone;
+               @Column(name = "user_id")
+               private Long userId;
+            }
+
+        第三做法：利用 Hibernate，它给我们提供了一种字节码增强技术，通过编译器改变 class 解决了延迟加载问题。这种方式有点复杂，需要在编译器引入 hibernateEnhance 的相关 jar 包，以及编译器需要改变 class 文件并添加 lazy 代理来解决延迟加载。
+
+    OneToOne 的最佳实践是什么？
+
+        1、Java 面向对象的设计原则：开闭原则。
+
+        2、CascadeType 很强大，建议保持默认。
+
+        3、所有用到关联关系的地方，能用 Lazy 的绝对不要用 EAGER，否则会有 SQL 性能问题，会出现不是预期的 SQL。
+
+    JoinCloumns & JoinColumn
+
+        这两个注解是单个集合关系，他们可以同时使用，@JoinColumn 表示单字段，@JoinCloumns 表示多个 @JoinColumn。
+
+        public @interface JoinColumn {
+            //关键的字段名,默认注解上的字段名，在@OneToOne代表本表的外键字段名字；
+            String name() default "";
+            //与name相反关联对象的字段，默认主键字段
+            String referencedColumnName() default "";
+            //外键字段是否唯一
+            boolean unique() default false;
+            //外键字段是否允许为空
+            boolean nullable() default true;
+            //是否跟随一起新增
+            boolean insertable() default true;
+            //是否跟随一起更新
+            boolean updatable() default true;
+            //JPA2.1新增，外键策略
+            ForeignKey foreignKey() default @ForeignKey(PROVIDER_DEFAULT);
+        }
+        public enum ConstraintMode {
+            //创建外键约束
+           CONSTRAINT,
+            //不创建外键约束
+           NO_CONSTRAINT,
+           //采用默认行为
+           PROVIDER_DEFAULT
+        }
 
 
 

@@ -33,7 +33,6 @@ import javax.persistence.*;
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor
-@ToString
 public class User {
     @Id
     @GeneratedValue(strategy= GenerationType.AUTO)
@@ -45,4 +44,15 @@ public class User {
 
     @OneToOne(mappedBy = "user")
     private UserInfo userInfo;
+
+    @Override
+    public String toString() {
+        return "User{" +
+                "id=" + id +
+                ", name='" + name + '\'' +
+                ", email='" + email + '\'' +
+                ", sex='" + sex + '\'' +
+                ", address='" + address + '\'' +
+                '}';
+    }
 }
