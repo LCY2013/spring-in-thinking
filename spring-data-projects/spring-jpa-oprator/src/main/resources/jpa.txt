@@ -1259,6 +1259,7 @@ Entity 如何处理关联关系?
            }
         }
 
+    @ManyToOne 的 lazy 机制和用法，与 @OneToOne 的一样。而 @ManyToOne 和 @OneToMany 的最佳实践，与 @OneToOne 的完全一样，也是尽量避免双向关联，一切级联更新和 orphanRemoval 都保持默认规则，并且 fetch 采用 lazy 延迟加载。
 
 
 
