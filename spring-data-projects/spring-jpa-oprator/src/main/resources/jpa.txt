@@ -590,18 +590,328 @@ Spring Data JPA 的最大特色 - 方法名定义查询方法（Defining Query M
 
     @Query 动态查询解决方法
 
+JPA - jsr338 Java Entity persistent (https://download.oracle.com/otn-pub/jcp/persistence-2_2-mrel-spec/JavaPersistence.pdf)
 
+    Entity 使用:
+        1、实体是直接进行数据库持久化操作的领域对象（即一个简单的 POJO，可以按照业务领域划分），必须通过 @Entity 注解进行标示。
 
+        2、实体必须有一个 public 或者 protected 的无参数构造方法。
 
+        3、持久化映射的注解可以标示在 Entity 的字段 field 上，也可以将持久化注解运用在 Entity 里面的 get/set 方法上，通常我们是放在 get 方法上，需要注意的是，在同一个 Entity 里面只能有一种方式生效，也就是说，注解要么全部写在 field 上面，要么就全部写在 Property方法上面。
 
+    Entity 使用注意项:
+        1、只要是在 @Entity 的实体里面被注解标注的字段，都会被映射到数据库中，除了使用 @Transient 注解的字段之外。
 
+        2、实体里面必须要有一个主键，主键标示的字段可以是单个字段，也可以是复合主键字段。
 
+    @Entity注解 用于定义对象将会成为被 JPA 管理的实体，必填，将字段映射到指定的数据库表中，直接用在实体类。
 
+    @Table注解 用于指定数据库的表名，表示此实体对应的数据库里面的表名，非必填，默认表名和 entity 名字一样。
 
+    @Access注解 用于指定 entity 里面的注解是写在字段上面，还是 get/set 方法上面生效，非必填。在默认不填写的情况下，当实体里面的第一个注解出现在字段上或者 get/set 方法上面，就以第一次出现的方式为准。
 
+    @Id注解 定义属性为数据库的主键，一个实体里面必须有一个主键，但不一定是这个注解，可以和 @GeneratedValue 配合使用或成对出现。
 
+    @GeneratedValue注解 主键生成策略。
+        public enum GenerationType {
+            //通过表产生主键，框架借由表模拟序列产生主键，使用该策略可以使应用更易于数据库移植。
+            TABLE,
+            //通过序列产生主键，通过 @SequenceGenerator 注解指定序列名， MySql 不支持这种方式；
+            SEQUENCE,
+            //采用数据库ID自增长， 一般用于mysql数据库
+            IDENTITY,
+            //JPA 自动选择合适的策略，是默认选项；
+            AUTO
+        }
 
+    @Enumerated注解 这个注解很好用，因为它对 enum 提供了下标和 name 两种方式，用法直接映射在 enum 枚举类型的字段上。
+        @Target({METHOD, FIELD}) //作用在方法和字段上
+        public @interface Enumerated {
+        //枚举映射的类型，默认是ORDINAL（即枚举字段的下标）。
+            EnumType value() default ORDINAL;
+        }
+        public enum EnumType {
+            //映射枚举字段的下标
+            ORDINAL,
+            //映射枚举的Name
+            STRING
+        }
+        举例:
+            //有一个枚举类，用户的性别
+            public enum Gender {
+                MAIL("男性"), FMAIL("女性");
+                private String value;
+                private Gender(String value) {
+                    this.value = value;
+                }
+            }
+            //实体类@Enumerated的写法如下
+            @Entity
+            @Table(name = "tb_user")
+            public class User implements Serializable {
+                @Enumerated(EnumType.STRING)
+                @Column(name = "user_gender")
+                private Gender gender;
+                ...
+            }
+            数据库里面的值会变成 MAIL/FMAIL，而不是男性/女性
 
+    @Basic注解 表示属性是到数据库表的字段的映射，如果实体的字段上没有任何注解，默认即为 @Basic，也就是说默认所有的字段肯定是和数据库进行映射的，并且默认为 Eager 类型。
+        public @interface Basic {
+            //可选，EAGER（默认）：立即加载；LAZY：延迟加载。（LAZY主要应用在大字段上面）
+            FetchType fetch() default EAGER;
+            //可选。这个字段是否可以为null，默认是true。
+            boolean optional() default true;
+        }
+
+    @Transient注解 表示该属性不是映射到数据库表的字段，表示非持久化属性。JPA 映射数据库的时候忽略它，与 @Basic 有相反的作用。也就是每个字段上面 @Transient 和 @Basic 必须二选一，而什么都不指定的话，默认是 @Basic。
+
+    @Column注解 定义该属性对应数据库中的列名。
+        public @interface Column {
+            //数据库中的表的列名；可选，如果不填写认为字段名和实体属性名一样。
+            String name() default "";
+            //是否唯一。默认flase，可选。
+            boolean unique() default false;
+            //数据字段是否允许空。可选，默认true。
+            boolean nullable() default true;
+            //执行insert操作的时候是否包含此字段，默认，true，可选。
+            boolean insertable() default true;
+            //执行update的时候是否包含此字段，默认，true，可选。
+            boolean updatable() default true;
+            //表示该字段在数据库中的实际类型。
+            String columnDefinition() default "";
+            //数据库字段的长度，可选，默认255
+            int length() default 255;
+        }
+
+    @Temporal注解 用来设置 Date 类型的属性映射到对应精度的字段，存在以下三种情况：
+        @Temporal(TemporalType.DATE)映射为日期 // date （只有日期）
+
+        @Temporal(TemporalType.TIME)映射为日期 // time （只有时间）
+
+        @Temporal(TemporalType.TIMESTAMP)映射为日期 // date time （日期+时间）
+
+    如何通过 @IdClass 做到联合主键？
+        import lombok.AllArgsConstructor;
+        import lombok.Builder;
+        import lombok.Data;
+        import lombok.NoArgsConstructor;
+        import java.io.Serializable;
+        @Data
+        @Builder
+        @AllArgsConstructor
+        @NoArgsConstructor
+        public class UserInfoID implements Serializable {
+           private String name,telephone;
+        }
+
+        @Entity
+        @Data
+        @Builder
+        @IdClass(UserInfoID.class)
+        @AllArgsConstructor
+        @NoArgsConstructor
+        public class UserInfo {
+           private Integer ages;
+           @Id
+           private String name;
+           @Id
+           private String telephone;
+        }
+
+        新建 UserInfoRepository 仓储
+        import org.springframework.data.jpa.repository.JpaRepository;
+        public interface UserInfoRepository extends JpaRepository<UserInfo,UserInfoID> {
+        }
+
+        新建测试用例
+        import org.junit.jupiter.api.Test;
+        import org.springframework.beans.factory.annotation.Autowired;
+        import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
+        import java.util.Optional;
+        @DataJpaTest
+        public class UserInfoRepositoryTest {
+           @Autowired
+           private UserInfoRepository userInfoRepository;
+           @Test
+           public void testIdClass() {
+              userInfoRepository.save(UserInfo.builder().ages(1).name("fufeng").telephone("37348234743").build());
+              Optional<UserInfo> userInfo = userInfoRepository.findById(UserInfoID.builder().name("fufeng").telephone("37348234743").build());
+              System.out.println(userInfo.get());
+           }
+        }
+
+    @Embeddable 与 @EmbeddedId 注解使用?
+        @Data
+        @Builder
+        @AllArgsConstructor
+        @NoArgsConstructor
+        @Embeddable
+        public class UserInfoEmbeddedID implements Serializable {
+           private String name,telephone;
+        }
+
+        @Entity
+        @Data
+        @Builder
+        @AllArgsConstructor
+        @NoArgsConstructor
+        public class UserInfoEmbedded {
+           private Integer ages;
+           @EmbeddedId
+           private UserInfoID userInfoID;
+           @Column(unique = true)
+           private String uniqueNumber;
+        }
+
+    @IdClass 和 @EmbeddedId 的区别是什么？
+        1、在使用的时候，Embedded 用的是对象，而 IdClass 用的是具体的某一个字段；
+
+        2、二者的JPQL 也会不一样：
+            1、用 @IdClass JPQL 的写法：SELECT u.name FROM UserInfo u
+
+            2、用 @EmbeddedId 的 JPQL 的写法：select u.userInfoId.name FROM UserInfo u
+
+    实体之间的继承关系如何实现？
+        1、纯粹的继承，和表没关系，对象之间的字段共享。利用注解 @MappedSuperclass，协议规定父类不能是 @Entity。
+
+        2、单表多态问题，同一张 Table，表示了不同的对象，通过一个字段来进行区分。利用@Inheritance(strategy = InheritanceType.SINGLE_TABLE)注解完成，只有父类有 @Table。
+
+        3、多表多态，每一个子类一张表，父类的表拥有所有公用字段。通过@Inheritance(strategy = InheritanceType.JOINED)注解完成，父类和子类都是表，有公用的字段在父表里面。
+
+        4、Object 的继承，数据库里面每一张表是分开的，相互独立不受影响。通过@Inheritance(strategy = InheritanceType.TABLE_PER_CLASS)注解完成，父类（可以是一张表，也可以不是）和子类都是表，相互之间没有关系。
+
+    @Inheritance(strategy = InheritanceType.SINGLE_TABLE)
+        import lombok.Data;
+        import javax.persistence.*;
+        @Entity(name="MainBook")
+        @Data
+        @Inheritance(strategy = InheritanceType.SINGLE_TABLE)
+        @DiscriminatorColumn(name="color", discriminatorType = DiscriminatorType.STRING)
+        public class MainBook {
+           @Id
+           @GeneratedValue(strategy= GenerationType.AUTO)
+           private Long id;
+           private String title;
+        }
+
+        import lombok.Data;
+        import lombok.EqualsAndHashCode;
+        import javax.persistence.DiscriminatorValue;
+        import javax.persistence.Entity;
+        @Entity
+        @Data
+        @EqualsAndHashCode(callSuper=false)
+        @DiscriminatorValue("blue")
+        public class BlueSubBook extends MainBook{
+           private String blueMark;
+        }
+
+        //红皮书
+        @Entity
+        @DiscriminatorValue("red")
+        @Data
+        @EqualsAndHashCode(callSuper=false)
+        public class RedSubBook extends MainBook {
+           private String redMark;
+        }
+
+        import org.springframework.data.jpa.repository.JpaRepository;
+        public interface RedSubBookRepository extends JpaRepository<RedSubBook,Long>{
+        }
+
+        import org.junit.jupiter.api.Test;
+        import org.springframework.beans.factory.annotation.Autowired;
+        import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
+        @DataJpaTest
+        public class RedSubBookRepositoryTest {
+           @Autowired
+           private RedSubBookRepository redSubBookRepository;
+           @Test
+           public void testRedSubBook() {
+              RedSubBook sedSubBook = new RedSubBook();
+              sedSubBook.setTitle("redbook");
+              sedSubBook.setRedMark("redmark");
+              sedSubBook.setId(1L);
+              redSubBookRepository.saveAndFlush(redBook);
+              RedSubBook r = redSubBookRepository.findById(1L).get();
+              System.out.println(r.getId()+":"+r.getTitle()+":"+r.getRedMark());
+           }
+        }
+
+    @Inheritance(strategy = InheritanceType.JOINED)
+        import lombok.Data;
+        import javax.persistence.*;
+        @Entity(name="JoinBook")
+        @Data
+        @Inheritance(strategy = InheritanceType.JOINED)
+        public class JoinBook {
+           @Id
+           @GeneratedValue(strategy= GenerationType.AUTO)
+           private Long id;
+           private String title;
+        }
+
+        import lombok.Data;
+        import lombok.EqualsAndHashCode;
+        import javax.persistence.Entity;
+        import javax.persistence.PrimaryKeyJoinColumn;
+        @Entity
+        @Data
+        @EqualsAndHashCode(callSuper=false)
+        @PrimaryKeyJoinColumn(name = "book_id", referencedColumnName = "id")
+        public class BlueJoinBook extends JoinBook{
+           private String blueMark;
+        }
+
+        import lombok.Data;
+        import lombok.EqualsAndHashCode;
+        import javax.persistence.Entity;
+        import javax.persistence.PrimaryKeyJoinColumn;
+        @Entity
+        @PrimaryKeyJoinColumn(name = "book_id", referencedColumnName = "id")
+        @Data
+        @EqualsAndHashCode(callSuper=false)
+        public class RedJoinBook extends JoinBook {
+           private String redMark;
+        }
+
+        import org.springframework.data.jpa.repository.JpaRepository;
+        public interface RedJoinBookRepository extends JpaRepository<RedJoinBook,Long>{
+        }
+
+    @Inheritance(strategy = InheritanceType.TABLE_PER_CLASS)
+        import lombok.Data;
+        import javax.persistence.*;
+        @Entity(name="PerBook")
+        @Data
+        @Inheritance(strategy = InheritanceType.TABLE_PER_CLASS)
+        public class PerBook {
+           @Id
+           @GeneratedValue(strategy= GenerationType.AUTO)
+           private Long id;
+           private String title;
+        }
+
+        import lombok.Data;
+        import lombok.EqualsAndHashCode;
+        import javax.persistence.Entity;
+        @Entity
+        @Data
+        @EqualsAndHashCode(callSuper=false)
+        public class RedPerBook extends PerBook {
+           private String redMark;
+        }
+
+        import lombok.Data;
+        import lombok.EqualsAndHashCode;
+        import javax.persistence.Entity;
+        @Entity
+        @Data
+        @EqualsAndHashCode(callSuper=false)
+        public class BluePerBook extends PerBook{
+           private String blueMark;
+        }
 
 
 
