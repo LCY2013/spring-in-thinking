@@ -1455,6 +1455,212 @@ Entity 里面相关的json依赖
          }
       }
 
+    spring 里的jackson应用
+        应用一:
+
+            在Spring MVC中，需要知道Mvc的JSON视图的加载原理。查看源码，mvc 对象的转化类：HttpMessageConvertersAutoConfiguration，里面要利用JacksonHttpMessageConvertersConfiguration。
+
+        应用二:
+
+            在微服务之间相互调用的时候，都会用到 HttpMessageConverter 里面的 JacksonHttpMessageConverter 进行转化。特别是在用 open-feign 里面的 Encode 和 Decode 的时候。
+                org.springframework.cloud.openfeign.support.SpringEncoder
+                org.springframework.cloud.openfeign.support.SpringDecoder
+
+        应用三:
+
+            redis、cacheable 都会用到 value 的序列化，都离不开 JSON 的序列化。
+                org.springframework.data.redis.cache.RedisCacheConfiguration
+
+        应用四:
+
+            当我们项目之间解耦用到消息队列的时候，可能会基于 JMS消息协议发送消息，其也是基于 JSON 的序列化机制来继续converter的，它在用JmsTemplate 的时候也会遇到同样情况，我们看一下 JMS 里面相关代码。
+
+    Jackson 原理
+        Jackson 的可见性原理分析
+
+        注解@JsonAutoDetect JsonAutoDetect.Visibility 类包含与 Java 中的可见性级别匹配的常量，表示 ANY、DEFAULT、NON_PRIVATE、NONE、PROTECTED_AND_PRIVATE和PUBLIC_ONLY。
+
+            1、若该属性修饰符是 public，该属性可序列化和反序列化。
+
+            2、若属性的修饰符不是 public，但是它的 getter 方法和 setter 方法是 public，该属性可序列化和反序列化。因为 getter 方法用于序列化，而 setter 方法用于反序列化。
+
+            3、若属性只有 public 的 setter 方法，而无 public 的 getter 方法，该属性只能用于反序列化。
+
+            ObjectMapper mapper=new ObjectMapper();
+            //PropertyAccessor支持的类型有ALL,CREATOR,FIELD,GETTER,IS_GETTER,NONE,SETTER
+            //Visibility支持的类型有ANY,DEFAULT,NON_PRIVATE,NONE,PROTECTED_AND_PUBLIC,PUBLIC_ONLY
+            mapper.setVisibility(PropertyAccessor.FIELD,JsonAutoDetect.Visibility.ANY);
+            这里就可以看到所有的字段
+
+        反序列化最重要的方法
+            readValue
+
+            反序列化需要知道结果集的class类型:
+                String json = objectMapper.writerWithDefaultPrettyPrinter().writeValueAsString(userJson);
+                //单个对象的写法：
+                UserJson user = objectMapper.readValue(json,UserJson.class);
+                //返回List的返回结果的写法：
+                List<User> personList2 = mapper.readValue(jsonListString, new TypeReference<List<User>>(){});
+
+                这里处理java类型和泛型情况:
+                com.fasterxml.jackson.databind.ObjectMapper.readValue
+                    -> com.fasterxml.jackson.databind.type.TypeFactory.constructType
+                        -> com.fasterxml.jackson.databind.type.TypeFactory._fromAny
+
+            具体查看 - Jackson2HttpMessageConverter
+
+        Module 的加载机制: https://github.com/FasterXML/jackson#third-party-datatype-modules
+
+            ObejctMapper 里面可以扩展很多 datatype，而不同的 datatype 封装到了不通的 modules 里面，我们可以 register 注册进去不同的 module，从而处理不同的数据类型。
+
+    Jackson 与 JPA 常见问题
+
+        死循环问题造成的StackOverflow如何解决？
+
+        第一种情况：我们在写 ToString 方法，特别是 JPA 的实体的时候，很容易陷入死循环，因为实体之间的关联关系配置是双向的，就需要 ToString 的时候把一方排除掉。
+
+        第二种情况：在转化JSON的时候，双向关联也会死循环。这是时候我们要想到通过 @JsonIgnoreProperties(value={"address"})或者字段上面配置@JsonIgnore。此外，通过 @JsonBackReference 和 @JsonManagedReference 注解也可以解决死循环。
+
+            public class UserAddress {
+               @JsonManagedReference
+               private User user;
+               ....
+            }
+            public class User implements Serializable {
+               @OneToMany(mappedBy = "user",fetch = FetchType.LAZY)
+               @JsonBackReference
+               private List<UserAddress> address;
+               ...
+            }
+
+        JPA 实体 JSON 序列化的常见报错？
+
+            user 对象，或者是类似带有 lazy 对象关系的时候，经常会遇到下面的错误：
+
+                No serializer found for class org.hibernate.proxy.pojo.bytebuddy.ByteBuddyInterceptor and no properties discovered to create BeanSerializer (to avoid exception, disable SerializationFeature.FAIL_ON_EMPTY_BEANS) (through reference chain: User$HibernateProxy$MdjeSaTz["hibernateLazyInitializer"])
+                com.fasterxml.jackson.databind.exc.InvalidDefinitionException: No serializer found for class org.hibernate.proxy.pojo.bytebuddy.ByteBuddyInterceptor and no properties discovered to create BeanSerializer (to avoid exception, disable SerializationFeature.FAIL_ON_EMPTY_BEANS) (through reference chain: User$HibernateProxy$MdjeSaTz["hibernateLazyInitializer"])
+
+            常见报错解决方法
+
+            解决方法一：引入 Hibernate5Module
+
+                ObjectMapper objectMapper = new ObjectMapper();
+                objectMapper.registerModule(new Hibernate5Module());
+                String json = objectMapper.writeValueAsString(user);
+                System.out.println(json);
+
+                Hibernate5Module 里面还有很多 Feature 配置，例如FORCE_LAZY_LOADING，强制 lazy 里面加载就不会存在上面的问题了。但是这个会有性能问题，不建议使用。还有 USE_TRANSIENT_ANNOTATION，利用 JPA 的 @Transient 注解配置，这个默认是开启的。所以基本上 feature 默认配置都是 ok 的。
+
+            解决方法二：关闭 SerializationFeature.FAIL_ON_EMPTY_BEANS 的 feature
+
+                        ObjectMapper objectMapper = new ObjectMapper();
+                        //直接关闭SerializationFeature.FAIL_ON_EMPTY_BEANS
+                        objectMapper.configure(SerializationFeature.FAIL_ON_EMPTY_BEANS,false);
+                        String json = objectMapper.writeValueAsString(user);
+                        System.out.println(json);
+
+            解决方法三：对象上面排除“hibernateLazyInitializer”“handler”“fieldHandler”等
+
+                @JsonIgnoreProperties(value={"address","hibernateLazyInitializer","handler","fieldHandler"})
+                public class User implements Serializable {
+                }
+
+    ObjectMapper 实战经验推荐配置项
+
+        ObjectMapper objectMapper = new ObjectMapper();
+        //empty beans不需要报错，没有就是没有了
+        objectMapper.configure(SerializationFeature.FAIL_ON_EMPTY_BEANS,false);
+        //遇到不可识别字段的时候不要报错，因为前端传进来的字段不可信，可以不要影响正常业务逻辑
+        objectMapper.configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES,false);
+        //遇到不可以识别的枚举的时候，为了保证服务的强壮性，建议也不要关心未知的，甚至给个默认的，特别是微服务大家的枚举值随时在变，但是老的服务是不需要跟着一起变的
+        objectMapper.configure(DeserializationFeature.READ_UNKNOWN_ENUM_VALUES_AS_NULL,true);
+        objectMapper.configure(DeserializationFeature.READ_UNKNOWN_ENUM_VALUES_USING_DEFAULT_VALUE,true);
+
+    时间类型的最佳实践，如何返回 ISO 格式的标准时间
+
+        有的时候会发现，默认的 ObjectMapper 里面的 module 提供的时间转化格式可能不能满足我们的要求，可能要进行扩展。
+
+        @Test
+        @Rollback(false)
+        public void testUserJson() throws JsonProcessingException {
+            UserJson userJson = userJsonRepository.findById(1L).get();
+            userJson.setOther(Maps.newHashMap("address","shanghai"));
+            //自定义 myInstant解析序列化和反序列化DateTimeFormatter.ISO_ZONED_DATE_TIME这种格式
+           SimpleModule myInstant = new SimpleModule("instant", Version.unknownVersion())
+                    .addSerializer(java.time.Instant.class, new JsonSerializer<Instant>() {
+                        @Override
+                        public void serialize(java.time.Instant instant,
+                                              JsonGenerator jsonGenerator,
+                                              SerializerProvider serializerProvider)
+                                throws IOException {
+                            if (instant == null) {
+                                jsonGenerator.writeNull();
+                            } else {
+                                jsonGenerator.writeObject(instant.toString());
+                            }
+                        }
+                    })
+                    .addDeserializer(Instant.class, new JsonDeserializer<Instant>() {
+                        @Override
+                        public Instant deserialize(JsonParser jsonParser, DeserializationContext deserializationContext) throws IOException {
+                            Instant result = null;
+                            String text = jsonParser.getText();
+                            if (!StringUtils.isEmpty(text)) {
+                                result = ZonedDateTime.parse(text, DateTimeFormatter.ISO_ZONED_DATE_TIME).toInstant();
+                            }
+                            return result;
+                        }
+                    });
+            ObjectMapper objectMapper = new ObjectMapper();
+            //注册自定义的module
+            objectMapper.registerModule(myInstant);
+            String json = objectMapper.writerWithDefaultPrettyPrinter().writeValueAsString(userJson);
+            System.out.println(json);
+        }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 

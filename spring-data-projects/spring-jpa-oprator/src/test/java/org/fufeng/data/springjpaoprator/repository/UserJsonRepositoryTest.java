@@ -17,8 +17,13 @@
  */
 package org.fufeng.data.springjpaoprator.repository;
 
+import com.fasterxml.jackson.core.JsonGenerator;
+import com.fasterxml.jackson.core.JsonParser;
 import com.fasterxml.jackson.core.JsonProcessingException;
-import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.core.Version;
+import com.fasterxml.jackson.databind.*;
+import com.fasterxml.jackson.databind.module.SimpleModule;
+import io.micrometer.core.instrument.util.StringUtils;
 import org.assertj.core.util.Maps;
 import org.fufeng.data.springjpaoprator.domain.json.UserJson;
 import org.junit.jupiter.api.BeforeAll;
@@ -29,7 +34,10 @@ import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
 import org.springframework.test.annotation.Rollback;
 
 import javax.transaction.Transactional;
+import java.io.IOException;
 import java.time.Instant;
+import java.time.ZonedDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.Date;
 
 /**
@@ -67,5 +75,44 @@ public class UserJsonRepositoryTest {
         System.out.println(objectMapper.writerWithDefaultPrettyPrinter()
                 .writeValueAsString(userJson));
     }
+
+    @Test
+    @Rollback(false)
+    public void testUserJsonModule() throws JsonProcessingException {
+        UserJson userJson = userJsonRepository.findById(1L).get();
+        userJson.setOther(Maps.newHashMap("address","CD"));
+        //自定义 myInstant解析序列化和反序列化DateTimeFormatter.ISO_ZONED_DATE_TIME这种格式
+        SimpleModule myInstant = new SimpleModule("instant", Version.unknownVersion())
+                .addSerializer(java.time.Instant.class, new JsonSerializer<>() {
+                    @Override
+                    public void serialize(java.time.Instant instant,
+                                          JsonGenerator jsonGenerator,
+                                          SerializerProvider serializerProvider)
+                            throws IOException {
+                        if (instant == null) {
+                            jsonGenerator.writeNull();
+                        } else {
+                            jsonGenerator.writeObject(instant.toString());
+                        }
+                    }
+                })
+                .addDeserializer(Instant.class, new JsonDeserializer<>() {
+                    @Override
+                    public Instant deserialize(JsonParser jsonParser, DeserializationContext deserializationContext) throws IOException {
+                        Instant result = null;
+                        String text = jsonParser.getText();
+                        if (!StringUtils.isEmpty(text)) {
+                            result = ZonedDateTime.parse(text, DateTimeFormatter.ISO_ZONED_DATE_TIME).toInstant();
+                        }
+                        return result;
+                    }
+                });
+        ObjectMapper objectMapper = new ObjectMapper();
+        //注册自定义的module
+        objectMapper.registerModule(myInstant);
+        String json = objectMapper.writerWithDefaultPrettyPrinter().writeValueAsString(userJson);
+        System.out.println(json);
+    }
+
 
 }

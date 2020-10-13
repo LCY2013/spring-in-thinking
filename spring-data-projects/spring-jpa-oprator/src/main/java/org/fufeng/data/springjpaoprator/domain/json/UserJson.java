@@ -60,7 +60,7 @@ public class UserJson {
     }
     @Transient
     @JsonAnySetter
-    private final Map<String,Object> other = new HashMap<>();
+    private Map<String,Object> other = new HashMap<>();
     @JsonAnyGetter
     public Map<String, Object> getOther() {
         return other;
