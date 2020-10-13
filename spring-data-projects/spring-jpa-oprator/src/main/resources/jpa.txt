@@ -1396,6 +1396,64 @@ Entity 如何处理关联关系?
 
     FetchType 采用默认方式：fetch = FetchType.LAZY 的方式。
 
+Entity 里面相关的json依赖
+
+    核心模块如下:
+        1、jackson-core：核心包，提供基于“流模式”解析的相关 API，它包括 JsonPaser 和 JsonGenerator。Jackson 内部实现正是通过高性能的流模式 API 的 JsonGenerator 和 JsonParser 来生成和解析 json。
+
+        2、jackson-annotations：注解包，提供标准注解功能，这是我们必须要掌握的基础语法。
+
+        3、jackson-databind：数据绑定包，提供基于“对象绑定”解析的相关 API（ ObjectMapper ） 和“树模型”解析的相关 API（JsonNode）；基于“对象绑定”解析的 API 和“树模型”解析的 API 依赖基于“流模式”解析的 API。
+
+    jackson-datatype-jdk8：是对 jdk8 语法里面的一些 Optional、Stream 等一些新的类型做的一些支持。
+
+    jackson-datatype-jsr310：是对 jdk8 中的 JSR310 时间协议做了支持，如 Duration、Instant、LocalDate、Clock 等时间类型的序列化、反序列化。
+
+    jackson-datatype-hibernate5：是对Hibernate的里面的一些数据类型的序列化、反序列化，如HibernateProxy 等。
+
+    jackson 常用注解 jackson-annotations-2.11.2.jar
+        com.fasterxml.jackson.annotation.JsonProperty
+        com.fasterxml.jackson.annotation.JsonFormat
+        com.fasterxml.jackson.annotation.JsonPropertyOrder
+        ...
+
+    测试用例如下:
+      import com.fasterxml.jackson.annotation.*;
+      import lombok.*;
+      import javax.persistence.*;
+      import java.time.Instant;
+      import java.util.*;
+      @Entity
+      @Data
+      @Builder
+      @AllArgsConstructor
+      @NoArgsConstructor
+      @JsonPropertyOrder({"createDate","email"})
+      public class UserJson {
+         @Id
+         @GeneratedValue(strategy= GenerationType.AUTO)
+         private Long id;
+         @JsonProperty("my_name")
+         private String name;
+         private Instant createDate;
+         @JsonFormat(timezone ="GMT+8", pattern = "yyyy-MM-dd HH:mm")
+         private Date updateDate;
+         private String email;
+         @JsonIgnore
+         private String sex;
+         @JsonCreator
+         public UserJson(@JsonProperty("email") String email) {
+            System.out.println("其他业务逻辑");
+            this.email = email;
+         }
+         @Transient
+         @JsonAnySetter
+         private Map<String,Object> other = new HashMap<>();
+         @JsonAnyGetter
+         public Map<String, Object> getOther() {
+            return other;
+         }
+      }
 
 
 
