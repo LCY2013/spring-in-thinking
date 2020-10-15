@@ -1618,6 +1618,100 @@ Entity 里面相关的json依赖
             System.out.println(json);
         }
 
+QueryByExampleExecutor用法
+
+    QueryByExampleExecutor（QBE）是一种用户友好的查询技术，具有简单的接口，它允许动态查询创建，并且不需要编写包含字段名称的查询。
+
+    org.springframework.data.repository.query.QueryByExampleExecutor
+        -> org.springframework.data.jpa.repository.JpaRepository
+            -> org.springframework.data.jpa.repository.support.JpaRepositoryImplementation
+                -> org.springframework.data.jpa.repository.support.SimpleJpaRepository
+
+    QBE语法分析
+
+        public interface QueryByExampleExecutor<T> {
+            //根据“实体”查询条件，查找一个对象
+            <S extends T> S findOne(Example<S> example);
+            //根据“实体”查询条件，查找一批对象
+            <S extends T> Iterable<S> findAll(Example<S> example);
+            //根据“实体”查询条件，查找一批对象，可以指定排序参数
+            <S extends T> Iterable<S> findAll(Example<S> example, Sort sort);
+             //根据“实体”查询条件，查找一批对象，可以指定排序和分页参数
+            <S extends T> Page<S> findAll(Example<S> example, Pageable pageable);
+            //根据“实体”查询条件，查找返回符合条件的对象个数
+            <S extends T> long count(Example<S> example);
+            //根据“实体”查询条件，判断是否有符合条件的对象
+            <S extends T> boolean exists(Example<S> example);
+        }
+
+    QBE案例
+
+        @Entity
+        @Data
+        @Builder
+        @AllArgsConstructor
+        @NoArgsConstructor
+        @ToString(exclude = "address")
+        public class User implements Serializable {
+
+           @Id
+           @GeneratedValue(strategy= GenerationType.AUTO)
+           private Long id;
+
+           private String name;
+
+           private String email;
+
+           @Enumerated(EnumType.STRING)
+           private SexEnum sex;
+
+           private Integer age;
+
+           private Instant createDate;
+
+           private Date updateDate;
+
+           @OneToMany(mappedBy = "user",fetch = FetchType.EAGER,cascade = {CascadeType.ALL})
+           private List<UserAddress> address;
+
+        }
+
+        enum SexEnum {
+           BOY,GIRL
+        }
+
+        //User实体我们扩充了一些字段去了不同的类型，方便测试
+        @Entity
+        @Data
+        @Builder
+        @AllArgsConstructor
+        @NoArgsConstructor
+        @ToString(exclude = "user")
+        public class UserAddress {
+
+           @Id
+           @GeneratedValue(strategy= GenerationType.AUTO)
+           private Long id;
+
+           private String address;
+
+           @ManyToOne(cascade = CascadeType.ALL)
+           @JsonIgnore
+           private User user;
+
+        }
+        //UserAddress基本上不变
+
+        仓储
+        public interface QbeUserAddressRepository extends JpaRepository<UserAddress,Long> {
+        }
+
+
+
+
+
+
+
 
 
 
