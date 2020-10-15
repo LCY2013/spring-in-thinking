@@ -80,9 +80,27 @@ public class QbeUserAddressRepositoryTest {
         System.out.println((objectMapper.writerWithDefaultPrettyPrinter().writeValueAsString(userAddress)));
 
         // 创建Example 查询实体匹配器
-        final ExampleMatcher exampleMatcher = ExampleMatcher.matching()
+        // 满足 email 前缀匹配、地址前缀匹配的动态查询条件
+        /*final ExampleMatcher exampleMatcher = ExampleMatcher.matching()
                 .withMatcher("user.email",ExampleMatcher.GenericPropertyMatchers.startsWith())
-                .withMatcher("address",ExampleMatcher.GenericPropertyMatchers.startsWith());
+                .withMatcher("address",ExampleMatcher.GenericPropertyMatchers.startsWith());*/
+
+        //创建匹配器，即如何使用查询条件
+
+        ExampleMatcher exampleMatcher = ExampleMatcher
+                //采用默认and的查询方式
+                .matchingAll()
+                //忽略大小写
+                .withIgnoreCase()
+                //忽略所有null值的字段
+                .withIgnoreNullValues()
+                .withIgnorePaths("id","createDate")
+                //默认采用精准匹配规则
+                .withStringMatcher(ExampleMatcher.StringMatcher.EXACT)
+                //级联查询，字段user.email采用字符前缀匹配规则
+                .withMatcher("user.email", ExampleMatcher.GenericPropertyMatchers.startsWith())
+                //特殊指定address字段采用后缀匹配
+                .withMatcher("address", ExampleMatcher.GenericPropertyMatchers.endsWith());
 
         final Page<UserAddress> userAddresses =
                 qbeUserAddressRepository.findAll(Example.of(userAddress, exampleMatcher),
