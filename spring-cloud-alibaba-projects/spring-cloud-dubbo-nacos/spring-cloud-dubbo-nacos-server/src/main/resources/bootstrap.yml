@@ -1,0 +1,16 @@
+dubbo:
+  scan:
+    base-packages: org.fufeng.dubbo.nacos.server
+  protocol: # Dubbo 服务暴露的协议配置
+    name: dubbo # name 为协议名称
+    port: -1 # port 为协议端口（ -1 表示自增端口，从 20880 开始）
+
+spring:
+  application:
+    name: spring-cloud-dubbo-nacos-server
+  main:
+    allow-bean-definition-overriding: true
+  cloud:
+    nacos:
+      discovery:
+        server-addr: 127.0.0.1:8848
