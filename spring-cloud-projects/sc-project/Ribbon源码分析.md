@@ -43,7 +43,7 @@ public interface ServiceInstance {
 获取了一个 ServiceInstance 列表，我们就可以基于常见的随机、轮询等算法来实现客户端负载均衡，也可以基于服务的 URI 信息等实现各种定制化的路由机制。一旦确定负载均衡的最终目标服务，就可以使用 HTTP 工具类来根据服务的地址信息发起远程调用。
 ```
 
-[项目示例位置]()
+[关于Discovery抽象(EurekaDiscoveryClient)使用的项目示例位置](https://github.com/LCY2013/spring-in-thinking/tree/master/spring-cloud-projects/sc-project/user-service/src/test/java/org/fufeng/discovery/user/controller)
 
 
  
