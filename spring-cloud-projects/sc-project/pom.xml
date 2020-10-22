@@ -13,6 +13,7 @@
         <module>eureka-server</module>
         <module>eureka-server-ha</module>
         <module>user-service</module>
+        <module>intervention-service</module>
     </modules>
     <artifactId>sc-project</artifactId>
 

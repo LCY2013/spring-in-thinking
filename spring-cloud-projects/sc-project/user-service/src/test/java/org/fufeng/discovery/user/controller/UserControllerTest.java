@@ -42,7 +42,7 @@ import java.util.List;
  */
 
 @RunWith(SpringRunner.class)
-/**  指定当前生效的配置文件( active profile)，如果是 appplication.yml   **/
+/**  指定当前生效的配置文件( active profile)**/
 @ActiveProfiles("user1")
 /** 指定  @SpringBootApplication  启动类 和 端口  **/
 @SpringBootTest(classes = UserApplication.class, webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)

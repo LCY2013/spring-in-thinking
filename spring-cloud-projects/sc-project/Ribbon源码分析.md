@@ -43,7 +43,7 @@ public interface ServiceInstance {
 获取了一个 ServiceInstance 列表，我们就可以基于常见的随机、轮询等算法来实现客户端负载均衡，也可以基于服务的 URI 信息等实现各种定制化的路由机制。一旦确定负载均衡的最终目标服务，就可以使用 HTTP 工具类来根据服务的地址信息发起远程调用。
 ```
 
-[关于Discovery抽象(EurekaDiscoveryClient)使用的项目示例位置](https://github.com/LCY2013/spring-in-thinking/tree/master/spring-cloud-projects/sc-project/user-service/src/test/java/org/fufeng/discovery/user/controller)
+[关于Discovery抽象(EurekaDiscoveryClient)使用的项目示例位置](https://github.com/LCY2013/spring-in-thinking/tree/master/spring-cloud-projects/sc-project/user-service/src/test/java/org/fufeng/discovery/user/controller/UserControllerTest)
 
 ##### Ribbon 实现负载均衡 需要在RestTemple上面加上 @LoadBalanced注解
 
@@ -58,8 +58,54 @@ public class CustomDiscoveryClient {
 }
 ```
 
+[关于Ribbon 使用负载均衡示例代码位置](https://github.com/LCY2013/spring-in-thinking/tree/master/spring-cloud-projects/sc-project/user-service/src/test/java/org/fufeng/discovery/user/controller/RibbonLoadBalancedTest)
  
 
+##### 通过实现@RibbonClient 实现自定义的负载均衡策略
+
+Spring Cloud Netflix Ribbon 提供 @RibbonClient 注解的目的在于通过该注解声明自定义配置，从而来完全控制客户端负载均衡行为。
+
+```
+public @interface RibbonClient {
+ //同下面的 name 属性
+ String value() default "";
+ //指定服务名称
+ String name() default "";
+ //指定负载均衡配置类
+ Class<?>[] configuration() default {};
+}
+
+通常，我们需要指定这里的目标服务名称以及负载均衡配置类。
+所以，为了使用 @RibbonClient 注解，我们需要创建一个独立的配置类，用来指定具体的负载均衡规则。
+
+@Configuration
+public class SpringHealthLoadBalanceConfig{
+
+ @Autowired
+ IClientConfig config;
+
+ @Bean
+ @ConditionalOnMissingBean
+ public IRule springHealthRule(IClientConfig config) {
+    return new RandomRule();
+ }
+}
+该配置类的作用是使用 RandomRule 替换 Ribbon 中的默认负载均衡策略 RoundRobin，我们可以根据需要返回任何自定义的 IRule 接口的实现策略。
+
+有了这个 SpringHealthLoadBalanceConfig 之后，我们就可以在调用特定服务时使用该配置类，从而对客户端负载均衡实现细粒度的控制。
+@SpringBootApplication
+@EnableDiscoveryClient  // 尽量使用这个注解，这是来自SpringCloudCommon，兼容所有的注册中心(eureka,zk,consul,etcd...)
+@RibbonClient(name = "user-service",configuration = {SpringHealthLoadBalanceConfig.class})
+public class InterventionApplication {
+    public static void main(String[] args) {
+        SpringApplication.run(InterventionApplication.class,args);
+    }
+}
+
+注意到在 @RibbonClient 中设置了目标服务名称为 user-service，配置类为 SpringHealthLoadBalanceConfig。现在每次访问 user-service 时将使用 RandomRule 这一随机负载均衡策略。
+对比 @LoadBalanced 注解和 @RibbonClient 注解，如果使用的是普通的负载均衡场景，那么通常只需要 @LoadBalanced 注解就能完成客户端负载均衡。而如果我们要对 Ribbon 运行时行为进行定制化处理时，就可以使用 @RibbonClient 注解。
+```
+[Spring Cloud netflix ribbon 如何细粒度控制负载均衡?](https://github.com/LCY2013/spring-in-thinking/tree/master/spring-cloud-projects/sc-project/intervention-service)
 
 
 

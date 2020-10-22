@@ -38,7 +38,7 @@ import org.springframework.web.client.RestTemplate;
  * @description ribbon 加上{@link LoadBalanced} 实现负载均衡
  * @create 2020-10-22
  */
-@SpringBootApplication(scanBasePackages = "org.fufeng.user.loadbalance")
+@SpringBootApplication(scanBasePackages = "org.fufeng.user.config")
 @EnableDiscoveryClient
 //@ActiveProfiles("user3")
 @RestController
