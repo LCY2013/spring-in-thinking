@@ -28,3 +28,19 @@ eureka:
     service-url:
       defaultZone: http://localhost:9999/eureka,http://localhost:9998/eureka
 
+---
+
+# 定义服务端口号
+server:
+  port: 8890
+
+spring:
+  profiles: user3
+  application:
+    name: user-service-test
+
+eureka:
+  client:
+    service-url:
+      defaultZone: http://localhost:9999/eureka,http://localhost:9998/eureka
+

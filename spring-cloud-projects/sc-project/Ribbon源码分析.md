@@ -45,8 +45,22 @@ public interface ServiceInstance {
 
 [关于Discovery抽象(EurekaDiscoveryClient)使用的项目示例位置](https://github.com/LCY2013/spring-in-thinking/tree/master/spring-cloud-projects/sc-project/user-service/src/test/java/org/fufeng/discovery/user/controller)
 
+##### Ribbon 实现负载均衡 需要在RestTemple上面加上 @LoadBalanced注解
+
+```java
+@Configuration
+public class CustomDiscoveryClient {
+    @Bean
+    @LoadBalanced
+    public RestTemplate restTemplate(){
+        return new RestTemplate();
+    }
+}
+```
 
  
+
+
 
 
 

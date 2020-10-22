@@ -15,41 +15,41 @@
  * THE SOFTWARE IS PROVIDED “AS IS”, WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
  *
  */
-package org.fufeng.user.controller;
+package org.fufeng.user.loadbalance;
 
-import lombok.extern.slf4j.Slf4j;
-import org.fufeng.user.domain.User;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RestController;
-
-import javax.servlet.http.HttpServletRequest;
+import com.netflix.loadbalancer.IRule;
+import com.netflix.loadbalancer.RandomRule;
+import org.springframework.cloud.client.loadbalancer.LoadBalanced;
+import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.Configuration;
+import org.springframework.web.client.RestTemplate;
 
 /**
  * @author <a href="https://github.com/lcy2013">MagicLuo(扶风)</a>
  * @program thinking-in-spring-boot
- * @description 用户控制器层
+ * @description 自定义 DiscoveryClient
  * @create 2020-10-21
  */
-@Slf4j
-@RestController
-@RequestMapping(value = "/users")
-public class UserController {
+@Configuration
+public class RibbonLoadBalanceConfig {
 
-    @Autowired
-    private HttpServletRequest request;
+    /**
+     *  定义带 LoadBalance 功能的RestTemplate
+     * @return {@link RestTemplate}
+     */
+    @Bean
+    @LoadBalanced
+    public RestTemplate restTemplate(){
+        return new RestTemplate();
+    }
 
-    @RequestMapping(value = "/{username}",method = RequestMethod.GET)
-    public User getUserByUserName(@PathVariable String username){
-        log.info("Get User Information from port {}",request.getServerPort());
-
-        final User user = new User();
-        user.setId(1L);
-        user.setUserCode("mockUser");
-        user.setUserName(username);
-        return user;
+    /**
+     *  定义负载均衡的策略
+     * @return 随机策略
+     */
+    @Bean
+    public IRule rule(){
+        return new RandomRule();
     }
 
 }
