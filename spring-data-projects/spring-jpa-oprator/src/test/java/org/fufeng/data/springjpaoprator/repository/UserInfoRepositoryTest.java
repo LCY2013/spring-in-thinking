@@ -3,7 +3,7 @@
  * ------------------------------------------------------------------
  * Copyright © 2019 Ramostear.All Rights Reserved.
  *
- * ProjectName: thinking-in-spring-boot
+ * ProjectName: thinking-in-spring
  * @Author : <a href="https://github.com/lcy2013">MagicLuo(扶风)</a>
  * @date : 2020-10-12
  * @version : 1.0.0-RELEASE
@@ -27,7 +27,7 @@ import java.util.Optional;
 
 /**
  * @author <a href="https://github.com/lcy2013">MagicLuo(扶风)</a>
- * @program thinking-in-spring-boot
+ * @program thinking-in-spring
  * @description @IdClass 联合注解测试用例
  * @create 2020-10-12
  */

@@ -3,7 +3,7 @@
  * ------------------------------------------------------------------
  * Copyright © 2020 Ramostear.All Rights Reserved.
  *
- * ProjectName: thinking-in-spring-boot
+ * ProjectName: thinking-in-spring
  * @Author : <a href="https://github.com/lcy2013">MagicLuo(扶风)</a>
  * @date : 2020-08-26
  * @version : 1.0.0-RELEASE
@@ -26,7 +26,7 @@ import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.stereotype.Component;
 
 /**
- * @program: thinking-in-spring-boot
+ * @program: thinking-in-spring
  * @description: 自动加载配置文件类
  *      这里的自定刷新配置文件是可以成功的,通过ConfigurationProperties 实现属性字段的主动刷新
  *  不过这里的自动刷新需要利用到Spring-boot中Actuator的特性,需要使用其中的端点/refresh

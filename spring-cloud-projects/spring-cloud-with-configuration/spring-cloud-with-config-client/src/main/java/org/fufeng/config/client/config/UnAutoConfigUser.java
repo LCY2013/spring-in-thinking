@@ -3,7 +3,7 @@
  * ------------------------------------------------------------------
  * Copyright © 2020 Ramostear.All Rights Reserved.
  *
- * ProjectName: thinking-in-spring-boot
+ * ProjectName: thinking-in-spring
  * @Author : <a href="https://github.com/lcy2013">MagicLuo(扶风)</a>
  * @date : 2020-08-26
  * @version : 1.0.0-RELEASE
@@ -23,7 +23,7 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 
 /**
- * @program: thinking-in-spring-boot
+ * @program: thinking-in-spring
  * @description: 通过普通@Value注入远程配置文件中的信息
  *      @Value 在Spring Cloud环境中只会初始化一次,配置中心的文件即使修改了也不会产生影响,
  *  apollo这样的配置中心实现了@Value的动态刷新

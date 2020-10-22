@@ -3,7 +3,7 @@
  * ------------------------------------------------------------------
  * Copyright © 2019 Ramostear.All Rights Reserved.
  *
- * ProjectName: thinking-in-spring-boot
+ * ProjectName: thinking-in-spring
  * @Author : <a href="https://github.com/lcy2013">MagicLuo(扶风)</a>
  * @date : 2020-08-28
  * @version : 1.0.0-RELEASE
@@ -26,7 +26,7 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 
 /**
- * @program: thinking-in-spring-boot
+ * @program: thinking-in-spring
  * @description: spring security 基础配置
  *      这个类的重点就是声明 PasswordEncoder 和 AuthenticationManager两个 Bean。
  *      稍后会用到。其中 BCryptPasswordEncoder是一个密码加密工具类，它可以实现不可逆的加密，

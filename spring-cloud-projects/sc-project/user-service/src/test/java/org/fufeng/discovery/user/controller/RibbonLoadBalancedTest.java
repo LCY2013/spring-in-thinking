@@ -3,7 +3,7 @@
  * ------------------------------------------------------------------
  * Copyright © 2019 Ramostear.All Rights Reserved.
  *
- * ProjectName: thinking-in-spring-boot
+ * ProjectName: thinking-in-spring
  * @Author : <a href="https://github.com/lcy2013">MagicLuo(扶风)</a>
  * @date : 2020-10-22
  * @version : 1.0.0-RELEASE
@@ -34,7 +34,7 @@ import org.springframework.web.client.RestTemplate;
  * --spring.profiles.active=user3
  *
  * @author <a href="https://github.com/lcy2013">MagicLuo(扶风)</a>
- * @program thinking-in-spring-boot
+ * @program thinking-in-spring
  * @description ribbon 加上{@link LoadBalanced} 实现负载均衡
  * @create 2020-10-22
  */

@@ -3,7 +3,7 @@
  * ------------------------------------------------------------------
  * Copyright © 2019 Ramostear.All Rights Reserved.
  *
- * ProjectName: thinking-in-spring-boot
+ * ProjectName: thinking-in-spring
  * @Author : <a href="https://github.com/lcy2013">MagicLuo(扶风)</a>
  * @date : 2020-08-30
  * @version : 1.0.0-RELEASE
@@ -25,7 +25,7 @@ import java.io.IOException;
 import static org.springframework.context.support.LiveBeansView.MBEAN_DOMAIN_PROPERTY_NAME;
 
 /**
- * @program: thinking-in-spring-boot
+ * @program: thinking-in-spring
  * @description: {@link LiveBeansView} 示例
  * @author: <a href="https://github.com/lcy2013">MagicLuo(扶风)</a>
  * @create: 2020-08-30

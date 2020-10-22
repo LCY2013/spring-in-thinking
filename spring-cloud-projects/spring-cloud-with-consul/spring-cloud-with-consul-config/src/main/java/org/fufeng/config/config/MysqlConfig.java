@@ -3,7 +3,7 @@
  * ------------------------------------------------------------------
  * Copyright © 2020 Ramostear.All Rights Reserved.
  *
- * ProjectName: thinking-in-spring-boot
+ * ProjectName: thinking-in-spring
  * @Author : <a href="https://github.com/lcy2013">MagicLuo(扶风)</a>
  * @date : 2020-08-26
  * @version : 1.0.0-RELEASE
@@ -22,7 +22,7 @@ import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.stereotype.Component;
 
 /**
- * @program: thinking-in-spring-boot
+ * @program: thinking-in-spring
  * @description: mysql 配置类
  * @author: <a href="https://github.com/lcy2013">MagicLuo(扶风)</a>
  * @create: 2020-08-26

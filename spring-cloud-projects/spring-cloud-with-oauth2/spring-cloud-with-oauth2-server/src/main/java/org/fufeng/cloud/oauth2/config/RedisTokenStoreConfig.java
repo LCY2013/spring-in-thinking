@@ -3,7 +3,7 @@
  * ------------------------------------------------------------------
  * Copyright © 2019 Ramostear.All Rights Reserved.
  *
- * ProjectName: thinking-in-spring-boot
+ * ProjectName: thinking-in-spring
  * @Author : <a href="https://github.com/lcy2013">MagicLuo(扶风)</a>
  * @date : 2020-08-28
  * @version : 1.0.0-RELEASE
@@ -20,7 +20,7 @@ package org.fufeng.cloud.oauth2.config;
 import org.springframework.context.annotation.Configuration;
 
 /**
- * @program: thinking-in-spring-boot
+ * @program: thinking-in-spring
  * @description: Redis store token configuration
  * @author: <a href="https://github.com/lcy2013">MagicLuo(扶风)</a>
  * @create: 2020-08-28

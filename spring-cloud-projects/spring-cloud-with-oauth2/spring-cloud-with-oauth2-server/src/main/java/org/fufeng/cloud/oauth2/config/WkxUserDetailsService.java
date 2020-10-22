@@ -3,7 +3,7 @@
  * ------------------------------------------------------------------
  * Copyright © 2019 Ramostear.All Rights Reserved.
  *
- * ProjectName: thinking-in-spring-boot
+ * ProjectName: thinking-in-spring
  * @Author : <a href="https://github.com/lcy2013">MagicLuo(扶风)</a>
  * @date : 2020-08-28
  * @version : 1.0.0-RELEASE
@@ -31,7 +31,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- * @program: thinking-in-spring-boot
+ * @program: thinking-in-spring
  * @description: 实现 {@link UserDetailsService}
  *      UserDetailsService的核心就是 loadUserByUsername方法，它要接收一个字符串参数，
  *      也就是传过来的用户名，返回一个 UserDetails对象。
