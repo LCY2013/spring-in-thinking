@@ -19,3 +19,24 @@ management:
 spring:
   application:
     name: zuul-server
+
+zuul:
+  routes:
+    user-service: /user/**
+    baidu:
+      path: /baidu/**
+      url: http://www.baidu.com/baidu
+    thirdpartyservice:
+      path: /thirdpartyservice/**
+      serviceId: thirdpartyservice
+  prefix: /health
+  ignored-services: 'user-service'
+
+ribbon:
+  eureka:
+    enabled: false
+
+thirdpartyservice:
+  ribbon:
+    listOfServers: http://thirdpartyservice1:8080,http://thirdpartyservice2:8080
+
