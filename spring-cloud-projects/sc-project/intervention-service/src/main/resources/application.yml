@@ -1,0 +1,13 @@
+# 定义服务端口号
+server:
+  port: 8877
+
+spring:
+  profiles: intervention
+  application:
+    name: intervention-service
+
+eureka:
+  client:
+    service-url:
+      defaultZone: http://localhost:9999/eureka

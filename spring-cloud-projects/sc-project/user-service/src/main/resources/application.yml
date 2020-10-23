@@ -6,11 +6,14 @@ spring:
   profiles: user1
   application:
     name: user-service
+  main:
+    allow-bean-definition-overriding: true
 
 eureka:
   client:
     service-url:
-      defaultZone: http://localhost:9999/eureka,http://localhost:9998/eureka
+      defaultZone: http://localhost:9999/eureka
+#      defaultZone: http://localhost:9999/eureka,http://localhost:9998/eureka
 
 ---
 
@@ -22,11 +25,14 @@ spring:
   profiles: user2
   application:
     name: user-service
+  main:
+    allow-bean-definition-overriding: true
 
 eureka:
   client:
     service-url:
-      defaultZone: http://localhost:9999/eureka,http://localhost:9998/eureka
+      defaultZone: http://localhost:9999/eureka
+#      defaultZone: http://localhost:9999/eureka,http://localhost:9998/eureka
 
 ---
 
@@ -38,9 +44,12 @@ spring:
   profiles: user3
   application:
     name: user-service-test
+  main:
+    allow-bean-definition-overriding: true
 
 eureka:
   client:
     service-url:
-      defaultZone: http://localhost:9999/eureka,http://localhost:9998/eureka
+      defaultZone: http://localhost:9999/eureka
+#      defaultZone: http://localhost:9999/eureka,http://localhost:9998/eureka
 
