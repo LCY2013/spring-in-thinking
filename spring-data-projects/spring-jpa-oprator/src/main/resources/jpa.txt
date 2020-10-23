@@ -1830,12 +1830,241 @@ QueryByExampleExecutor用法
 
         3、既然QueryByExampleExecutor 能利用 Specification 封装成框架，我们是不是也可以利用 JpaSpecificationExecutor 封装成框架呢？
 
+JpaSpecificationExecutor 原理、以及自定义实现
 
+    问题？
+        1、JpaSpecificationExecutor 如何创建？
 
+        2、它的使用方法有哪些？
 
+        3、toPredicate 方法如何实现？
 
+    JpaSpecificationExecutor 使用案例
 
+    假设需要根据 name 模糊查询、sex 精准查询、age 范围查询、时间区间查询、address 的 in 查询这样一个场景，来查询 user 信息
 
+    实体领域定义如下:
+
+    @Entity
+    @Data
+    @Builder
+    @AllArgsConstructor
+    @NoArgsConstructor
+    @ToString(exclude = "addresses")
+    public class User implements Serializable {
+       @Id
+       @GeneratedValue(strategy= GenerationType.AUTO)
+       private Long id;
+       private String name;
+       private String email;
+       @Enumerated(EnumType.STRING)
+       private SexEnum sex;
+       private Integer age;
+       private Instant createDate;
+       private Date updateDate;
+       @OneToMany(mappedBy = "user")
+       @JsonIgnore
+       private List<UserAddress> addresses;
+    }
+
+    enum SexEnum {
+       BOY,GIRL
+    }
+
+    @Entity
+    @Data
+    @Builder
+    @AllArgsConstructor
+    @NoArgsConstructor
+    @ToString(exclude = "user")
+    public class UserAddress {
+       @Id
+       @GeneratedValue(strategy= GenerationType.AUTO)
+       private Long id;
+       private String address;
+       @ManyToOne(cascade = CascadeType.ALL)
+       private User user;
+    }
+
+    public interface SpecificationUserRepository extends JpaRepository<User,Long>, JpaSpecificationExecutor<User> {
+    }
+
+    @DataJpaTest
+    @TestInstance(TestInstance.Lifecycle.PER_CLASS)
+    public class SpecificationUserRepositoryTest {
+
+        @Autowired
+        private SpecificationUserRepository specificationUserRepository;
+
+        @Autowired
+        private SpecificationUserAddressRepository specificationUserAddressRepository;
+
+        private Date now = new Date();
+
+        @BeforeAll
+        @Rollback(false)
+        @Transactional
+        void init() {
+            User user = User.builder()
+                    .name("jack")
+                    .email("123456@126.com")
+                    .sex(SexEnum.BOY)
+                    .age(20)
+                    .createDate(Instant.now())
+                    .updateDate(now)
+                    .build();
+            userAddressRepository.saveAll(Lists.newArrayList(UserAddress.builder().user(user).address("shanghai").build(),
+                    UserAddress.builder().user(user).address("beijing").build()));
+
+        }
+
+        @Test
+        public void testSPE() {
+            //模拟请求参数
+            User userQuery = User.builder()
+                    .name("jack")
+                    .email("123456@126.com")
+                    .sex(SexEnum.BOY)
+                    .age(20)
+                    .addresses(Lists.newArrayList(UserAddress.builder().address("shanghai").build()))
+                    .build();
+                    //假设的时间范围参数
+            Instant beginCreateDate = Instant.now().plus(-2, ChronoUnit.HOURS);
+            Instant endCreateDate = Instant.now().plus(1, ChronoUnit.HOURS);
+
+            //利用Specification进行查询
+            Page<User> users = userRepository.findAll(new Specification<User>() {
+                @Override
+                public Predicate toPredicate(Root<User> root, CriteriaQuery<?> query, CriteriaBuilder cb) {
+                    List<Predicate> ps = new ArrayList<Predicate>();
+                    if (StringUtils.isNotBlank(userQuery.getName())) {
+                        //我们模仿一下like查询，根据name模糊查询
+                        ps.add(cb.like(root.get("name"),"%" +userQuery.getName()+"%"));
+                    }
+
+                    if (userQuery.getSex()!=null){
+                        //equal查询条件，这里需要注意，直接传递的是枚举
+                        ps.add(cb.equal(root.get("sex"),userQuery.getSex()));
+                    }
+
+                    if (userQuery.getAge()!=null){
+                        //greaterThan大于等于查询条件
+                        ps.add(cb.greaterThan(root.get("age"),userQuery.getAge()));
+                    }
+
+                    if (beginCreateDate!=null&&endCreateDate!=null){
+                        //根据时间区间去查询创建
+                        ps.add(cb.between(root.get("createDate"),beginCreateDate,endCreateDate));
+                    }
+                    if (!ObjectUtils.isEmpty(userQuery.getAddresses())) {
+                        //联表查询，利用root的join方法，根据关联关系表里面的字段进行查询。
+                        ps.add(cb.in(root.join("addresses").get("address")).value(userQuery.getAddresses().stream().map(a->a.getAddress()).collect(Collectors.toList())));
+                    }
+                    return query.where(ps.toArray(new Predicate[ps.size()])).getRestriction();
+                }
+            }, PageRequest.of(0, 2));
+            System.out.println(users);
+        }
+    }
+
+    JpaSpecificationExecutor 源码语法详解
+
+        public interface JpaSpecificationExecutor<T> {
+           //根据 Specification 条件查询单个对象，要注意的是，如果条件能查出来多个会报错
+           T findOne(@Nullable Specification<T> spec);
+           //根据 Specification 条件，查询 List 结果
+           List<T> findAll(@Nullable Specification<T> spec);
+           //根据 Specification 条件，分页查询
+           Page<T> findAll(@Nullable Specification<T> spec, Pageable pageable);
+           //根据 Specification 条件，带排序的查询结果
+           List<T> findAll(@Nullable Specification<T> spec, Sort sort);
+           //根据 Specification 条件，查询数量
+           long count(@Nullable Specification<T> spec);
+        }
+
+    org.springframework.data.jpa.domain.Specification 源码解析
+
+        表述and关系的方法
+        default Specification<T> and(@Nullable Specification<T> other) {
+           return composed(this, other, (builder, left, rhs) -> builder.and(left, rhs));
+        }
+
+        static <T> Specification<T> where(@Nullable Specification<T> spec)
+
+        default Specification<T> or(@Nullable Specification<T> other)
+
+        static <T> Specification<T> not(@Nullable Specification<T> spec)
+
+        抽象方法，这里可以自定义实现
+        Predicate toPredicate(Root<T> root, CriteriaQuery<?> query, CriteriaBuilder criteriaBuilder);
+
+        javax.persistence.criteria.Root
+            实现: org.hibernate.query.criteria.internal.path.RootImpl
+
+        javax.persistence.criteria.CriteriaQuery
+            实现: org.hibernate.query.criteria.internal.CriteriaQueryImpl
+
+        javax.persistence.criteria.CriteriaBuilder
+            实现: org.hibernate.query.criteria.internal.CriteriaBuilderImpl
+
+        可以看到jpa的定义全部由Hibernate实现。
+
+        Root<User> root
+        代表了可以查询和操作的实体对象的根，如果将实体对象比喻成表名，那 root 里面就是这张表里面的字段，而这些字段只是 JPQL 的实体字段而已。我们可以通过里面的 Path get（String attributeName），来获得我们想要操作的字段。
+            类似于org.fufeng.data.springjpaoprator.repository.SpecificationUserRepositoryTest上面的：root.get("createDate")等操作
+
+        CriteriaQuery<?> query
+        代表一个 specific 的顶层查询对象，它包含着查询的各个部分，比如 select 、from、where、group by、order by 等。CriteriaQuery 对象只对实体类型或嵌入式类型的 Criteria 查询起作用。简单理解为，它提供了查询 ROOT 的方法。
+            正如org.fufeng.data.springjpaoprator.repository.SpecificationUserRepositoryTest上面where的用法：query.where(.....）一样
+
+        CriteriaBuilder cb
+        CriteriaBuilder 是用来构建 CritiaQuery 的构建器对象，其实就相当于条件或者条件组合，并以 Predicate 的形式返回。
+            CritiaQuery 中的Expression都是通过root.get()的方式获取
+            Predicate p1=cb.like(root.get(“name”).as(String.class), “%”+uqm.getName()+“%”);
+
+            Predicate p2=cb.equal(root.get("uuid").as(Integer.class), uqm.getUuid());
+
+            Predicate p3=cb.gt(root.get("age").as(Integer.class), uqm.getAge());
+
+            可以利用 like、equal、gt 可以生产 Predicate，而 Predicate 可以组合查询。比如我们预定它们之间是 and 或 or 的关系：Predicate p = cb.and(p3,cb.or(p1,p2));
+
+JpaSpecificationExecutor 相关文档:
+    [https://docs.jboss.org/hibernate/orm/5.2/userguide/html_single/Hibernate_User_Guide.html#criteria]
+
+    JpaSpecificationExecutor 原理分析
+
+        1、JpaSpecificationExecutor 和 JpaRepository 是平级接口，而它们对应的实现类都是 SimpleJpaRepository
+
+        2、Specification 被 ExampleSpecification 和 JpaSpecificationExecutor 使用，用来创建查询
+
+        3、Predicate 是 JPA 协议里面提供的查询条件的根基
+
+        4、SimpleJpaRepository 利用 EntityManager 和 criteria 来实现由 JpaSpecificationExecutor 组合的 query
+
+        示例方法分析:
+            org.springframework.data.jpa.repository.JpaSpecificationExecutor.findAll(org.springframework.data.jpa.domain.Specification<T>, org.springframework.data.domain.Pageable)
+              -> org.springframework.data.jpa.repository.JpaSpecificationExecutor.findAll(org.springframework.data.jpa.domain.Specification<T>, org.springframework.data.domain.Pageable)
+                -> org.springframework.data.jpa.repository.support.SimpleJpaRepository.getQuery(org.springframework.data.jpa.domain.Specification<T>, org.springframework.data.domain.Pageable)
+                  -> org.springframework.data.jpa.repository.support.SimpleJpaRepository.getQuery(org.springframework.data.jpa.domain.Specification<S>, java.lang.Class<S>, org.springframework.data.domain.Sort)
+                    -> org.hibernate.internal.AbstractSharedSessionContract.createQuery(javax.persistence.criteria.CriteriaQuery<T>)
+                      -> org.hibernate.query.criteria.internal.compile.CriteriaCompiler.compile
+                        -> org.hibernate.engine.spi.SharedSessionContractImplementor.getFactory
+
+        Specification<S> spec 是我们测试用例写的 specification 的匿名实现类
+
+        由于是方法传递，会执行我们在测试用例里面写的 Specification
+
+        我们可以看到这个方法最后是调用的 EntityManager，而 EntityManger 是 JPA 操作实体的核心原理
+
+        从上面的方法实现过程中我们可以看得出来，所谓的JpaSpecificationExecutor原理，用一句话概况，就是利用Java Persistence API定义的接口和Hibernate的实现，做了一个简单的封装，方便我们操作JPA协议中 criteria 的相关方法
+
+    JpaSpecificationExecutor 实战应用场景  <实战>
+
+        JpaSpecificationExecutor 的目的不是做日常的业务查询，而是提供了一种自定义 Query for rest 的架构思路，如果做日常的增删改查，肯定不如 Defining Query Methods 和 @Query 方便。
+
+        利用JpaSpecificationExecutor 实现一个框架
+
+            MySpecification 自定义
 
 
 
