@@ -2058,13 +2058,30 @@ JpaSpecificationExecutor 相关文档:
 
         从上面的方法实现过程中我们可以看得出来，所谓的JpaSpecificationExecutor原理，用一句话概况，就是利用Java Persistence API定义的接口和Hibernate的实现，做了一个简单的封装，方便我们操作JPA协议中 criteria 的相关方法
 
-    JpaSpecificationExecutor 实战应用场景  <实战>
+    JpaSpecificationExecutor 实战应用场景  <实战>  https://github.com/LCY2013/spring-in-thinking/tree/master/spring-data-projects/spring-jpa-specification
 
-        JpaSpecificationExecutor 的目的不是做日常的业务查询，而是提供了一种自定义 Query for rest 的架构思路，如果做日常的增删改查，肯定不如 Defining Query Methods 和 @Query 方便。
 
-        利用JpaSpecificationExecutor 实现一个框架
 
-            MySpecification 自定义
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
