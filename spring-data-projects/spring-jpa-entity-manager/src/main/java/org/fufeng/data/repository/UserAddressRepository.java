@@ -15,48 +15,18 @@
  * THE SOFTWARE IS PROVIDED “AS IS”, WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
  *
  */
-package org.fufeng.data.domain;
+package org.fufeng.data.repository;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
-import lombok.*;
-
-import javax.persistence.*;
-import java.io.Serializable;
-import java.time.Instant;
-import java.util.Date;
-import java.util.List;
+import org.fufeng.data.domain.UserAddress;
+import org.springframework.data.jpa.repository.JpaRepository;
 
 /**
  * @author <a href="https://github.com/lcy2013">MagicLuo(扶风)</a>
  * @program thinking-in-spring
- * @description 用户领域模型
+ * @description 用户住址仓储
  * @create 2020-10-23
  */
-@Entity
-@Data
-@Builder
-@AllArgsConstructor
-@NoArgsConstructor
-@ToString(exclude = {"addresses"})
-public class User implements Serializable {
+public interface UserAddressRepository extends JpaRepository<UserAddress,Long> {
 
-    private static final long serialVersionUID = 519502109255216336L;
 
-    @Id
-    @GeneratedValue(strategy= GenerationType.AUTO)
-    private Long id;
-    private String name;
-    private String email;
-    @Enumerated(EnumType.STRING)
-    private SexEnum sex;
-    private Integer age;
-    private Boolean deleted;
-    private Instant createDate;
-    private Date updateDate;
-    @OneToMany(mappedBy = "user")
-    @JsonIgnore
-    private List<UserAddress> addresses;
-}
-enum SexEnum {
-    BOY,GIRL
 }

@@ -57,6 +57,7 @@ public class User implements Serializable {
     @JsonIgnore
     private List<UserAddress> addresses;
 }
+
 enum SexEnum {
     BOY,GIRL
 }

@@ -17,19 +17,15 @@
  */
 package org.fufeng.data.domain;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.*;
 
 import javax.persistence.*;
 import java.io.Serializable;
-import java.time.Instant;
-import java.util.Date;
-import java.util.List;
 
 /**
  * @author <a href="https://github.com/lcy2013">MagicLuo(扶风)</a>
  * @program thinking-in-spring
- * @description 用户领域模型
+ * @description 用户住址实体领域模型
  * @create 2020-10-23
  */
 @Entity
@@ -37,26 +33,13 @@ import java.util.List;
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor
-@ToString(exclude = {"addresses"})
-public class User implements Serializable {
-
-    private static final long serialVersionUID = 519502109255216336L;
-
+@ToString(exclude = "user")
+public class UserAddress implements Serializable {
+    private static final long serialVersionUID = 1194963774238097628L;
     @Id
     @GeneratedValue(strategy= GenerationType.AUTO)
     private Long id;
-    private String name;
-    private String email;
-    @Enumerated(EnumType.STRING)
-    private SexEnum sex;
-    private Integer age;
-    private Boolean deleted;
-    private Instant createDate;
-    private Date updateDate;
-    @OneToMany(mappedBy = "user")
-    @JsonIgnore
-    private List<UserAddress> addresses;
-}
-enum SexEnum {
-    BOY,GIRL
+    private String address;
+    @ManyToOne(cascade = CascadeType.ALL)
+    private User user;
 }
