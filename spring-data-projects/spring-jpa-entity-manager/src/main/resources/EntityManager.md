@@ -225,12 +225,37 @@ public void testCustomizedUserRepository() {
     Assertions.assertEquals(users.get(0).getDeleted(),Boolean.TRUE);
 }
 
+原理：
+    Class<?> repositoryFactoryBeanClass() default JpaRepositoryFactoryBean.class，repository 的动态代理创建工厂是： JpaRepositoryFactoryBean，会帮我们生产 repository 的实现类，那么可以直接看一下JpaRepositoryFactoryBean 的源码。
 
+    每个 Repository 都会构建一个 JpaRepositoryFactory，当 JpaRepositoryFactory 加载完之后会执行 afterPropertiesSet() 方法，找到 UserRepository 的 Fragment（即我们自定义的 CustomizedUserRepositoryImpl）
+
+    结论：spring 通过扫描所有 repository 的接口和实现类，并且通过 aop 的切面和动态代理的方式，可以知道我们自定义的接口的实现类是什么。
+    
+    针对不同的 repository 自定义的接口和实现类，需要我们手动去 extends，这种比较适合不同的业务场景有各自的 repository 的实现情况。还有一种方法是我们直接改变动态代理的实现类，我们接着看。
 ```
 
+第二种方法：通过 @EnableJpaRepositories 定义默认的 Repository 的实现类
+
+```
+当面对复杂业务的时候，难免会自定义一些公用的方法，或者覆盖一些默认实现的情况。
+举个例子：很多时候线上的数据是不允许删除的，所以这个时候需要我们覆盖 SimpleJpaRepository 里面的删除方法，换成更新，进行逻辑删除，而不是物理删除。
+
+第一步：利用 @EnableJpaRepositories 指定 repositoryBaseClass，代码如下:
+
+@SpringBootApplication
+@EnableWebMvc
+@EnableJpaRepositories(repositoryImplementationPostfix = "Impl",repositoryBaseClass = CustomerBaseRepository.class)
+public class JpaApplication {
+   public static void main(String[] args) {
+      SpringApplication.run(JpaApplication.class, args);
+   }
+}
 
 
 
+
+```
 
 
 

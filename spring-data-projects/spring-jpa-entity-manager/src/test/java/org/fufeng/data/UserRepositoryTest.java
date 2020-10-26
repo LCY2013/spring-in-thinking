@@ -110,7 +110,7 @@ public class UserRepositoryTest {
         //调用我们的逻辑删除方法进行删除
         usersRepository.logicallyDelete(user);
         //我们再重新查出来，看看值变了没有
-        List<User> users = userRepository.findAll();
+        List<User> users = usersRepository.findAll();
         Assertions.assertEquals(users.get(0).getDeleted(),Boolean.TRUE);
     }
 
