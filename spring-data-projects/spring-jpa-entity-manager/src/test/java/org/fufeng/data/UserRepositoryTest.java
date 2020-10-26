@@ -21,6 +21,7 @@ import org.fufeng.data.domain.User;
 import org.fufeng.data.domain.UserAddress;
 import org.fufeng.data.repository.UserAddressRepository;
 import org.fufeng.data.repository.UserRepository;
+import org.fufeng.data.repository.UsersRepository;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
@@ -57,6 +58,9 @@ public class UserRepositoryTest {
 
     @Autowired
     private UserAddressRepository userAddressRepository;
+
+    @Autowired
+    private UsersRepository usersRepository;
 
     private final Date date = new Date();
 
@@ -97,6 +101,17 @@ public class UserRepositoryTest {
                 .setParameter(1,"fufeng")
                 .getResultList();
         Assertions.assertTrue(users.get(0).getDeleted());
+    }
+
+    @Test
+    public void testCustomizedUserRepository() {
+        //查出来一个User对象
+        User user = usersRepository.findById(2L).get();
+        //调用我们的逻辑删除方法进行删除
+        usersRepository.logicallyDelete(user);
+        //我们再重新查出来，看看值变了没有
+        List<User> users = userRepository.findAll();
+        Assertions.assertEquals(users.get(0).getDeleted(),Boolean.TRUE);
     }
 
 }
