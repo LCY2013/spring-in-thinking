@@ -312,7 +312,7 @@ RepositoryFactory 里面的父类方法，它会根据 @EnableJpaRepositories �
 
 在实际生产中经常会有这样的场景：对外暴露的是 UUID 查询方法，而对内暴露的是 Long 类型的 ID，这时候我们就可以自定义一个 FindByIdOrUUID 的底层实现方法，可以选择在自定义的 Repository 接口里面实现。
 
-Defining Query Methods 和 @Query 满足不了我们的查询，但是我们又想用它的方法语义的时候，就可以考虑实现不同的 Repository 的实现类，来满足我们不同业务场景的复杂查询。我见过有团队这样用过，不过个人感觉一般用不到，如果你用到了说明你的代码肯定有优化空间，代码不应该过于复杂。
+Defining Query Methods 和 @Query 满足不了我们的查询，但是我们又想用它的方法语义的时候，就可以考虑实现不同的 Repository 的实现类，来满足我们不同业务场景的复杂查询。
 
 一个是利用 @SQLDelete 也可以做到，用法如下：
 
