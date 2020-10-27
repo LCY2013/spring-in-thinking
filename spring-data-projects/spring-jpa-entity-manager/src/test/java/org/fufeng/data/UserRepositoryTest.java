@@ -109,7 +109,16 @@ public class UserRepositoryTest {
         User user = usersRepository.findById(2L).get();
         //调用我们的逻辑删除方法进行删除
         usersRepository.logicallyDelete(user);
-        //我们再重新查出来，看看值变了没有
+        //再重新查出来，看看值变了没有
+        List<User> users = usersRepository.findAll();
+        Assertions.assertEquals(users.get(0).getDeleted(),Boolean.TRUE);
+    }
+
+    @Test
+    public void testCustomizedBaseRepository() {
+        User user = usersRepository.findById(2L).get();
+        usersRepository.logicallyDelete(user);
+        usersRepository.delete(user);
         List<User> users = usersRepository.findAll();
         Assertions.assertEquals(users.get(0).getDeleted(),Boolean.TRUE);
     }

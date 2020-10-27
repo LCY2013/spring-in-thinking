@@ -252,12 +252,76 @@ public class JpaApplication {
    }
 }
 
+可以看出，在启动项目的时候，通过 @EnableJpaRepositories 指定我们 repositoryBaseClass 的基类是 CustomerBaseRepository。
 
+第二步：创建 CustomerBaseRepository 继承 SimpleJpaRepository ，直接覆盖 delete 方法即可，代码如下：
 
+import org.springframework.data.jpa.repository.support.JpaEntityInformation;
+import org.springframework.data.jpa.repository.support.SimpleJpaRepository;
+import org.springframework.transaction.annotation.Transactional;
+import javax.persistence.EntityManager;
+@Transactional(readOnly = true)
+public class CustomerBaseRepository<T extends BaseEntity,ID> extends SimpleJpaRepository<T,ID>  {
+    private final JpaEntityInformation<T, ?> entityInformation;
+    private final EntityManager em;
+    public CustomerBaseRepository(JpaEntityInformation<T, ?> entityInformation, EntityManager entityManager) {
+        super(entityInformation, entityManager);
+        this.entityInformation = entityInformation;
+        this.em = entityManager;
+    }
+
+    public CustomerBaseRepository(Class<T> domainClass, EntityManager em) {
+        super(domainClass, em);
+        entityInformation = null;
+        this.em = em;
+    }
+
+    //覆盖删除方法，实现逻辑删除，换成更新方法
+    @Transactional
+    @Override
+    public void delete(T entity) {
+        entity.setDeleted(Boolean.TRUE);
+        em.merge(entity);
+    }
+}
+
+需要注意的是，这里需要覆盖父类的构造方法，接收 EntityManager，并赋值给自己类里面的私有变量。
+
+第三步：写一个测试用例测试一下
+
+@Test
+public void testCustomizedBaseRepository() {
+    User user = userRepository.findById(2L).get();
+    userRepository.logicallyDelete(user);
+    userRepository.delete(user);
+    List<User> users = userRepository.findAll();
+    Assertions.assertEquals(users.get(0).getDeleted(),Boolean.TRUE);
+}
+
+原理分析:
+
+RepositoryFactory 里面的父类方法，它会根据 @EnableJpaRepositories 里面我们配置的 repositoryBaseClass，加载我们自定义的实现类，关键方法如下：
 
 ```
 
+实际应用场景是什么？
 
+在实际工作中，有哪些场景会用到自定义 Repository 呢？
+
+首先肯定是我们做框架的时候、解决一些通用问题的时候，如逻辑删除，正如我们上面的实例所示的样子。
+
+在实际生产中经常会有这样的场景：对外暴露的是 UUID 查询方法，而对内暴露的是 Long 类型的 ID，这时候我们就可以自定义一个 FindByIdOrUUID 的底层实现方法，可以选择在自定义的 Repository 接口里面实现。
+
+Defining Query Methods 和 @Query 满足不了我们的查询，但是我们又想用它的方法语义的时候，就可以考虑实现不同的 Repository 的实现类，来满足我们不同业务场景的复杂查询。我见过有团队这样用过，不过个人感觉一般用不到，如果你用到了说明你的代码肯定有优化空间，代码不应该过于复杂。
+
+一个是利用 @SQLDelete 也可以做到，用法如下：
+
+```
+@SQLDelete(sql = "UPDATE user SET deleted = true where deleted =false and id = ?")
+public class User implements Serializable {
+....
+}
+```
 
 
 

@@ -17,6 +17,7 @@
  */
 package org.fufeng.data;
 
+import org.fufeng.data.repository.CustomerBaseRepository;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
@@ -28,7 +29,7 @@ import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
  * @create 2020-10-23
  */
 @SpringBootApplication
-@EnableJpaRepositories
+@EnableJpaRepositories(repositoryImplementationPostfix = "Impl",repositoryBaseClass = CustomerBaseRepository.class)
 public class EntityManagerApplication {
 
     public static void main(String[] args) {

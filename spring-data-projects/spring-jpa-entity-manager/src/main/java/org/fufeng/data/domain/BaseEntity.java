@@ -5,7 +5,7 @@
  *
  * ProjectName: thinking-in-spring
  * @Author : <a href="https://github.com/lcy2013">MagicLuo(扶风)</a>
- * @date : 2020-10-23
+ * @date : 2020-10-27
  * @version : 1.0.0-RELEASE
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy of this software and associated documentation files (the “Software”), to deal in the Software without restriction, including without limitation the rights to use, copy, modify, merge, publish, distribute, sublicense, and/or sell copies of the Software, and to permit persons to whom the Software is furnished to do so, subject to the following conditions:
@@ -17,47 +17,25 @@
  */
 package org.fufeng.data.domain;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
-import lombok.*;
+import lombok.Data;
+import org.fufeng.data.repository.CustomerBaseRepository;
 
-import javax.persistence.*;
 import java.io.Serializable;
-import java.time.Instant;
-import java.util.Date;
-import java.util.List;
 
 /**
  * @author <a href="https://github.com/lcy2013">MagicLuo(扶风)</a>
  * @program thinking-in-spring
- * @description 用户领域模型
- * @create 2020-10-23
+ * @description 基础实体类，所有需要用到{@link CustomerBaseRepository} 都需要继承这个基础实体类
+ * @create 2020-10-27
  */
-@Entity
 @Data
-@Builder
-@AllArgsConstructor
-@NoArgsConstructor
-@ToString(exclude = {"addresses"})
-public class User extends BaseEntity implements Serializable {
+public class BaseEntity implements Serializable {
 
-    private static final long serialVersionUID = 519502109255216336L;
+    private static final long serialVersionUID = -4241595391617684047L;
 
-    @Id
-    @GeneratedValue(strategy= GenerationType.AUTO)
-    private Long id;
-    private String name;
-    private String email;
-    @Enumerated(EnumType.STRING)
-    private SexEnum sex;
-    private Integer age;
-    //private Boolean deleted;
-    private Instant createDate;
-    private Date updateDate;
-    @OneToMany(mappedBy = "user")
-    @JsonIgnore
-    private List<UserAddress> addresses;
-}
+    /**
+     *  逻辑删除
+     */
+    private Boolean deleted;
 
-enum SexEnum {
-    BOY,GIRL
 }
