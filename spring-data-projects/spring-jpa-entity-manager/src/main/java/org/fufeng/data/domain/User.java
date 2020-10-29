@@ -38,6 +38,7 @@ import java.util.List;
 @AllArgsConstructor
 @NoArgsConstructor
 @ToString(exclude = {"addresses"})
+@EqualsAndHashCode(callSuper=false)
 public class User extends BaseEntity implements Serializable {
 
     private static final long serialVersionUID = 519502109255216336L;
