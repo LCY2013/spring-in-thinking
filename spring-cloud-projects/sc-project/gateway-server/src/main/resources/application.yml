@@ -1,0 +1,44 @@
+#定义网关服务启动端口号
+server:
+  port: 9991
+
+eureka:
+  instance:
+    preferIpAddress: true
+  client:
+    registerWithEureka: true
+    fetchRegistry: true
+    service-url:
+      defaultZone: http://localhost:9999/eureka
+
+#启用spring gateway 与注册中心的服务发现
+spring:
+  cloud:
+    gateway:
+      discovery:
+        locator:
+          enabled: true
+      routes:
+        - id: user-route
+          uri: lb://user-service
+          predicates:
+            - Path=/user/**
+          filters:
+            - RewritePath=/user/(?<path>.*), /$\{path}
+        - id: device-route
+          uri: lb://device-service
+          predicates:
+            - Path=/device/**
+          filters:
+            - RewritePath=/device/(?<path>.*), /$\{path}
+        - id: intervention-route
+          uri: lb://intervention-service
+          predicates:
+            - Path=/intervention/**
+          filters:
+            - RewritePath=/intervention/(?<path>.*), /$\{path}
+            - name: RequestRateLimiter
+              args:
+                redis-rate-limiter.replenishRate: 50
+                redis-rate-limiter.burstCapacity: 100
+
