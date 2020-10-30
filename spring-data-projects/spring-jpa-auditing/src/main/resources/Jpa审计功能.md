@@ -145,6 +145,102 @@ public class AuditorTest {
 }
 ```
 
+### 第二种方式：实体里面实现Auditable 接口
+
+Person 实体对象，如下：
+
+```
+@Entity
+@Data
+@Builder
+@AllArgsConstructor
+@NoArgsConstructor
+@EntityListeners(AuditingEntityListener.class)
+public class Person implements Auditable<Integer,Long, Instant> {
+
+
+    @Id
+    @GeneratedValue(strategy= GenerationType.AUTO)
+    private Long id;
+
+    private String name;
+
+    private String email;
+
+    @Enumerated(EnumType.STRING)
+    private SexEnum sex;
+
+    private Integer age;
+
+    private Boolean deleted;
+
+    private Integer createUserId;
+
+    private Instant createTime;
+
+    private Integer lastModifiedUserId;
+
+    private Instant lastModifiedTime;
+
+    @Override
+
+    public Optional<Integer> getCreatedBy() {
+        return Optional.ofNullable(this.createUserId);
+    }
+
+    @Override
+    public void setCreatedBy(Integer createdBy) {
+        this.createUserId = createdBy;
+    }
+
+    @Override
+    public Optional<Instant> getCreatedDate() {
+        return Optional.ofNullable(this.createTime);
+    }
+
+    @Override
+    public void setCreatedDate(Instant creationDate) {
+        this.createTime = creationDate;
+    }
+
+    @Override
+    public Optional<Integer> getLastModifiedBy() {
+        return Optional.ofNullable(this.lastModifiedUserId);
+    }
+
+    @Override
+    public void setLastModifiedBy(Integer lastModifiedBy) {
+        this.lastModifiedUserId = lastModifiedBy;
+    }
+
+    @Override
+    public void setLastModifiedDate(Instant lastModifiedDate) {
+        this.lastModifiedTime = lastModifiedDate;
+    }
+
+    @Override
+    public Optional<Instant> getLastModifiedDate() {
+        return Optional.ofNullable(this.lastModifiedTime);
+    }
+
+    @Override
+    public boolean isNew() {
+        return id==null;
+    }
+
+}
+```
+
+### 第三种方式：利用 @MappedSuperclass 注解
+
+它主要是用来解决公共 BaseEntity 的问题，而且其代表的是继承它的每一个类都是一个独立的表。
+
+我们先看一下 @MappedSuperclass 的语法。
+
+
+
+
+
 
 
 
