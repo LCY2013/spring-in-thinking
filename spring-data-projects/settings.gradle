@@ -2,4 +2,5 @@ rootProject.name = 'spring-data-projects'
 include 'spring-jpa-specification'
 include 'spring-jpa-entity-manager'
 include 'spring-jpa-oprator'
+include 'spring-jpa-auditing'
 
