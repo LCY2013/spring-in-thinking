@@ -300,13 +300,131 @@ public class Student extends BaseEntity {
 第三步：测试用例
 
 ```
+@Test
+public void testAuditorStudent(){
+    //由于测试用例模拟web context环境不是我们的重点，我们这里利用@MockBean，mock掉我们的方法，期待返回7这个用户ID
+    Mockito.when(userAuditorAware.getCurrentAuditor()).thenReturn(Optional.of(7));
+    //没有显式的指定更新时间、创建时间、更新人、创建人
+    Student student = Student.builder()
+            .name("fufeng")
+            .email("fufeng@magic.com")
+            .sex(SexEnum.BOY)
+            .age(20)
+            .build();
+    studentRepository.save(student);
 
+    //验证是否有创建时间、更新时间，UserID是否正确；
+    List<Student> students = studentRepository.findAll();
+    Assertions.assertEquals(7,students.get(0).getCreateUserId());
+    Assertions.assertNotNull(students.get(0).getLastModifiedTime());
+    System.out.println(students.get(0));
+}
 ```
 
+[Auditing项目地址](https://github.com/LCY2013/spring-in-thinking/tree/master/spring-data-projects/spring-jpa-auditing)
 
 
+### JPA 的审计功能解决了哪些问题？
 
+1、可以很容易地让我们写自己的 BaseEntity，把一些公共的字段放在里面，不需要我们关心太多和业务无关的字段，更容易让我们公司的表更加统一和规范，就是统一加上 @CreatedBy、@CreatedDate、@LastModifiedBy、@LastModifiedDate 等。
 
+实际工作中，BaseEntity 可能还更复杂一点，比如说把 ID 和 @Version 加进去，会变成如下形式：
+```
+@Data
+@MappedSuperclass
+@EntityListeners(AuditingEntityListener.class)
+public class BaseEntity {
+
+   @Id
+   @GeneratedValue(strategy= GenerationType.AUTO)
+   private Long id;
+
+   @CreatedBy
+   private Integer createUserId;
+
+   @CreatedDate
+   private Instant createTime;
+
+   @LastModifiedBy
+   private Integer lastModifiedUserId;
+
+   @LastModifiedDate
+   private Instant lastModifiedTime;
+
+   @Version
+   private Integer version;
+}
+```
+
+### Auditing 的实现原理
+
+第一步：还是从 @EnableJpaAuditing 入手分析：
+
+```
+@Inherited
+@Documented
+@Target(ElementType.TYPE)
+@Retention(RetentionPolicy.RUNTIME)
+@Import(JpaAuditingRegistrar.class)   // 重要，关注方法 registerBeanDefinitions、registerAuditListenerBeanDefinition、registerBeanConfigurerAspectIfNecessary
+public @interface EnableJpaAuditing {
+    ...
+}
+```
+
+第二步：打开 AuditingEntityListener 的源码分析 debug 一下
+
+```
+@Configurable
+public class AuditingEntityListener {
+	private @Nullable ObjectFactory<AuditingHandler> handler;
+	/**
+	 * Configures the {@link AuditingHandler} to be used to set the current auditor on the domain types touched.
+	 * @param auditingHandler must not be {@literal null}.
+	 */
+	public void setAuditingHandler(ObjectFactory<AuditingHandler> auditingHandler) {
+		Assert.notNull(auditingHandler, "AuditingHandler must not be null!");
+		this.handler = auditingHandler;
+	}
+	/**
+	 * Sets modification and creation date and auditor on the target object in case it implements {@link Auditable} on
+	 * persist events.
+	 * @param target
+	 */
+	@PrePersist // 重要，回调方法
+	public void touchForCreate(Object target) {
+		Assert.notNull(target, "Entity must not be null!");
+		if (handler != null) {
+			AuditingHandler object = handler.getObject();
+			if (object != null) {
+				object.markCreated(target);
+			}
+		}
+	}
+	/**
+	 * Sets modification and creation date and auditor on the target object in case it implements {@link Auditable} on
+	 * update events.
+	 * @param target
+	 */
+	@PreUpdate  // 重要，回调方法
+	public void touchForUpdate(Object target) {
+		Assert.notNull(target, "Entity must not be null!");
+		if (handler != null) {
+			AuditingHandler object = handler.getObject();
+			if (object != null) {
+				object.markModified(target);
+			}
+		}
+	}
+}
+```
+
+### 原理分析结论
+
+通过 Auditing 的实现源码，其实给我们提供了一个思路，就是怎么利用 @PrePersist、@PreUpdate 等回调函数和 @EntityListeners 定义自己的框架代码，比如说 Auditing 的操作日志场景等。
+
+想成功配置 Auditing 功能，必须将 @EnableJpaAuditing 和 @EntityListeners(AuditingEntityListener.class) 一起使用才有效。
+
+是不是可以不通过 Spring data JPA 给我们提供的 Auditing 功能，而是直接使用 @PrePersist、@PreUpdate 回调函数注解在实体上，也可以达到同样的效果呢？答案是肯定的，因为回调函数是实现的本质。
 
 
 
