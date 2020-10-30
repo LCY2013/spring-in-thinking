@@ -235,11 +235,73 @@ public class Person implements Auditable<Integer,Long, Instant> {
 
 它主要是用来解决公共 BaseEntity 的问题，而且其代表的是继承它的每一个类都是一个独立的表。
 
-我们先看一下 @MappedSuperclass 的语法。
+@MappedSuperclass 源码如下：
+```
+@Documented
+@Target({TYPE})
+@Retention(RUNTIME)
+public @interface MappedSuperclass {
+}
 
+里面没有东西，该注解可以理解为一个标示注解
+```
 
+第一步：创建一个 BaseEntity，里面放一些实体的公共字段和注解：
+```
+@Data
+@MappedSuperclass
+@EntityListeners(AuditingEntityListener.class)
+public class BaseEntity {
 
+   @CreatedBy
+   private Integer createUserId;
 
+   @CreatedDate
+   private Instant createTime;
+
+   @LastModifiedBy
+   private Integer lastModifiedUserId;
+
+   @LastModifiedDate
+   private Instant lastModifiedTime;
+}
+```
+
+第二步：实体直接继承 BaseEntity
+
+Student 实例继承 BaseEntity，代码如下：
+```
+@Entity
+@Data
+@Builder
+@AllArgsConstructor
+@NoArgsConstructor
+public class Student extends BaseEntity {
+    @Id
+    @GeneratedValue(strategy= GenerationType.AUTO)
+    private Long id;
+
+    private String name;
+
+    private String email;
+
+    @Enumerated(EnumType.STRING)
+    private SexEnum sex;
+
+    private Integer age;
+
+    @OneToMany(mappedBy = "user")
+    private List<UserAddress> addresses;
+
+    private Boolean deleted;
+}
+```
+
+第三步：测试用例
+
+```
+
+```
 
 
 

@@ -21,8 +21,10 @@ import org.fufeng.jpa.auditor.UserAuditorAware;
 import org.fufeng.jpa.common.SexEnum;
 import org.fufeng.jpa.configration.AuditingConfiguration;
 import org.fufeng.jpa.domain.Person;
+import org.fufeng.jpa.domain.Student;
 import org.fufeng.jpa.domain.User;
 import org.fufeng.jpa.repository.PersonRepository;
+import org.fufeng.jpa.repository.StudentRepository;
 import org.fufeng.jpa.repository.UserRepository;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
@@ -52,6 +54,9 @@ public class AuditorTest {
 
     @Autowired
     private PersonRepository personRepository;
+
+    @Autowired
+    private StudentRepository studentRepository;
 
     @MockBean
     UserAuditorAware userAuditorAware;
@@ -94,5 +99,25 @@ public class AuditorTest {
         Assertions.assertEquals(7,persons.get(0).getCreateUserId());
         Assertions.assertNotNull(persons.get(0).getLastModifiedTime());
         System.out.println(persons.get(0));
+    }
+
+    @Test
+    public void testAuditorStudent(){
+        //由于测试用例模拟web context环境不是我们的重点，我们这里利用@MockBean，mock掉我们的方法，期待返回7这个用户ID
+        Mockito.when(userAuditorAware.getCurrentAuditor()).thenReturn(Optional.of(7));
+        //没有显式的指定更新时间、创建时间、更新人、创建人
+        Student student = Student.builder()
+                .name("fufeng")
+                .email("fufeng@magic.com")
+                .sex(SexEnum.BOY)
+                .age(20)
+                .build();
+        studentRepository.save(student);
+
+        //验证是否有创建时间、更新时间，UserID是否正确；
+        List<Student> students = studentRepository.findAll();
+        Assertions.assertEquals(7,students.get(0).getCreateUserId());
+        Assertions.assertNotNull(students.get(0).getLastModifiedTime());
+        System.out.println(students.get(0));
     }
 }
