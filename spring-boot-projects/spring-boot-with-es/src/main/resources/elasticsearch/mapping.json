@@ -1,0 +1,250 @@
+{
+  "user": {
+    "properties": {
+      "basic": {
+        "properties": {
+          "_1000": {
+            "properties": {
+              "l": {
+                "type": "long",
+                "index": false
+              }
+            }
+          },
+          "_1001": {
+            "properties": {
+              "c": {
+                "type": "long"
+              },
+              "l": {
+                "type": "long",
+                "index": false
+              }
+            }
+          },
+          "_1002": {
+            "properties": {
+              "l": {
+                "type": "long",
+                "index": false
+              }
+            }
+          },
+          "_1003": {
+            "properties": {
+              "l": {
+                "type": "long",
+                "index": false
+              }
+            }
+          },
+          "_1004": {
+            "properties": {
+              "l": {
+                "type": "long",
+                "index": false
+              }
+            }
+          },
+          "_1005": {
+            "properties": {
+              "l": {
+                "type": "long",
+                "index": false
+              }
+            }
+          },
+          "_1006": {
+            "properties": {
+              "l": {
+                "type": "long",
+                "index": false
+              }
+            }
+          },
+          "_1007": {
+            "properties": {
+              "l": {
+                "type": "long",
+                "index": false
+              }
+            }
+          },
+          "_1008": {
+            "properties": {
+              "l": {
+                "type": "long",
+                "index": false
+              }
+            }
+          },
+          "_1009": {
+            "properties": {
+              "l": {
+                "type": "long",
+                "index": false
+              }
+            }
+          },
+          "_1010": {
+            "properties": {
+              "l": {
+                "type": "long",
+                "index": false
+              }
+            }
+          },
+          "_1011": {
+            "properties": {
+              "l": {
+                "type": "long",
+                "index": false
+              }
+            }
+          }
+        }
+      },
+      "userId": {
+        "type": "keyword"
+      },
+      "device": {
+        "properties": {
+          "_1001": {
+            "properties": {
+              "l": {
+                "type": "long",
+                "index": false
+              },
+              "n": {
+                "type": "keyword"
+              }
+            }
+          },
+          "_1002": {
+            "properties": {
+              "l": {
+                "type": "long",
+                "index": false
+              },
+              "n": {
+                "type": "keyword"
+              }
+            }
+          },
+          "_1003": {
+            "properties": {
+              "l": {
+                "type": "long",
+                "index": false
+              },
+              "n": {
+                "type": "keyword"
+              }
+            }
+          },
+          "_1004": {
+            "properties": {
+              "l": {
+                "type": "long",
+                "index": false
+              },
+              "n": {
+                "type": "keyword"
+              }
+            }
+          },
+          "_1005": {
+            "properties": {
+              "l": {
+                "type": "long",
+                "index": false
+              },
+              "n": {
+                "type": "keyword"
+              }
+            }
+          }
+        }
+      },
+      "active": {
+        "properties": {
+          "_1001": {
+            "properties": {
+              "l": {
+                "type": "long",
+                "index": false
+              }
+            }
+          },
+          "_1002": {
+            "properties": {
+              "l": {
+                "type": "long",
+                "index": false
+              }
+            }
+          },
+          "_1003": {
+            "properties": {
+              "l": {
+                "type": "long",
+                "index": false
+              }
+            }
+          },
+          "_1004": {
+            "properties": {
+              "l": {
+                "type": "long",
+                "index": false
+              }
+            }
+          }
+        }
+      },
+      "location": {
+        "properties": {
+          "_1001": {
+            "properties": {
+              "l": {
+                "type": "long",
+                "index": false
+              }
+            }
+          },
+          "_1002": {
+            "properties": {
+              "l": {
+                "type": "long",
+                "index": false
+              }
+            }
+          },
+          "_1003": {
+            "properties": {
+              "l": {
+                "type": "long",
+                "index": false
+              }
+            }
+          }
+        }
+      },
+      "id": {
+        "type": "text",
+        "fields": {
+          "keyword": {
+            "type": "keyword",
+            "ignore_above": 256
+          }
+        }
+      },
+      "updateTime": {
+        "type": "long"
+      },
+      "createTime": {
+        "type": "long"
+      }
+    }
+  }
+}

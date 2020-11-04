@@ -1,0 +1,13 @@
+{
+  "index": {
+    "refresh_interval": "60s",
+    "translog.flush_threshold_size": "1024mb",
+    "translog.durability": "async",
+    "merge.policy.floor_segment": "100mb",
+    "merge.scheduler.max_thread_count": "1",
+    "merge.policy.max_merged_segment": "100m",
+    "number_of_replicas": "0",
+    "max_result_window": "1000000"
+  }
+}
+

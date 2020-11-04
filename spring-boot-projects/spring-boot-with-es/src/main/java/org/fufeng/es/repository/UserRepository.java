@@ -3,9 +3,9 @@
  * ------------------------------------------------------------------
  * Copyright © 2019 Ramostear.All Rights Reserved.
  *
- * ProjectName: spring-in-thinking
- * @Author : <a href="https://github.com/lcy2013">MagicLuo</a>
- * @date : 2020-08-07
+ * ProjectName: thinking-in-spring
+ * @Author : <a href="https://github.com/lcy2013">MagicLuo(扶风)</a>
+ * @date : 2020-11-04
  * @version : 1.0.0-RELEASE
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy of this software and associated documentation files (the “Software”), to deal in the Software without restriction, including without limitation the rights to use, copy, modify, merge, publish, distribute, sublicense, and/or sell copies of the Software, and to permit persons to whom the Software is furnished to do so, subject to the following conditions:
@@ -15,42 +15,18 @@
  * THE SOFTWARE IS PROVIDED “AS IS”, WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
  *
  */
-package org.fufeng.es;
+package org.fufeng.es.repository;
 
 import org.fufeng.es.entity.User;
-import org.fufeng.es.repository.UserRepository;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.SpringApplication;
-import org.springframework.boot.autoconfigure.SpringBootApplication;
-
-import javax.annotation.PostConstruct;
+import org.springframework.data.elasticsearch.repository.ElasticsearchRepository;
+import org.springframework.stereotype.Repository;
 
 /**
- * @program: spring-in-thinking
- * @description: Es 启动类
- * @author: <a href="https://github.com/lcy2013">MagicLuo(扶风)</a>
- * @create: 2020-08-07
+ * @author <a href="https://github.com/lcy2013">MagicLuo(扶风)</a>
+ * @program thinking-in-spring
+ * @description es user 实体
+ * @create 2020-11-04
  */
-@SpringBootApplication
-//@EnableElasticsearchRepositories
-public class EsApplication {
-
-    @Autowired
-    private UserRepository userRepository;
-
-    @PostConstruct
-    public void init(){
-        User user = new User();
-        User.Sub sub = new User.Sub();
-        sub.setN(2);
-        User.Basic basic = new User.Basic();
-        basic.setBasic_1011(sub);
-        user.setBasic(basic);
-        userRepository.save(user);
-    }
-
-    public static void main(String[] args) {
-        SpringApplication.run(EsApplication.class,args);
-    }
-
+@Repository
+public interface UserRepository extends ElasticsearchRepository<User, String> {
 }
