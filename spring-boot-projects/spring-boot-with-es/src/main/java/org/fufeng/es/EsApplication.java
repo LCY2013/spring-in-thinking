@@ -44,7 +44,7 @@ public class EsApplication {
         User.Sub sub = new User.Sub();
         sub.setN(2);
         User.Basic basic = new User.Basic();
-        basic.setBasic_1011(sub);
+        basic.set_1011(sub);
         user.setBasic(basic);
         userRepository.save(user);
     }
