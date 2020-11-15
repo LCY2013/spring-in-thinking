@@ -17,6 +17,8 @@
  */
 package org.fufeng.intervention.service.remote;
 
+import com.netflix.hystrix.contrib.javanica.annotation.HystrixCommand;
+import com.netflix.hystrix.contrib.javanica.annotation.HystrixProperty;
 import org.fufeng.intervention.dto.UserDto;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpMethod;
@@ -34,12 +36,12 @@ import org.springframework.web.client.RestTemplate;
 public class UserServiceRemote {
 
     /**
-     *  用户服务地址
+     * 用户服务地址
      */
     private static final String USER_SERVICE_URL = "http://user-service/users/";
 
     /**
-     *  带有负载均衡的RestTemplate
+     * 带有负载均衡的RestTemplate
      */
     private RestTemplate restTemplate;
 
@@ -48,11 +50,32 @@ public class UserServiceRemote {
     }
 
     /**
-     *  通过用户名称查询用户信息
+     * 通过用户名称查询用户信息
+     *
      * @param userName 用户名称
      * @return 用户传输对象
      */
-    public UserDto getUserByUserName(String userName){
+    //@HystrixCommand
+    /*@HystrixCommand(threadPoolKey = "springHealthGroup",
+            threadPoolProperties =
+                    {
+                            @HystrixProperty(name = "coreSize", value = "2"),
+                            @HystrixProperty(name = "maxQueueSize", value = "5")
+                    }
+    )*/
+    @HystrixCommand(commandProperties = {
+            @HystrixProperty(name = "execution.isolation.thread.timeoutInMilliseconds", value = "12000"),
+            //一个滑动窗口内最小的请求数
+            @HystrixProperty(name = "circuitBreaker.requestVolumeThreshold", value = "10"),
+            //错误比率阈值
+            @HystrixProperty(name = "circuitBreaker.errorThresholdPercentage", value = "75"),
+            //触发熔断的时间值
+            @HystrixProperty(name = "circuitBreaker.sleepWindowInMilliseconds", value = "7000"),
+            //一个滑动窗口的时间长度
+            @HystrixProperty(name = "metrics.rollingStats.timeInMilliseconds", value = "15000"),
+            //一个滑动窗口被划分的数量
+            @HystrixProperty(name = "metrics.rollingStats.numBuckets", value = "5") })
+    public UserDto getUserByUserName(String userName) {
         final ResponseEntity<UserDto> responseEntity = this.restTemplate.exchange(USER_SERVICE_URL + "{username}",
                 HttpMethod.GET,
                 null,

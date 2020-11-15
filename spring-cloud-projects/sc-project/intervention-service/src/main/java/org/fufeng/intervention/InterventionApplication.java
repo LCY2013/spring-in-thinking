@@ -20,6 +20,7 @@ package org.fufeng.intervention;
 import org.fufeng.intervention.config.SpringHealthLoadBalanceConfig;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.cloud.client.SpringCloudApplication;
 import org.springframework.cloud.client.discovery.EnableDiscoveryClient;
 import org.springframework.cloud.netflix.eureka.EnableEurekaClient;
 import org.springframework.cloud.netflix.ribbon.RibbonClient;
@@ -32,9 +33,10 @@ import org.springframework.cloud.netflix.ribbon.RibbonClient;
  * @see EnableDiscoveryClient
  * @see EnableEurekaClient
  */
-@SpringBootApplication
-@EnableDiscoveryClient  // 尽量使用这个注解，这是来自SpringCloudCommon，兼容所有的注册中心(eureka,zk,consul,etcd...)
+//@SpringBootApplication
+//@EnableDiscoveryClient  // 尽量使用这个注解，这是来自SpringCloudCommon，兼容所有的注册中心(eureka,zk,consul,etcd...)
 @RibbonClient(name = "user-service",configuration = {SpringHealthLoadBalanceConfig.class})
+@SpringCloudApplication
 public class InterventionApplication {
 
     public static void main(String[] args) {
