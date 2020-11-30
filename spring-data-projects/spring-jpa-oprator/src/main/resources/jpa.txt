@@ -1805,7 +1805,7 @@ QueryByExampleExecutor用法
         ExampleMatcher withStringMatcher(StringMatcher defaultStringMatcher);
         默认字符串的匹配方式，枚举类型有 6 个可选值，DEFAULT（默认，效果同 EXACT）、EXACT（相等）、STARTING（开始匹配）、ENDING（结束匹配）、CONTAINING（包含，模糊匹配）、REGEX（正则表达式）
 
-    ExampleExceutor 使用中需要考虑的因素
+    ExampleExecutor 使用中需要考虑的因素
         1、Null 值的处理：当某个条件值为 Null 时，是应当忽略这个过滤条件，还是应当去匹配数据库表中该字段值是 Null 的记录呢？
 
         2、忽略某些属性值：一个实体对象，有许多个属性，是否每个属性都参与过滤？是否可以忽略某些属性？

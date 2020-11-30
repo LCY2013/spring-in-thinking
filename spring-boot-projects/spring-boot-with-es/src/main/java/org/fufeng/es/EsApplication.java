@@ -41,10 +41,17 @@ public class EsApplication {
     @PostConstruct
     public void init(){
         User user = new User();
+        User.Basic basic = new User.Basic();
+        // 11
         User.Sub sub = new User.Sub();
         sub.setN(2);
-        User.Basic basic = new User.Basic();
         basic.set_1011(sub);
+        user.setBasic(basic);
+        // 10
+        User.Sub sub10 = new User.Sub();
+        sub10.setN(10);
+        sub10.setL(10);
+        basic.set_1010(sub10);
         user.setBasic(basic);
         userRepository.save(user);
     }

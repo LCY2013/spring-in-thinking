@@ -19,7 +19,7 @@ package org.fufeng.data.springjpaoprator.repository;
 
 import org.fufeng.data.springjpaoprator.domain.relationship.onetoone.oneway.User;
 import org.fufeng.data.springjpaoprator.domain.relationship.onetoone.oneway.UserInfo;
-import org.junit.jupiter.api.Test;
+import org.junit.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
 

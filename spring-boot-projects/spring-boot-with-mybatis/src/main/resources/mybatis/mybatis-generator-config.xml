@@ -14,28 +14,40 @@
         <!--<plugin type="org.mybatis.generator.plugins.EqualsHashCodePlugin" />-->
         <plugin type="org.mybatis.generator.plugins.ToStringPlugin"/>
 
-        <jdbcConnection driverClass="com.mysql.cj.jdbc.Driver" connectionURL="jdbc:mysql://localhost:3306/domain"
-                        userId="root" password="123456"/>
+        <!--<jdbcConnection driverClass="com.mysql.cj.jdbc.Driver" connectionURL="jdbc:mysql://localhost:3306/domain"
+                        userId="root" password="123456"/>-->
 
         <!--<jdbcConnection driverClass="${jdbc.driver-class}" connectionURL="${jdbc.url}"
                         userId="${jdbc.username}" password="${jdbc.password}"/>-->
 
+        <jdbcConnection driverClass="com.mysql.cj.jdbc.Driver" connectionURL="jdbc:mysql://127.0.0.1:3306/domain"
+                        userId="root" password="123456">
+            <property name="nullCatalogMeansCurrent" value="true"/>
+        </jdbcConnection>
+
         <!-- Java 模型对象生辰器 -->
         <javaModelGenerator targetPackage="org.fufeng.batis.entity_"
-                            targetProject="/Users/magicLuoMacBook/software/java/ideawork/im/gitlab/spring-in-thinking/spring-boot-projects/spring-boot-with-mybatis/src/main/java"/>
+                            targetProject="src/main/java"/>
 
         <!-- SQL Mapper XML 生成器 -->
-        <sqlMapGenerator  targetPackage="mybatis.mappers" targetProject="/Users/magicLuoMacBook/software/java/ideawork/im/gitlab/spring-in-thinking/spring-boot-projects/spring-boot-with-mybatis/src/main/resources">
+        <sqlMapGenerator  targetPackage="mybatis.mappers" targetProject="src/main/resources">
             <property name="enableSubPackages" value="true"/>
         </sqlMapGenerator>
 
         <!-- SQL Mapper Java 接口 -->
         <javaClientGenerator type="XMLMAPPER" targetPackage="org.fufeng.batis.mapper"
-                             targetProject="/Users/magicLuoMacBook/software/java/ideawork/im/gitlab/spring-in-thinking/spring-boot-projects/spring-boot-with-mybatis/src/main/java">
+                             targetProject="src/main/java">
             <property name="enableSubPackages" value="true"/>
         </javaClientGenerator>
 
-        <table tableName="user">
+        <!--<table tableName="user">
+            <generatedKey column="id" sqlStatement="mysql" identity="true"/>
+            <columnOverride column="name" property="name"/>
+            <columnOverride column="age" property="age"/>
+            <columnOverride column="desc" property="description"/>
+        </table>-->
+
+        <table tableName="%">
             <generatedKey column="id" sqlStatement="mysql" identity="true"/>
             <columnOverride column="name" property="name"/>
             <columnOverride column="age" property="age"/>
