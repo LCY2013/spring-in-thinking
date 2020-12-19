@@ -20,6 +20,7 @@ package org.lcydream.aop;
 import org.springframework.asm.ClassVisitor;
 import org.springframework.cglib.proxy.Enhancer;
 
+import java.net.URLClassLoader;
 import java.util.Objects;
 
 /**
@@ -30,6 +31,7 @@ import java.util.Objects;
  * @see  ClassVisitor
  * @see org.springframework.context.annotation.ConfigurationClassEnhancer spring configuration标注的类被提升的地方
  * @see Enhancer
+ * @see URLClassLoader#findClass(java.lang.String)
  */
 public class ClassLoaderInfo {
 
