@@ -5,27 +5,10 @@
     <modelVersion>4.0.0</modelVersion>
 
     <groupId>org.lcydream</groupId>
-    <artifactId>thinking-in-spring</artifactId>
+    <artifactId>thinking-in-aop</artifactId>
     <version>1.0-SNAPSHOT</version>
     <modules>
-        <module>ioc-container-overview</module>
-        <module>spring-bean</module>
-        <module>dependency-lookup</module>
-        <module>dependency-injection</module>
-        <module>dependency-source</module>
-        <module>bean-scope</module>
-        <module>bean-lifecycle</module>
-        <module>configuration-metadata</module>
-        <module>resource</module>
-        <module>i18n</module>
-        <module>validation</module>
-        <module>data-binding</module>
-        <module>conversion</module>
-        <module>generic</module>
-        <module>event</module>
-        <module>annotation</module>
-        <module>environment</module>
-        <module>application-context-lifecycle</module>
+        <module>aop-overview</module>
     </modules>
     <packaging>pom</packaging>
 
@@ -33,6 +16,8 @@
         <spring.version>5.3.2</spring.version>
         <java.version>11</java.version>
         <servlet.version>4.0.1</servlet.version>
+        <aspectjrt.version>1.9.6</aspectjrt.version>
+        <lombok.version>1.16.18</lombok.version>
     </properties>
 
     <!--spring 依赖管理-->
@@ -58,6 +43,25 @@
                 <artifactId>spring-webmvc</artifactId>
                 <version>${spring.version}</version>
             </dependency>
+            <dependency>
+                <groupId>org.springframework</groupId>
+                <artifactId>spring-aop</artifactId>
+                <version>${spring.version}</version>
+            </dependency>
+
+            <dependency>
+                <groupId>org.aspectj</groupId>
+                <artifactId>aspectjrt</artifactId>
+                <version>${aspectjrt.version}</version>
+            </dependency>
+
+            <dependency>
+                <groupId>org.projectlombok</groupId>
+                <artifactId>lombok</artifactId>
+                <version>${lombok.version}</version>
+                <scope>compile</scope>
+            </dependency>
+
             <!-- https://mvnrepository.com/artifact/javax.servlet/javax.servlet-api -->
             <dependency>
                 <groupId>javax.servlet</groupId>
@@ -78,10 +82,10 @@
             <groupId>org.springframework</groupId>
             <artifactId>spring-jdbc</artifactId>
         </dependency>
-        <!--<dependency>
+        <dependency>
             <groupId>org.springframework</groupId>
             <artifactId>spring-webflux</artifactId>
-        </dependency>-->
+        </dependency>
         <dependency>
             <groupId>org.springframework</groupId>
             <artifactId>spring-webmvc</artifactId>
@@ -89,6 +93,10 @@
         <dependency>
             <groupId>javax.servlet</groupId>
             <artifactId>javax.servlet-api</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>org.springframework</groupId>
+            <artifactId>spring-aop</artifactId>
         </dependency>
     </dependencies>
 
