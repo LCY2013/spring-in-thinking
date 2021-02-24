@@ -38,7 +38,7 @@ public class AnnotationIOCConfigurationMetadataDemo {
                                 @Value("${user.name}") String name){
         User user = new User();
         user.setId(id);
-        user.setName(name);
+        user.setName(name+"3");
         return user;
     }
 

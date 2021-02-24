@@ -17,7 +17,7 @@
     <!--具体代码看AbstractBeanFactory#getMergedBeanDefinition-->
     <bean id="user" class="org.lcydream.domain.User">
         <property name="id" value="1"/>
-        <property name="name" value="fufeng"/>
+        <property name="name" value="fufeng1"/>
         <property name="city" value="CHENGDU"/>
         <property name="workCities" value="CHENGDU,SHANGHAI"/>
         <!--<property name="lifeCities" value="CHENGDU,BEIJING"/>-->
