@@ -9,7 +9,8 @@ Spring 类型转换
     8. Spring 內建类型转换器
     9. Converter 接口的局限性
     10. GenericConverter 接口
-    11. 优化 GenericConverter 接口 12. 扩展 Spring 类型转换器
+    11. 优化 GenericConverter 接口
+    12. 扩展 Spring 类型转换器
     13. 统一类型转换服务
     14. ConversionService 作为依赖
 
@@ -22,8 +23,8 @@ Spring 类型转换的实现
     场景                  基于 JavaBeans 接口的类型转换实现       Spring 3.0+ 通用类型转换实现
     数据绑定                     YES                                 YES
     BeanWrapper                 YES                                 YES
-    Bean 属性类型装换             YES                                 YES
-    外部化属性类型转换              NO                                  YES
+    Bean 属性类型转换             YES                                 YES
+    外部化属性类型转换              NO                                 YES
 
 基于 JavaBeans 接口的类型转换
     • 核心职责
