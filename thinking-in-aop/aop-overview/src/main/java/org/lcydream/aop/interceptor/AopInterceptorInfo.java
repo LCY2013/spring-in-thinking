@@ -15,46 +15,49 @@
  * THE SOFTWARE IS PROVIDED “AS IS”, WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
  *
  */
-package org.lcydream.aop.staticproxy;
+package org.lcydream.aop.interceptor;
 
-import org.lcydream.aop.utils.DateUtil;
+import org.lcydream.aop.staticproxy.DefaultEchoService;
+import org.lcydream.aop.staticproxy.EchoService;
 
-import java.util.Date;
+import java.lang.reflect.Method;
+import java.lang.reflect.Proxy;
 
 /**
  * @author <a href="https://github.com/lcy2013">MagicLuo(扶风)</a>
  * @program spring-cloud-alibaba-projects
- * @description 静态代理
+ * @description aop 拦截器相关
  * @create 2021-02-27
  */
-public class ProxyEchoService implements EchoService {
+public class AopInterceptorInfo {
 
-    /**
-     *  持有的代理对象
-     */
-    private EchoService echoService;
+    public static void main(String[] args) {
+        // 获取当前线程中的类加载
+        final ClassLoader contextClassLoader = Thread.currentThread().getContextClassLoader();
+        final ProxyHandler proxyHandler = new ProxyHandler(new DefaultEchoService());
+        proxyHandler.addBeforeInterceptor((proxy, method, beforeArgs) -> {
+            if (EchoService.class.isAssignableFrom(method.getDeclaringClass())) {
+                ProxyHandler.log("before interceptor");
+                return true;
+            }
+            return false;
+        });
 
-    public ProxyEchoService(EchoService echoService) {
-        this.echoService = echoService;
+        proxyHandler.addAfterInterceptor((proxy, method, afterArgs, returnResult) -> {
+            ProxyHandler.log("after interceptor " + returnResult);
+            return returnResult;
+        });
+
+        proxyHandler.addExceptionInterceptor((proxy, method, exceptionArgs, throwable) -> {
+            ProxyHandler.log("exception interceptor " + throwable);
+            return null;
+        });
+        final Object instance = Proxy.newProxyInstance(contextClassLoader,
+                new Class[]{EchoService.class},
+                proxyHandler);
+
+        final EchoService echoService = (EchoService) instance;
+        echoService.print("jdk proxy interceptor");
     }
 
-    @Override
-    public void echo(String message) {
-        log(echoService.getClass());
-        echoService.echo(message);
-        log(echoService.getClass());
-    }
-
-    @Override
-    public void print(String message) {
-
-    }
-
-    /**
-     *  打印执行方法的名称
-     * @param methodClass 方法
-     */
-    private void log(Class<?> methodClass){
-        System.out.printf("[%s] star [%s]\n", DateUtil.yyyy_MM_dd_HH_mm_ss_sss(new Date()),methodClass.getName());
-    }
 }

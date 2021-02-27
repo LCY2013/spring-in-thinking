@@ -21,6 +21,16 @@ JAVA AOP判断模式(Predicate)
 5、异常(Exception)
 ```
 
+Java AOP 拦截器模式(Interceptor)
+
+拦截类型
+```text
+1、前置拦截(Before)
+
+2、后置拦截(After)
+
+3、异常拦截(Exception)
+```
 
 
 

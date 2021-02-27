@@ -26,7 +26,13 @@ package org.lcydream.aop.staticproxy;
 public class DefaultEchoService implements EchoService{
 
     @Override
-    public void echo(String message) {
+    public void echo(String message)  {
         System.out.printf("[echo] %s\n",message);
+    }
+
+    @Override
+    public void print(String message) {
+        int i = 1/0;
+        System.out.printf("[print] %s\n",message);
     }
 }

@@ -15,23 +15,25 @@
  * THE SOFTWARE IS PROVIDED “AS IS”, WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
  *
  */
-package org.lcydream.aop.staticproxy;
+package org.lcydream.aop.interceptor;
+
+import java.lang.reflect.Method;
 
 /**
  * @author <a href="https://github.com/lcy2013">MagicLuo(扶风)</a>
  * @program spring-cloud-alibaba-projects
- * @description echo 行为定义
+ * @description 定义拦截器前置拦截
  * @create 2021-02-27
  */
-public interface EchoService {
+public interface AopBeforeInterceptor {
 
     /**
-     * 抽象echo方法
-     *
-     * @param message 待输出的信息
+     *  前置拦截定义
+     * @param proxy 代理对象
+     * @param method 方法
+     * @param args 参数信息
+     * @return 返回值
      */
-    void echo(String message) throws NullPointerException;
-
-    void print(String message);
+    boolean before(Object proxy, Method method, Object[] args);
 
 }
