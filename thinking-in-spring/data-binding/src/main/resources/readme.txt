@@ -54,7 +54,7 @@ Spring 数据绑定控制参数
     参数名称                                            说明
     ignoreUnknownFields                         是否忽略未知字段，默认值:true
     ignoreInvalidFields                         是否忽略非法字段，默认值:false
-    autoGrowNestedPath s                        是否自动增加嵌套路径，默认值:true
+    autoGrowNestedPaths                        是否自动增加嵌套路径，默认值:true
     allowedFields                               绑定字段白名单
     disallowedFields                            绑定字段黑名单
     requiredFields                              必须绑定字段
