@@ -30,6 +30,6 @@ public interface EchoService {
      *
      * @param message 待输出的信息
      */
-    void echo(String message);
+    void echo(String message) throws NullPointerException;
 
 }
