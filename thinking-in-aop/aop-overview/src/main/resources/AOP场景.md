@@ -81,7 +81,19 @@ XML配置驱动
     5、Advice：Advice、BeforeAdvice、AfterAdvice、AfterReturningAdvice、ThrowsAdivice
 ```
 
+### Spring AOP advice 类型
+Advice 类型
+```text
+1、环绕（Around）
 
+2、前置（Before）
+
+3、后置（After）
+    方法执行
+    finally执行
+
+4、异常（Exception）    
+```
 
 
 
