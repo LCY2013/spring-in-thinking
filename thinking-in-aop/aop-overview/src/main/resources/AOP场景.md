@@ -1,3 +1,4 @@
+### 场景
 日志场景  org.slf4j.MDC  
 
 统计场景
@@ -6,8 +7,7 @@
 
 性能场景
 
-JAVA AOP判断模式(Predicate)
-
+### JAVA AOP判断模式(Predicate)
 判断来源
 ```text
 1、类型(Class)
@@ -21,8 +21,7 @@ JAVA AOP判断模式(Predicate)
 5、异常(Exception)
 ```
 
-Java AOP 拦截器模式(Interceptor)
-
+### Java AOP 拦截器模式(Interceptor)
 拦截类型
 ```text
 1、前置拦截(Before)
@@ -31,6 +30,59 @@ Java AOP 拦截器模式(Interceptor)
 
 3、异常拦截(Exception)
 ```
+
+### Spring AOP功能描述
+核心特征
+```text
+1、纯Java实现、无编译时特殊处理、不修改控制ClassLoader
+
+2、仅支持方法级别的 Join Points
+
+3、非完整 AOP 实现框架
+
+4、Spring IOC 容器整合
+
+5、AspectJ 注解驱动整合 (非竞争关系)
+```
+
+### Spring AOP编程模型
+注解驱动
+```text
+1、实现：Enable模块驱动、@EnableAspectJAutoProxy
+2、注解：
+    1、激活AspectJ自动代理：@EnableAspectJAutoProxy
+    2、Aspect：@Aspect
+    3、Pointcut：@PointCut
+    4、Advice：@Before 、 @AfterReturning 、 @AfterThrowing 、 @After 、 @Around
+    5、Introduction：@DeclareParents    
+```
+
+XML配置驱动
+```text
+1、实现：Spring Extensble XML Authoring
+2、XML元素
+    1、激活AspectJ自动代理：<aop:aspectj-autoproxy/>
+    2、配置：<aop:config/>
+    3、Aspect：<aop:aspect/>
+    4、Pointcut：<aop:pointcut/>
+    5、Advice：<aop:before/>、<aop:around/>、<aop:after/>、<aop:after-returning/> 和 <aop:after-throwing/>
+    6、Introduction：<aop:declare-parents/>
+    7、代理Scope：<aop:scope-proxy/>
+```
+
+底层API
+```text
+1、实现：JDK动态代理、CGLIB以及AspectJ
+2、API：
+    1、代理：AutoProxy
+    2、配置：ProxyConfig
+    3、Join Point：JoinPoint
+    4、Pointcut：PointCut
+    5、Advice：Advice、BeforeAdvice、AfterAdvice、AfterReturningAdvice、ThrowsAdivice
+```
+
+
+
 
 
 
