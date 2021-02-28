@@ -9,6 +9,7 @@
     <version>1.0-SNAPSHOT</version>
     <modules>
         <module>aop-overview</module>
+        <module>aop-features</module>
     </modules>
     <packaging>pom</packaging>
 
@@ -52,6 +53,12 @@
             <dependency>
                 <groupId>org.aspectj</groupId>
                 <artifactId>aspectjrt</artifactId>
+                <version>${aspectjrt.version}</version>
+            </dependency>
+
+            <dependency>
+                <groupId>org.aspectj</groupId>
+                <artifactId>aspectjweaver</artifactId>
                 <version>${aspectjrt.version}</version>
             </dependency>
 
