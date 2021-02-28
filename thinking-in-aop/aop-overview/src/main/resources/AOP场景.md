@@ -95,6 +95,25 @@ Advice 类型
 4、异常（Exception）    
 ```
 
+### Spring AOP 代理实现
+```text
+基础接口定义：org.springframework.aop.framework.AopProxy
+
+1、JDK动态代理实现 - 基于接口代理
+    org.springframework.aop.framework.JdkDynamicAopProxy
+
+2、CGLIB 动态代理实现 - 基于类代理（字节码提升）
+    org.springframework.aop.framework.CglibAopProxy
+
+3、AspectJ 适配实现
+    org.springframework.aop.aspectj.annotation.AspectJProxyFactory
+```
+
+
+
+
+
+
 
 
 
