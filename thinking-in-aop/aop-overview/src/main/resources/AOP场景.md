@@ -109,7 +109,19 @@ Advice 类型
     org.springframework.aop.aspectj.annotation.AspectJProxyFactory
 ```
 
+### JDK 动态代理
 
+为什么Proxy.newProxyInstance会生成新的字节码？
+```text
+具体字节码生成：java.lang.reflect.Proxy
+
+instance 是生成的字节码的实例化 生成字节码如下：
+class Proxy$num extend java.lang.reflect.Proxy implement Interface{
+     public Proxy$num(InvocationHandler handler){
+        super(handler);
+     }
+}
+```
 
 
 

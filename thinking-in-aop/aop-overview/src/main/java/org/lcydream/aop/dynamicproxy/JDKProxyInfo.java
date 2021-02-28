@@ -33,6 +33,13 @@ public class JDKProxyInfo {
     public static void main(String[] args) {
         // 获取当前线程中的类加载
         final ClassLoader contextClassLoader = Thread.currentThread().getContextClassLoader();
+
+        // instance 是生成的字节码的实例化 生成字节码如下：
+        // class Proxy$num extend java.lang.reflect.Proxy implement EchoService{
+        //      public Proxy$num(InvocationHandler handler){
+        //          super(handler);
+        //      }
+        // }
         final Object instance = Proxy.newProxyInstance(contextClassLoader,
                 new Class[]{EchoService.class},
                 (proxy, method, methodArgs) -> {
