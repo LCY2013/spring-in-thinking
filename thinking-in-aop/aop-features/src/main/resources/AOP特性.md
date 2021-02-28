@@ -7,7 +7,11 @@
     @Aspectj    
 ```
 
-
+### 编程方式创建@AspectJ代理
+实现类
+```text
+org.springframework.aop.aspectj.annotation.AspectJProxyFactory
+```
 
 
 
