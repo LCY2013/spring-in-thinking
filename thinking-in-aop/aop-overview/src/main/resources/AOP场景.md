@@ -136,22 +136,39 @@ eg：
     -> org.springframework.context.annotation.ConfigurationClassEnhancer.newEnhancer
 ```
 
+### AspectJ 代理
+为什么Spring推荐AspectJ注解？
+```text
+简化AspectJ开发，提升使用体验。
+```
 
+AspectJ 基础
+```text
+AspectJ 语法
+    1、AspectJ
+    2、Join Points
+    3、Pointcuts
+    4、Advice
+    5、Introduction
+```
 
+### AspectJ 注解驱动
+AspectJ 注解
+```text
+1、激活AspectJ自动代理：@EnableAspectJAutoProxy
+2、Aspect：@Aspect
+3、Pointcut：@PointCut
+4、Advice：@Before 、 @AfterReturning 、 @AfterThrowing 、 @After 、 @Around
+5、Introduction：@DeclareParents    
+```
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+### Spring AOP 与 AspectJ AOP存在那些区别？
+```text
+1、AspectJ是AOP完整实现，Spring AOP则是部分实现。
+2、Spring AOP 比AspectJ AOP使用更简单
+3、Spring AOP 整合AspectJ 注解与Spring IOC 容器
+4、Spring AOP 仅支持基于代理模式的AOP
+5、Spring AOP 仅支持方法级别的PointCuts
+```
 
 
