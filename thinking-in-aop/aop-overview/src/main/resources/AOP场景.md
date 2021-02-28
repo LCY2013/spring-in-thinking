@@ -110,7 +110,6 @@ Advice 类型
 ```
 
 ### JDK 动态代理
-
 为什么Proxy.newProxyInstance会生成新的字节码？
 ```text
 具体字节码生成：java.lang.reflect.Proxy
@@ -122,6 +121,30 @@ class Proxy$num extend java.lang.reflect.Proxy implement Interface{
      }
 }
 ```
+
+### CGLIB 动态代理
+为什么JDK动态代理无法满足AOP的需要?
+```text
+Java 是一门面向Class的对象编程，契约接口可能在现实编程中被忽略。
+
+Spring AOP 关于CGLIB使用：
+org.springframework.cglib.proxy.Enhancer
+eg：
+@Configuration 标注的类会被org.springframework.context.annotation.ConfigurationClassPostProcessor处理
+-> org.springframework.context.annotation.ConfigurationClassPostProcessor.enhanceConfigurationClasses
+ -> org.springframework.context.annotation.ConfigurationClassEnhancer
+    -> org.springframework.context.annotation.ConfigurationClassEnhancer.newEnhancer
+```
+
+
+
+
+
+
+
+
+
+
 
 
 
