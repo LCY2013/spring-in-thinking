@@ -16,10 +16,10 @@ public class AnnotationDependencyInjection {
 
     @Autowired
     private
-    //static @Autowired 会忽略static字段
+    //static @Autowired 会忽略static字段 源码位置： org.springframework.beans.factory.annotation.AutowiredAnnotationBeanPostProcessor.buildAutowiringMetadata
             UserHolder userHolder;
 
-    @Resource //直接不支持static字段
+    @Resource //直接不支持static字段 源码位置：org.springframework.context.annotation.CommonAnnotationBeanPostProcessor.buildResourceMetadata
     private UserHolder userHolderOne;
 
     public static void main(String[] args) {
