@@ -22,6 +22,18 @@ public class AnnotationDependencyInjection {
     @Resource //直接不支持static字段 源码位置：org.springframework.context.annotation.CommonAnnotationBeanPostProcessor.buildResourceMetadata
     private UserHolder userHolderOne;
 
+    @Resource
+    private User superUser;
+
+    @Resource
+    private User user;
+
+    @Resource
+    private User user1;
+
+    @Resource
+    private User superUser1;
+
     public static void main(String[] args) {
         //创建上下文环境
         AnnotationConfigApplicationContext applicationContext =
@@ -41,6 +53,10 @@ public class AnnotationDependencyInjection {
         System.out.println(dependencyInjection.userHolder);
         System.out.println(dependencyInjection.userHolderOne);
         System.out.println(dependencyInjection.userHolder == dependencyInjection.userHolderOne);
+        System.out.println("===="+dependencyInjection.user);
+        System.out.println("===="+dependencyInjection.superUser);
+        System.out.println("===="+dependencyInjection.user1);
+        System.out.println("===="+dependencyInjection.superUser1);
         //关闭容器
         applicationContext.close();
     }
