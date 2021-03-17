@@ -1,0 +1,11 @@
+spring:
+  application:
+    name: warehouse-service # 引用微服务名称，仓储服务
+  cloud:
+    nacos:
+      discovery:
+        server-addr: 238019z50f.zicp.vip:80
+        username: nacos
+        password: nacos
+server:
+  port: 7890
