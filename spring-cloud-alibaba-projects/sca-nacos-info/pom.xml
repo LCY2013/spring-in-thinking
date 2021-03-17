@@ -14,6 +14,7 @@
     <modules>
         <module>provider-service</module>
         <module>consumer-service</module>
+        <module>consumer-annotation-service</module>
     </modules>
 
     <properties>

@@ -30,6 +30,10 @@ import javax.annotation.Resource;
  * @author <a href="https://github.com/lcy2013">MagicLuo(扶风)</a>
  * @program spring-cloud-alibaba-projects
  * @description 消费端控制器
+ *  通过API方式实现负载均衡
+ *  先从 Nacos 获取可用服务提供者实例信息，再通过 RestTemplate.getForObject() 向该实例发起 RESTful 请求完成处理。
+ *  但代码模式使用复杂，需要自己获取可用实例 IP、端口信息，再拼接 URL 实现服务间通信
+ *  那有没有更简单的办法呢？可以利用 @LoadBalanced 注解可自动化实现这一过程。
  * @create 2021-03-17
  * @since 1.0
  */
