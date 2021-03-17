@@ -17,12 +17,17 @@
  */
 package org.fufeng.sca.order.controller;
 
+import lombok.extern.slf4j.Slf4j;
 import org.fufeng.sca.order.dto.Stock;
 import org.fufeng.sca.order.feign.WarehouseFeignClient;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RestController;
+
+import javax.annotation.Resource;
+import java.util.LinkedHashMap;
+import java.util.Map;
 
 /**
  * @author <a href="https://github.com/lcy2013">MagicLuo(扶风)</a>
@@ -31,15 +36,39 @@ import org.springframework.web.bind.annotation.RestController;
  * @create 2021-03-17
  * @since 1.0
  */
+@Slf4j
 @RestController
 public class OrderController {
 
-    @Autowired
+    //利用@Resource将IOC容器中自动实例化的实现类对象进行注入
+    @Resource
     private WarehouseFeignClient warehouseFeignClient;
-
-    @GetMapping("/order/{skuId}")
-    public Stock getStock(@PathVariable Long skuId){
-        return warehouseFeignClient.getStock(skuId);
+    /**
+     * 创建订单业务逻辑
+     * @param skuId 商品类别编号
+     * @param salesQuantity 销售数量
+     * @return 创建订单信息
+     */
+    @GetMapping("/create/order/{skuId}/{salesQuantity}")
+    public Map<String,Object> createOrder(@PathVariable Long skuId ,
+                                          @PathVariable Long salesQuantity){
+        Map<String,Object> result = new LinkedHashMap<>();
+        //查询商品库存，像调用本地方法一样完成业务逻辑。
+        Stock stock = warehouseFeignClient.getStock(skuId);
+        log.info(stock.toString());
+        if(salesQuantity <= stock.getQuantity()){
+            //创建订单相关代码，此处省略
+            //CODE=SUCCESS代表订单创建成功
+            result.put("code" , "SUCCESS");
+            result.put("skuId", skuId);
+            result.put("message", "订单创建成功");
+        }else{
+            //code=NOT_ENOUGN_STOCK代表库存不足
+            result.put("code", "NOT_ENOUGH_STOCK");
+            result.put("skuId", skuId);
+            result.put("message", "商品库存数量不足");
+        }
+        return result;
     }
 
 }
