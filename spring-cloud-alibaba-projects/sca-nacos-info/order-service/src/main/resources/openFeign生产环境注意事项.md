@@ -38,6 +38,12 @@ OpenFeign 默认使用 Java 自带的 URLConnection 对象创建 HTTP 请求，�
     <artifactId>feign-okhttp</artifactId>
     <version>11.0</version>
 </dependency>
+
+<dependency>
+  <groupId>io.github.openfeign</groupId>
+  <artifactId>feign-httpclient</artifactId>
+  <version>11.1</version>
+</dependency>
 ```
 
 2.在应用入口，利用 Java Config 形式初始化 OkHttpClient 对象。
