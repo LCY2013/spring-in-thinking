@@ -1,0 +1,11 @@
+spring:
+  application:
+    name: order-service
+  cloud:
+    nacos:
+      discovery:
+        server-addr: 238019z50f.zicp.vip:80
+        username: nacos
+        password: nacos
+server:
+  port: 6789
