@@ -53,30 +53,48 @@ public class DataSourceConfig {
     }
 }
 ```
+一个常见的需求是根据不同的运行环境初始化数据，常见的做法是独立执行一段代码或脚本。基于 @Profile 注解，就可以将这一过程包含在代码中并做到自动化，如下所示：
+```java
+@Profile("dev")
+@Configuration
+public class DevDataInitConfig {
 
+    @Bean
+    public CommandLineRunner dataInit() {
+        return new CommandLineRunner() {
+            @Override
+            public void run(String... args) throws Exception {
+                //执行 Dev 环境的数据初始化
+            }
+        };
+    }
+    
+}
+```
+这里用到了 Spring Boot 所提供了启动时任务接口 CommandLineRunner，实现了该接口的代码会在 Spring Boot 应用程序启动时自动进行执行。
 
+@Profile 注解的应用范围很广，可以将它添加到包含 @Configuration 和 @Component 注解的类及其方法，也就是说可以延伸到继承了 @Component 注解的 @Service、@Controller、@Repository 等各种注解中。
 
+对于一个 Web 应用程序而言，最常见的配置可能就是指定服务暴露的端口地址，如下所示：
+```yaml
+server:
+  port: 8080
+```
 
+关于数据源的设置也是常见的一种配置场景，这里以 JPA 为例，给出如下所示的一种配置方案：
+```yaml
+spring:
+  jpa:
+    hibernate:
+      ddl-auto: create
+    show-sql: true
+```
 
+设置日志级别和对象，如下：
+```properties
+logging.level.root=WARN
+logging.level.com.springcss.customer=INFO
+```
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+一个全局的 application.yml 配置文件和多个局部的 profile 配置文件的情况下，通过spring: profiles: active: test,dev指定加载某一个或多个局部profile后，springboo加载profile顺序为1application.yml，2application-test.yml，3application-dev.yml。全局profile第一个加载，2和3的顺序取决于active配置的值，上面例子逗号前面的test早于dev加载。相同配置项，后加载的profile会覆盖先加载的profile。
 
