@@ -21,6 +21,8 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import java.io.Serializable;
+
 /**
  * @author <a href="https://github.com/lcy2013">MagicLuo(扶风)</a>
  * @program spring-cloud-alibaba-projects
@@ -31,7 +33,7 @@ import lombok.NoArgsConstructor;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-public class Stock {
+public class Stock implements Serializable {
     /**
      *  商品类目编号
      */
