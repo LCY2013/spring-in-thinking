@@ -173,14 +173,91 @@ public class WarehouseServiceImpl implements WarehouseService {
 
 ##### 开发 Consumer 订单服务
 
+###### 第一步，创建工程引入依赖。
+利用 Spring Initializr 向导创建 order-service 工程，确保 pom.xml 引入以下依赖，依赖部分与 warehouse-service 保持一致。
+```text
+<dependency>
+    <groupId>org.springframework.boot</groupId>
+    <artifactId>spring-boot-starter-web</artifactId>
+</dependency>
+<dependency>
+    <groupId>com.alibaba.cloud</groupId>
+    <artifactId>spring-cloud-starter-alibaba-nacos-discovery</artifactId>
+</dependency>
+<dependency>
+    <groupId>org.apache.dubbo</groupId>
+    <artifactId>dubbo-spring-boot-starter</artifactId>
+    <version>2.7.8</version>
+</dependency>
+<dependency>
+    <groupId>org.springframework.boot</groupId>
+    <artifactId>spring-boot-starter-actuator</artifactId>
+</dependency>
+```
 
+###### 第二步，设置微服务、Dubbo 与 Nacos通信选项。
+打开 application.yml文件，配置 Nacos 与 Dubbo 通信选项，因为 order-service 是消费者，因此不需要专门配置端口与 base-packages选项。
+```yaml
+spring:
+  application:
+    name: order-service
+  cloud:
+    nacos:
+      discovery:
+        server-addr: 192.168.31.101:8848
+        username: nacos
+        password: nacos
+server:
+  port: 9000
+dubbo:
+  application:
+    name: order-service-dubbo
+  registry:
+    address: nacos://192.168.0.170:8848
+```
 
+###### 第三步，消费端dubbo代码结构
+将 Provider 端接口 WarehouseService 以及依赖的 Stock类复制到 order-service 工程，注意要求包名、类名及代码保持完全一致。当然我这种做法比较原始，在项目环境通常是将接口与依赖的类发布到 Maven 仓库，由 Consumer 直接依赖即可。
 
+###### 第四步，Consumer 调用接口实现业务逻辑
+这一步最为关键，先给出代码再进行分析。
+```java
+@RestController
+public class OrderController {
+    @DubboReference
+    private WarehouseService warehouseService;
+    /**
+     * 创建订单业务逻辑
+     * @param skuId 商品类别编号
+     * @param salesQuantity 销售数量
+     * @return
+     */
+    @GetMapping("/create_order")
+    public Map createOrder(Long skuId , Long salesQuantity){
+        Map result = new LinkedHashMap();
+        //查询商品库存，像调用本地方法一样完成业务逻辑。
+        Stock stock = warehouseService.getStock(skuId);
+        System.out.println(stock);
+        if(salesQuantity <= stock.getQuantity()){
+            //创建订单相关代码，此处省略
+            //CODE=SUCCESS代表订单创建成功
+            result.put("code" , "SUCCESS");
+            result.put("skuId", skuId);
+            result.put("message", "订单创建成功");
+        }else{
+            //code=NOT_ENOUGN_STOCK代表库存不足
+            result.put("code", "NOT_ENOUGH_STOCK");
+            result.put("skuId", skuId);
+            result.put("message", "商品库存数量不足");
+        }
+        return result;
+    }
+}
+```
+业务逻辑非常简单，前文讲过不再赘述，关键点是第三行 @DubboReference 注解。该注解用在 Consumer 端，说明 WarehouseService 是 Dubbo Consumer 接口，Spring 会自动生成 WarehouseService 接口的代理实现类，并隐藏远程通信细节，处理流程如下图所示：
 
-
-
-
-
+###### 第五步，启动微服务，验证 Nacos 注册信息
+启动 OrderServiceApplication.main()，之后打开下面网址访问 Nacos 服务列表。
 
 
 

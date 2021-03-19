@@ -4,8 +4,14 @@ spring:
   cloud:
     nacos:
       discovery:
-        server-addr: 238019z50f.zicp.vip:80
+        #server-addr: 238019z50f.zicp.vip:80
+        server-addr: 192.168.0.170:8848
         username: nacos
         password: nacos
 server:
   port: 6789
+dubbo:
+  application:
+    name: order-service-dubbo
+  registry:
+    address: nacos://192.168.0.170:8848
