@@ -1,0 +1,20 @@
+spring:
+  application:
+    name: gateway #配置微服务id
+  cloud:
+    nacos:
+      discovery:
+        server-addr: 192.168.0.170:8848 #nacos通信地址
+        username: nacos
+        password: nacos
+    gateway: #让gateway通过nacos实现自动路由转发
+      discovery:
+        locator:
+          enabled: true #locator.enabled是自动根据URL规则实现路由转发
+server:
+  port: 80 #服务端口号
+management:
+  endpoints:
+    web:
+      exposure:
+        include: '*' #对外暴露actuator所有监控指标，便于监控系统收集跟踪
