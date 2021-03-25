@@ -18,6 +18,7 @@
         <module>warehouse-service</module>
         <module>order-service</module>
         <module>Gateway</module>
+        <module>sentinel-sample</module>
     </modules>
 
     <properties>

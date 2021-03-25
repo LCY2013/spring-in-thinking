@@ -1,0 +1,19 @@
+spring:
+  application:
+    name: sentinel-sample #应用名&微服务id
+  cloud:
+    sentinel: #Sentinel Dashboard通信地址
+      transport:
+        dashboard: 127.0.0.1:8858
+      eager: true #取消控制台懒加载
+    nacos: #Nacos通信地址
+      server-addr: 238019z50f.zicp.vip:80
+      username: nacos
+      password: nacos
+server:
+  port: 8080
+management:
+  endpoints:
+    web: #将所有可用的监控指标项对外暴露
+      exposure: #可以访问 /actuator/sentinel进行查看Sentinel监控项
+        include: '*'
