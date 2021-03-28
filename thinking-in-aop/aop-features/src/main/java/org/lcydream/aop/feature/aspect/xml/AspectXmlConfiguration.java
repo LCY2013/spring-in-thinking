@@ -1,5 +1,6 @@
 package org.lcydream.aop.feature.aspect.xml;
 
+import org.aspectj.lang.ProceedingJoinPoint;
 import org.aspectj.lang.annotation.Aspect;
 import org.aspectj.lang.annotation.Before;
 import org.aspectj.lang.annotation.Pointcut;
@@ -17,4 +18,8 @@ public class AspectXmlConfiguration {
         System.out.println("@beforeAnyPublicMethod at any public method.");
     }
 
+    public Object aroundAnyPublicMethod(ProceedingJoinPoint pjp) throws Throwable {
+        System.out.println("@aroundAnyPublicMethod at any public method." + pjp.getSignature());
+        return pjp.proceed();
+    }
 }

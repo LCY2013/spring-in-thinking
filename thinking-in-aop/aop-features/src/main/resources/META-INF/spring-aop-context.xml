@@ -16,8 +16,9 @@
 
     <aop:config>
         <aop:aspect id="advisorXmlConfig" ref="advisorXmlConfig">
-            <aop:pointcut id="beforeAnyPublicMethod" expression="execution(public * *(..))"/>
-            <aop:before method="beforeAnyPublicMethod" pointcut-ref="beforeAnyPublicMethod"/>
+            <aop:pointcut id="pointcutAnyPublicMethod" expression="execution(public * *(..))"/>
+            <aop:around method="aroundAnyPublicMethod" pointcut-ref="pointcutAnyPublicMethod" />
+            <aop:before method="beforeAnyPublicMethod" pointcut-ref="pointcutAnyPublicMethod"/>
         </aop:aspect>
     </aop:config>
 
