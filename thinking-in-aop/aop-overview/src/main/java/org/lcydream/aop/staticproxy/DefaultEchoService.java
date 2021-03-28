@@ -35,4 +35,9 @@ public class DefaultEchoService implements EchoService{
         int i = 1/0;
         System.out.printf("[print] %s\n",message);
     }
+
+    @Override
+    public String cil(String messsage) {
+        return String.format("echo-%s",messsage);
+    }
 }

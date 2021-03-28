@@ -14,5 +14,14 @@
 
     <context:component-scan base-package="org.lcydream.aop.feature.aspectj"/>
 
+    <bean id="echoService" class="org.lcydream.aop.staticproxy.DefaultEchoService"/>
 
+    <bean id="echoServiceMethodInterceptor" class="org.lcydream.aop.feature.aspectj.proxyfactory.interceptor.EchoServiceMethodInterceptor"/>
+
+    <bean id="echoServiceProxyFactoryBean" class="org.springframework.aop.framework.ProxyFactoryBean">
+        <property name="targetName" value="echoService"/>
+        <property name="interceptorNames">
+            <value>echoServiceMethodInterceptor</value>
+        </property>
+    </bean>
 </beans>

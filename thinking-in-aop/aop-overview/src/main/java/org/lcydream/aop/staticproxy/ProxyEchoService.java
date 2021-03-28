@@ -50,6 +50,11 @@ public class ProxyEchoService implements EchoService {
 
     }
 
+    @Override
+    public String cil(String messsage) {
+        return messsage;
+    }
+
     /**
      *  打印执行方法的名称
      * @param methodClass 方法
