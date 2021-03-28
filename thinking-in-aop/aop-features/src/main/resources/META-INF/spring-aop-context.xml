@@ -10,13 +10,23 @@
         http://www.springframework.org/schema/context
         https://www.springframework.org/schema/context/spring-context.xsd">
 
-    <aop:aspectj-autoproxy />
+    <aop:aspectj-autoproxy/>
+
+    <bean id="advisorXmlConfig" class="org.lcydream.aop.feature.aspect.xml.AspectXmlConfiguration"/>
+
+    <aop:config>
+        <aop:aspect id="advisorXmlConfig" ref="advisorXmlConfig">
+            <aop:pointcut id="beforeAnyPublicMethod" expression="execution(public * *(..))"/>
+            <aop:before method="beforeAnyPublicMethod" pointcut-ref="beforeAnyPublicMethod"/>
+        </aop:aspect>
+    </aop:config>
 
     <context:component-scan base-package="org.lcydream.aop.feature.aspectj"/>
 
     <bean id="echoService" class="org.lcydream.aop.staticproxy.DefaultEchoService"/>
 
-    <bean id="echoServiceMethodInterceptor" class="org.lcydream.aop.feature.aspectj.proxyfactory.interceptor.EchoServiceMethodInterceptor"/>
+    <bean id="echoServiceMethodInterceptor"
+          class="org.lcydream.aop.feature.aspectj.proxyfactory.interceptor.EchoServiceMethodInterceptor"/>
 
     <bean id="echoServiceProxyFactoryBean" class="org.springframework.aop.framework.ProxyFactoryBean">
         <property name="targetName" value="echoService"/>
