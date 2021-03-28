@@ -19,6 +19,8 @@ public class ProxyFactoryInfo {
         final DefaultEchoService echoService = new DefaultEchoService();
         // 构建代理工厂
         final ProxyFactory proxyFactory = new ProxyFactory(echoService);
+        //proxyFactory.setTargetClass(DefaultEchoService.class);
+        //proxyFactory.setTargetClass(EchoService.class);
         // 添加代理的拦截器，也就是advice
         proxyFactory.addAdvice(new EchoServiceMethodInterceptor());
         // 获取代理对象
