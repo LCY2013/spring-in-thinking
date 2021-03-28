@@ -1,10 +1,6 @@
 package org.lcydream.aop.feature.aspect.xml;
 
-import org.lcydream.aop.feature.aspect.AspectConfiguration;
 import org.lcydream.aop.staticproxy.EchoService;
-import org.springframework.context.annotation.AnnotationConfigApplicationContext;
-import org.springframework.context.annotation.Configuration;
-import org.springframework.context.annotation.EnableAspectJAutoProxy;
 import org.springframework.context.support.ClassPathXmlApplicationContext;
 
 /**

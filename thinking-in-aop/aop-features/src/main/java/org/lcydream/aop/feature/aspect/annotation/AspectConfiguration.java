@@ -1,10 +1,11 @@
-package org.lcydream.aop.feature.aspect;
+package org.lcydream.aop.feature.aspect.annotation;
 
 import org.aspectj.lang.ProceedingJoinPoint;
 import org.aspectj.lang.annotation.Around;
 import org.aspectj.lang.annotation.Aspect;
 import org.aspectj.lang.annotation.Before;
 import org.aspectj.lang.annotation.Pointcut;
+import org.springframework.core.annotation.Order;
 
 /**
  * @author luocy
@@ -13,6 +14,7 @@ import org.aspectj.lang.annotation.Pointcut;
  * @create 2021-03-28
  * @since 1.0
  */
+@Order
 @Aspect
 public class AspectConfiguration {
 
@@ -38,7 +40,7 @@ public class AspectConfiguration {
      *
      * around 和 before 同时在时有何区别？
      *  around需要主动去操作执行目标方法，before则不需要就会执行目标方法
-     *  两个同时针对某一个Pointcut时，around优先执行，并且执行了pjp.proceed()后面的其他（before和目标方法操作...）才会生效
+     *  在同一个优先级下两个同时针对某一个Pointcut时，around优先执行，并且执行了pjp.proceed()后面的其他（before和目标方法操作...）才会生效
      */
     @Around("doAnyMethod()")
     public Object aroundAnyPublicMethod(ProceedingJoinPoint pjp) throws Throwable {
