@@ -1,0 +1,22 @@
+server:
+  port: 7000 #a:7000/b:8000/c:9000
+spring:
+  cloud:
+    nacos:
+      discovery:
+        #server-addr: 192.168.31.10:8848
+        server-addr: 238019z50f.zicp.vip:80
+        username: nacos
+        password: nacos
+  application:
+    name: a-service #a-service/b-service/c-service
+  sleuth:
+    sampler: #采样器
+      probability: 1.0 #采样率，采样率是采集Trace的比率，默认0.1
+      rate: 10000 #每秒数据采集量，最多n条/秒Trace
+    zipkin:
+      #设置zipkin服务端地址
+      base-url: http://localhost:9411
+#logging:
+#  level:
+#    root: debug #为演示需要，开启debug级别日志

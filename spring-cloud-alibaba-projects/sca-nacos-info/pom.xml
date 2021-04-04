@@ -19,6 +19,9 @@
         <module>order-service</module>
         <module>Gateway</module>
         <module>sentinel-sample</module>
+        <module>a-service</module>
+        <module>b-service</module>
+        <module>c-service</module>
     </modules>
 
     <properties>
