@@ -1,0 +1,15 @@
+spring:
+  application:
+    name: order-service #微服务id
+  profiles:
+    active: pro #环境名
+  cloud:
+    nacos:
+      config: #Nacos配置中心配置
+        file-extension: yaml #文件扩展名
+        server-addr: 238019z50f.zicp.vip:80
+        username: nacos
+        password: nacos
+#logging: #开启debug日志，仅为学习时使用
+#  level:
+#    root: debug

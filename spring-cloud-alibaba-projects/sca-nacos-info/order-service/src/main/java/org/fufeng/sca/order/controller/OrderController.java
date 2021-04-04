@@ -22,7 +22,6 @@ import org.apache.dubbo.config.annotation.DubboReference;
 import org.fufeng.sca.order.dto.Stock;
 import org.fufeng.sca.order.feign.WarehouseFeignClient;
 import org.fufeng.sca.warehouse.dubbo.WarehouseService;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RestController;
@@ -99,5 +98,4 @@ public class OrderController {
         }
         return result;
     }
-
 }

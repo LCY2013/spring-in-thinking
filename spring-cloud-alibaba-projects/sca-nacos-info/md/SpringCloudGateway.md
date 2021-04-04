@@ -287,3 +287,30 @@ cost 821ms 是具体的执行时间。
 ```
 以上就是全局过滤器的开发方法，至于局部过滤器的配置方法与全局过滤器极为相似，[官方文档](https://docs.spring.io/spring-cloud-gateway/docs/current/reference/html/) 。
 
+### 获取谓词配置的路径参数信息
+```text
+spring:
+  cloud:
+    gateway:
+      routes:
+      - id: path_route
+        uri: https://example.org
+        predicates:
+        - Path=/red/{segment},/blue/{segment}
+
+// 获取路由谓词路径上的参数信息
+Map<String, String> uriVariables = ServerWebExchangeUtils.getPathPredicateVariables(exchange);
+String segment = uriVariables.get("segment");
+if (Objects.nonNull(uriVariables)) {
+    uriVariables.forEach((k, v) ->
+            log.info("{} - {}", k, v));
+}
+```
+
+
+
+
+
+
+
+
