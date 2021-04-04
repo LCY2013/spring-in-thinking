@@ -6,10 +6,20 @@ spring:
   cloud:
     nacos:
       config: #Nacos配置中心配置
+        prefix: ${spring.application.name} #配置前缀
         file-extension: yaml #文件扩展名
         server-addr: 238019z50f.zicp.vip:80
         username: nacos
         password: nacos
+        shared-configs: share-data-three.yaml # 同组下的配置信息，可以多个,号分割
+        #refreshable-dataids: share-data-three.yaml # 同组下可刷新的配置信息，可以多个,号分割
+        extension-configs:  # 不同组下的配置信息，可以多个，这里面的优先级比原本有的优先级低，可以被项目的配置文件属性覆盖
+          - data-id: share-data-one.yaml
+            group: share-project-one
+            refresh: true
+          - data-id: share-data-two.yaml
+            group: share-data-two
+            refresh: true
 #logging: #开启debug日志，仅为学习时使用
 #  level:
 #    root: debug

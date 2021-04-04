@@ -32,7 +32,8 @@ public class ConfigController {
 
     @GetMapping("/config")
     public String test(){
-        return "flag:" + config.getFlag() + "<br/> database:" + config.getDatabase();
+        //return "flag:" + config.getFlag() + "<br/> database:" + config.getDatabase();
+        return config.toString();
     }
 
 

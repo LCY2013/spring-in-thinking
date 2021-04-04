@@ -24,4 +24,23 @@ public class CustomConfig {
     @Value("${custom.database}")
     private String database;
 
+    @Value("${one.name}")
+    private String one;
+
+    @Value("${two.name}")
+    private String two;
+
+    @Value("${three.name}")
+    private String three;
+
+    @Override
+    public String toString() {
+        return "CustomConfig{" +
+                "flag='" + flag + '\'' +
+                ", database='" + database + '\'' +
+                ", one='" + one + '\'' +
+                ", two='" + two + '\'' +
+                ", three='" + three + '\'' +
+                '}';
+    }
 }
