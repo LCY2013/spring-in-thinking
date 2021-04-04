@@ -17,8 +17,12 @@
  */
 package org.fufeng.sca.controller;
 
+import org.fufeng.sca.domain.ResponseObject;
+import org.fufeng.sca.service.SampleService;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RestController;
+
+import javax.annotation.Resource;
 
 /**
  * @author <a href="https://github.com/lcy2013">MagicLuo(扶风)</a>
@@ -29,8 +33,30 @@ import org.springframework.web.bind.annotation.RestController;
  */
 @RestController
 public class SentinelSampleController {
+
+    //演示用的业务逻辑类
+    @Resource
+    private SampleService sampleService;
+
     @GetMapping("/test_flow_rule")
     public String testFlowRule(){
         return "SUCCESS";
+    }
+
+    /**
+     * 熔断测试接口
+     * @return
+     */
+    @GetMapping("/test_degrade_rule")
+    public ResponseObject testDegradeRule(){
+        try {
+            sampleService.createOrder();
+        }catch (IllegalStateException e){
+            //当 createOrder 业务处理过程中产生错误时会抛出IllegalStateException
+            //IllegalStateException 是 JAVA 内置状态异常，在项目开发时可以更换为自己项目的自定义异常
+            //出现错误后将异常封装为响应对象后JSON输出
+            return new ResponseObject(e.getClass().getSimpleName(),e.getMessage());
+        }
+        return new ResponseObject("0","order created!");
     }
 }

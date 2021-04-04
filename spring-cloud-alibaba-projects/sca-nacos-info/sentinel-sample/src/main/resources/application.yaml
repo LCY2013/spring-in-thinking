@@ -6,10 +6,22 @@ spring:
       transport:
         dashboard: 127.0.0.1:8858
       eager: true #取消控制台懒加载
+      datasource:
+        flow: #数据源名称，可以自定义
+          nacos: #nacos配置中心
+            #Nacos内置配置中心，因此重用即可
+            server-addr: ${spring.cloud.nacos.server-addr}
+            dataId: ${spring.application.name}-flow-rules #定义流控规则data-id，完整名称为:sentinel-sample-flow-rules，在配置中心设置时data-id必须对应。
+            groupId: sentinel-config #gourpId对应配置文件分组，对应配置中心groups项
+            rule-type: flow #flow固定写死，说明这个配置是流控规则
+            username: nacos #nacos通信的用户名与密码
+            password: nacos
     nacos: #Nacos通信地址
       server-addr: 238019z50f.zicp.vip:80
       username: nacos
       password: nacos
+  jackson:
+    default-property-inclusion: non_null
 server:
   port: 8080
 management:
@@ -17,3 +29,7 @@ management:
     web: #将所有可用的监控指标项对外暴露
       exposure: #可以访问 /actuator/sentinel进行查看Sentinel监控项
         include: '*'
+logging:
+  level:
+    root: debug #开启 debug 是学习需要，生产改为 info 即可
+
