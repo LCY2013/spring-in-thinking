@@ -7,7 +7,7 @@ spring:
         dashboard: 127.0.0.1:8858
       eager: true #取消控制台懒加载
       datasource:
-        flow: #数据源名称，可以自定义
+        flow: #熔断规则，数据源名称，可以自定义
           nacos: #nacos配置中心
             #Nacos内置配置中心，因此重用即可
             server-addr: ${spring.cloud.nacos.server-addr}
@@ -15,6 +15,14 @@ spring:
             groupId: sentinel-config #gourpId对应配置文件分组，对应配置中心groups项
             rule-type: flow #flow固定写死，说明这个配置是流控规则
             username: nacos #nacos通信的用户名与密码
+            password: nacos
+        degrade: #熔断规则
+          nacos:
+            server-addr: ${spring.cloud.nacos.server-addr}
+            dataId: ${spring.application.name}-degrade-rules
+            groupId: sentinel-config
+            rule-type: degrade #代表熔断
+            username: nacos
             password: nacos
     nacos: #Nacos通信地址
       server-addr: 238019z50f.zicp.vip:80

@@ -17,9 +17,11 @@
  */
 package org.fufeng.sca;
 
+import com.alibaba.csp.sentinel.annotation.aspectj.SentinelResourceAspect;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.cloud.client.discovery.EnableDiscoveryClient;
+import org.springframework.context.annotation.Bean;
 
 /**
  * @author <a href="https://github.com/lcy2013">MagicLuo(扶风)</a>
@@ -31,6 +33,15 @@ import org.springframework.cloud.client.discovery.EnableDiscoveryClient;
 @EnableDiscoveryClient
 @SpringBootApplication
 public class SentinelApplication {
+
+    /**
+     *  注解支持的配置Bean
+     * @return {@link SentinelResourceAspect}
+     */
+    @Bean
+    public SentinelResourceAspect sentinelResourceAspect(){
+        return new SentinelResourceAspect();
+    }
 
     public static void main(String[] args) {
         SpringApplication.run(SentinelApplication.class,args);

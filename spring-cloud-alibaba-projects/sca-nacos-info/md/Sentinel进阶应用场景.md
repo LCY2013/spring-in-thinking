@@ -203,12 +203,292 @@ spring:
 2021-04-04 13:54:24.525 DEBUG 70876 --- [10)-192.168.1.8] s.n.www.protocol.http.HttpURLConnection  : sun.net.www.MessageHeader@bf1a6bc15 pairs: {GET /nacos/v1/cs/configs?dataId=sentinel-sample-flow-rules&accessToken=eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJuYWNvcyIsImV4cCI6MTYxNzUzMzY1OX0.6YLB-FxFKYipGL29RVbg8Utbr0G9M21sUU1AzW6NJ2Y&group=sentinel-config HTTP/1.1: null}{Content-Type: application/json}{Accept-Charset: UTF-8}{Accept-Encoding: gzip}{Content-Encoding: gzip}{Client-AppName: unknown}{Client-RequestTS: 1617515664522}{Client-RequestToken: a24c22af3a93084e60458e19b1eab56c}{Client-Version: 1.3.2}{exConfigInfo: true}{RequestId: f3388e70-1734-4b8e-80f3-b021a3f9859d}{User-Agent: Java/11.0.6}{Host: 238019z50f.zicp.vip}{Accept: text/html, image/gif, image/jpeg, *; q=.2, */*; q=.2}{Connection: keep-alive}
 ```
 
+咱们在浏览器反复刷新，当 test_flow_rule 接口每秒超过 2 次访问，就会出现“Blocked by Sentinel (flow limiting)”的错误信息，说明流控规则已生效。
 
+之后我们再来验证能否自动推送新规则，将Nacos 配置中心中流控规则 count 选项改为 1。
+```json
+[
+    {
+        "resource":"/test_flow_rule", 
+        "limitApp":"default",
+        "grade":1, 
+        "count":1, #2改为1 
+        "strategy":0, 
+        "controlBehavior":0, 
+        "clusterMode":false 
+    }
+]
+```
+当新规则发布后，sentinel-sample控制台会立即收到下面的日志，说明新的流控规则即时生效。
 
+在无须重启的情况下，test_flow_rule 接口 QPS 超过 1 就会直接报错。
 
+与此同时，还可以通过 Spring Boot Actuator 提供的监控指标确认流控规则已生效。
 
+访问 http://localhost/actuator/sentinel，在 flowRules 这个数组中，可以看到 test_flow_rule 的限流规则，每一次流控规则产生改变时 Nacos 都会主动推送到微服务并立即生效。
 
+#### 自定义资源点进行熔断保护
+在 sentinel-core 客户端中为开发者提供了 @SentinelResource 注解，该注解允许在程序代码中自定义 Sentinel 资源点来实现对特定方法的保护，下面以熔断降级规则为例来进行讲解。熔断降级是指在某个服务接口在执行过程中频繁出现故障的情况下，在一段时间内将服务停用的保护措施。
 
+在 sentinel-core 中基于 Spring AOP（面向切面技术）可在目标 Service 方法执行前按熔断规则进行检查，只允许有效的数据被送入目标方法进行处理。
 
+还是以 sentinel-sample 工程为例，希望对 SampleSerivce.createOrder方法进行熔断保护，该如何设置呢？
 
+第一步，声明切面类。
 
+在应用入口 SentinelSampleApplication声明 SentinelResourceAspect，SentinelResourceAspect就是 Sentinel 提供的切面类，用于进行熔断的前置检查。
+```java
+@SpringBootApplication
+public class SentinelSampleApplication {
+    // 注解支持的配置Bean
+    @Bean
+    public SentinelResourceAspect sentinelResourceAspect() {
+        return new SentinelResourceAspect();
+    }
+    public static void main(String[] args) {
+        SpringApplication.run(SentinelSampleApplication.class, args);
+    }
+}
+```
+
+第二步，声明资源点。
+
+在 SampleService.createOrder 方法上增加 @SentinelResource 注解用于声明 Sentinel 资源点，只有声明了资源点，Sentinel 才能实施限流熔断等保护措施。
+```java
+/**
+ * 演示用的业务逻辑类
+ */
+@Service
+public class SampleService {
+    //资源点名称为createOrder
+    @SentinelResource("createOrder")
+    /**
+     * 模拟创建订单业务
+     * 抛出IllegalStateException异常用于模拟业务逻辑执行失败的情况
+     */
+    public void createOrder() throws IllegalStateException{
+        try {
+            //模拟处理业务逻辑需要101毫秒
+            Thread.sleep(101);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+        System.out.println("订单已创建");
+    }
+}
+```
+修改完毕，启动服务访问 http://localhost/test_degrade_rule，当见到 code=0 的JSON 响应便代表应用运行正常。
+
+然后打开访问 Sentinel Dashboard，在簇点链路中要确认 createOrder资源点已存在。
+
+第三步，获取熔断规则。
+
+打开sentinel-sample 工程的 application.yml 文件，将服务接入 Nacos 配置中心的参数以获取熔断规则。
+```yaml
+datasource:
+  flow: #之前的流控规则，直接忽略
+    ...
+  degrade: #熔断规则
+    nacos:
+      server-addr: ${spring.cloud.nacos.server-addr}
+      dataId: ${spring.application.name}-degrade-rules
+      groupId: SAMPLE_GROUP
+      rule-type: degrade #代表熔断
+     username: nacos
+     password: nacos
+```
+熔断规则的获取过程和前面流控规则类似，只不过 data-id 改为sentinel-sample-degrade-rules，以及 rule-type 更改为 degrade。
+
+启动过程中，出现下面日志代表配置成功。
+```text
+[main] s.n.www.protocol.http.HttpURLConnection  : sun.net.www.MessageHeader@d96945215 pairs: {GET /nacos/v1/cs/configs?dataId=sentinel-sample-degrade-rules&accessToken=eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJuYWNvcyIsImV4cCI6MTYxMDg5MDMwNH0.ooHkFb4zX14klmHMuLXTDkHSoCrwI8LtN7ex__9tMHg&group=SAMPLE_GROUP HTTP/1.1: null}...
+```
+
+第四步，在 Nacos 配置熔断规则。
+设置 data-id 为 sentinel-sample-degrade-rules，Groups 为 SAMPLE_GROUP与微服务的设置保持一致。
+
+配置内容如下:
+```json
+[{
+    "resource":"createOrder", #自定义资源名
+    "limitApp":"default", #命名空间
+    "grade":0, #0-慢调用比例 1-异常比例 2-异常数
+    "count":100, #最大RT 100毫秒执行时间
+    "timeWindow":5, #时间窗口5秒
+    "minRequestAmount":1, #最小请求数
+    "slowRatioThreshold":0.1 #比例阈值
+}]
+```
+上面这段 JSON 完整的含义是：在过去 1 秒内，如果 createOrder资源被访问 1 次后便开启熔断检查，如果其中有 10% 的访问处理时间超过 100 毫秒，则触发熔断 5 秒钟，这期间访问该方法所有请求都将直接抛出 DegradeException，5 秒后该资源点回到“半开”状态等待新的访问，如果下一次访问处理成功，资源点恢复正常状态，如果下一次处理失败，则继续熔断 5 秒钟。
+
+设置成功，访问 Spring Boot Actuatorhttp://localhost/actuator/sentinel，可以看到此时 gradeRules 数组下 createOrder 资源点的熔断规则已被 Nacos推送并立即生效。
+
+下面咱们来验证下，因为规则允许最大时长为 100 毫秒，而在 createOrder 方法中模拟业务处理需要 101 毫秒，显然会触发熔断。
+```text
+@SentinelResource("createOrder")
+//模拟创建订单业务
+public void createOrder(){
+    try {
+        //模拟处理业务逻辑需要101毫秒
+        Thread.sleep(101);
+    } catch (InterruptedException e) {
+        e.printStackTrace();
+    }
+    System.out.println("订单已创建");
+}
+```
+连续访问 http://localhost/test_degrade_rule，当第二次访问时便会出现 500 错误。
+
+已经将 Sentinel 规则在 Nacos配置中心进行了持久化，并通过 Nacos 的推送机制做到新规则的实时更新，但在刚才的过程中，在触发流控或熔断后默认的错误提示是非常不友好的，在真正的项目中还需要对异常进行二次处理才能满足要求。
+
+#### 开发友好的异常处理程序
+对于 Sentinel 的异常处理程序要区分为两种情况：
+> 针对 RESTful 接口的异常处理；
+
+> 针对自定义资源点的异常处理。
+
+##### 针对 RESTful 接口的异常处理
+默认情况下如果访问触发了流控规则，则会直接响应异常信息“BlockedbySentinel (flow limiting)”。
+
+RESTful接口默认应返回 JSON 格式数据，如果直接返回纯文本，调用者将无法正确解析，所以要对其进行封装提供更友好的 JSON 格式数据。
+
+针对 RESTful 接口的统一异常处理需要实现 BlockExceptionHandler，先给出完整代码。
+```java
+@Component //Spring IOC实例化并管理该对象
+public class UrlBlockHandler implements BlockExceptionHandler {
+    /**
+     * RESTFul异常信息处理器
+     * @param httpServletRequest
+     * @param httpServletResponse
+     * @param e
+     * @throws Exception
+     */
+    @Override
+    public void handle(HttpServletRequest httpServletRequest, HttpServletResponse httpServletResponse, BlockException e) throws Exception {
+        String msg = null;
+        if(e instanceof FlowException){//限流异常
+            msg = "接口已被限流";
+        }else if(e instanceof DegradeException){//熔断异常
+            msg = "接口已被熔断,请稍后再试";
+        }else if(e instanceof ParamFlowException){ //热点参数限流
+            msg = "热点参数限流"; 
+        }else if(e instanceof SystemBlockException){ //系统规则异常
+            msg = "系统规则(负载/....不满足要求)";
+        }else if(e instanceof AuthorityException){ //授权规则异常
+            msg = "授权规则不通过"; 
+        }
+        httpServletResponse.setStatus(500);
+        httpServletResponse.setCharacterEncoding("UTF-8");
+        httpServletResponse.setContentType("application/json;charset=utf-8");
+        //ObjectMapper是内置Jackson的序列化工具类,这用于将对象转为JSON字符串
+        ObjectMapper mapper = new ObjectMapper();
+        //某个对象属性为null时不进行序列化输出
+        mapper.setSerializationInclusion(JsonInclude.Include.NON_NULL);
+        mapper.writeValue(httpServletResponse.getWriter(),
+                new ResponseObject(e.getClass().getSimpleName(), msg)
+        );
+    }
+}
+```
+BlockExceptionHandler.handle() 方法第三个参数类型是 BlockException，它有五种子类代表不同类型的规则异常。
+```text
+1. FlowException：流控规则异常。
+
+2. DegradeException：熔断规则异常。
+
+3. ParamFlowException：热点参数规则异常。
+例如：针对 id=5 的冷门商品编号时不开启限流，针对 id=10 的热门商品编号则需要进行限流，当 10 号商品被限流时抛出热点参数异常。
+
+4.SystemBlockException：系统规则异常。
+例如：服务器 CPU 负载超过80%，抛出系统规则异常。
+
+5. AuthorityException：授权规则异常。
+例如：某个 IP 被列入黑名单，该 IP 在访问时就会抛出授权规则异常。
+
+```
+利用 instanceof关键字确定具体的规则异常后，便通过response 响应对象将封装好的 ResponseObject对象返回给应用前端，此时响应中 code 值不再为 0，而是对应的异常类型。
+
+例如，当 RESTful触发流控规则后，前端响应如下：
+```json
+{
+    code:"FlowException",
+    message:"接口已被限流"
+}
+```
+通过这种统一而通用的异常处理机制，对RESTful 屏蔽了sentinel-core默认的错误文本，让项目采用统一的 JSON 规范进行输出。
+
+#### 自定义资源点的异常处理
+自定义资源点的异常处理与 RESTful 接口处理略有不同，需要在 @SentinelResource 注解上额外附加 blockHandler属性进行异常处理，这里先给出完整代码。
+```java
+/**
+ * 演示用的业务逻辑类
+ */
+@Service
+public class SampleService {
+    @SentinelResource(value = "createOrder",blockHandler = "createOrderBlockHandler")
+    /**
+     * 模拟创建订单业务
+     * 抛出 IllegalStateException 异常用于模拟业务逻辑执行失败的情况
+     */
+    public void createOrder() throws IllegalStateException{
+        try {
+            //模拟处理业务逻辑需要 101 毫秒
+            Thread.sleep(101);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+        System.out.println("订单已创建");
+    }
+    public void createOrderBlockHandler(BlockException e) throws IllegalStateException{
+        String msg = null;
+        if(e instanceof FlowException){//限流异常
+            msg = "资源已被限流";
+        }else if(e instanceof DegradeException){//熔断异常
+            msg = "资源已被熔断,请稍后再试";
+        }else if(e instanceof ParamFlowException){ //热点参数限流
+            msg = "热点参数限流";
+        }else if(e instanceof SystemBlockException){ //系统规则异常
+            msg = "系统规则(负载/....不满足要求)";
+        }else if(e instanceof AuthorityException){ //授权规则异常
+            msg = "授权规则不通过";
+        }
+        throw new IllegalStateException(msg);
+    }
+}
+```
+
+在这份代码中可以清楚地看到以下两点变化:
+
+第一，为 @SentinelResource 附加了 blockHandler 属性，这个属性指向 createOrderBlockHandler 方法名，它的作用是当 sentinel-core 触发规则异常后，自动执行 createOrderBlockHandler 方法进行异常处理。
+
+第二，createOrderBlockHandler 方法的书写有两个要求：
+> 方法返回值、访问修饰符、抛出异常要与原始的 createOrder 方法完全相同。
+> createOrderBlockHandler 方法名允许自定义，但最后一个参数必须是 BlockException 对象，这是所有规则异常的父类，通过判断 BlockException 我们就指导触发了哪种规则异常。
+
+至于 createOrderBlockHandler 方法的代码和 RESTful 异常处理基本一致，先判断规则异常的种类再对外抛出 IllegalStateException异常。SampleController 会对 IllegalStateException 异常进行捕获，对外输出为 JSON 响应。
+
+访问 http://localhost/test_degrade_rule 当触发流控规则后，响应如下：
+```json
+{
+    code:"IllegalStateException",
+    message:"资源已被限流"
+}
+```
+
+当触发熔断规则后，响应如下：
+```json
+{
+    code:"IllegalStateException",
+    message:"资源已被熔断,请稍后再试"
+}
+```
+
+Sentinel 除了流控与熔断外，还有三种不常用的规则：
+
+热点参数流控；
+
+系统规则；
+
+授权规则（黑白名单）
+
+[学习地址](https://github.com/alibaba/Sentinel/wiki)
