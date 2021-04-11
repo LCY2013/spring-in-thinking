@@ -12,7 +12,8 @@ import reactor.core.publisher.Flux;
 public class FluxOperation {
 
     public static void main(String[] args) {
-        just();
+        //just();
+        concat();
     }
 
     public static void just() {
@@ -24,7 +25,13 @@ public class FluxOperation {
                 .subscribe(System.out::println);
     }
 
-
+    public static void concat() {
+        Flux.concat(
+                Flux.range(4, 2),
+                Flux.range(1, 3),
+                Flux.range(6, 5)
+        ).subscribe(System.out::println);
+    }
 
 
 }
