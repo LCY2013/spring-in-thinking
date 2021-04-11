@@ -18,10 +18,10 @@
 
     <dependencies>
         <!-- Nacos客户端 -->
-        <dependency>
+        <!--<dependency>
             <groupId>com.alibaba.cloud</groupId>
             <artifactId>spring-cloud-starter-alibaba-nacos-discovery</artifactId>
-        </dependency>
+        </dependency>-->
         <!-- Spring Cloud Gateway Starter -->
         <dependency>
             <groupId>org.springframework.cloud</groupId>
