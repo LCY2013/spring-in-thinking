@@ -19,6 +19,9 @@
             <aop:pointcut id="pointcutAnyPublicMethod" expression="execution(public * *(..))"/>
             <aop:around method="aroundAnyPublicMethod" pointcut-ref="pointcutAnyPublicMethod" />
             <aop:before method="beforeAnyPublicMethod" pointcut-ref="pointcutAnyPublicMethod"/>
+            <aop:after method="afterAnyPublicMethod" pointcut-ref="pointcutAnyPublicMethod"/>
+            <aop:after-returning method="afterReturningAnyPublicMethod" pointcut-ref="pointcutAnyPublicMethod"/>
+            <aop:after-throwing method="afterThrowingAnyPublicMethod" pointcut-ref="pointcutAnyPublicMethod"/>
         </aop:aspect>
     </aop:config>
 
