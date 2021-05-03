@@ -1,6 +1,5 @@
 package org.lcydream.aop.feature.pointcut;
 
-import org.lcydream.aop.feature.aspect.api.EchoServicePointcut;
 import org.lcydream.aop.feature.aspectj.proxyfactory.interceptor.EchoServiceMethodInterceptor;
 import org.lcydream.aop.staticproxy.DefaultEchoService;
 import org.lcydream.aop.staticproxy.EchoService;
