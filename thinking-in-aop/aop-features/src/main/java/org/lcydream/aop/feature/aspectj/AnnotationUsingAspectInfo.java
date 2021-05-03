@@ -24,6 +24,7 @@ import org.springframework.aop.AfterReturningAdvice;
 import org.springframework.aop.BeforeAdvice;
 import org.springframework.aop.MethodBeforeAdvice;
 import org.springframework.aop.aspectj.annotation.AspectJProxyFactory;
+import org.springframework.aop.aspectj.annotation.ReflectiveAspectJAdvisorFactory;
 import org.springframework.aop.framework.adapter.MethodBeforeAdviceInterceptor;
 
 import java.util.HashMap;
@@ -49,8 +50,10 @@ public class AnnotationUsingAspectInfo {
         /**
          * @see MethodBeforeAdviceInterceptor
          * @see MethodInterceptor
+         * @see MethodBeforeAdvice -> {@link AspectJMethodBeforeAdvice}
          * @see BeforeAdvice
          * @see Advice
+         * @see ReflectiveAspectJAdvisorFactory#getAdvice(java.lang.reflect.Method, org.springframework.aop.aspectj.AspectJExpressionPointcut, org.springframework.aop.aspectj.annotation.MetadataAwareAspectInstanceFactory, int, java.lang.String)
          */
         // 添加前置通知行为
         proxyFactory.addAdvice((MethodBeforeAdvice) (method, methodArgs, targetObject) -> {
