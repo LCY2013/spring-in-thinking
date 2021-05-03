@@ -17,7 +17,11 @@
  */
 package org.lcydream.aop.feature.aspectj.config;
 
+import org.aspectj.lang.ProceedingJoinPoint;
+import org.aspectj.lang.annotation.Around;
 import org.aspectj.lang.annotation.Aspect;
+import org.aspectj.lang.annotation.Before;
+import org.aspectj.lang.annotation.Pointcut;
 
 /**
  * @author <a href="https://github.com/lcy2013">MagicLuo(扶风)</a>
@@ -28,5 +32,27 @@ import org.aspectj.lang.annotation.Aspect;
  */
 @Aspect
 public class AspectConfiguration {
+
+    /**
+     * 匹配join point
+     */
+    @Pointcut("execution(public * *(..))")
+    private void anyPublicMethod() {
+        System.out.println("@Pointcut at any public method.");
+    }
+
+    @Around("anyPublicMethod()")
+    public Object aroundAnyPublicMethod(ProceedingJoinPoint pjp) throws Throwable {
+        System.out.println("@Around any public method.");
+        return pjp.proceed();
+    }
+
+    /**
+     * join point 拦截动作
+     */
+    @Before("anyPublicMethod()")
+    public void beforeAnyPublicMethod() {
+        System.out.println("@Before any public method.");
+    }
 
 }

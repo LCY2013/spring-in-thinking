@@ -37,6 +37,7 @@ public class AspectJPointcutInfo {
         // 注册主类和切点规则
         configApplicationContext.register(AspectJPointcutInfo.class,
                 AspectConfiguration.class,
+                AspectConfigurationOrder.class,
                 AnotherAspectConfiguration.class);
         configApplicationContext.refresh();
 
