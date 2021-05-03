@@ -6,6 +6,7 @@ import org.aspectj.lang.annotation.*;
 import org.springframework.aop.AfterReturningAdvice;
 import org.springframework.aop.aspectj.AbstractAspectJAdvice;
 import org.springframework.aop.aspectj.AspectJAfterReturningAdvice;
+import org.springframework.aop.aspectj.AspectJAfterThrowingAdvice;
 import org.springframework.aop.framework.adapter.AfterReturningAdviceInterceptor;
 import org.springframework.core.annotation.Order;
 
@@ -84,6 +85,8 @@ public class AspectConfiguration {
 
     /**
      * 定义后置通知，利用pointcut执行过滤方法
+     *
+     * {@link AspectJAfterThrowingAdvice} is {@link MethodInterceptor}
      */
     @AfterThrowing("doAnyMethod()")
     public void afterThrowingAnyPublicMethod() {
