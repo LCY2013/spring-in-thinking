@@ -14,13 +14,32 @@
 
     <bean id="echoService" class="org.lcydream.aop.staticproxy.DefaultEchoService"/>
 
+    <!-- Advice Bean == MethodInterceptor Bean -->
     <bean id="echoServiceMethodInterceptor"
           class="org.lcydream.aop.feature.aspectj.proxyfactory.interceptor.EchoServiceMethodInterceptor"/>
 
-    <bean class="org.springframework.aop.framework.autoproxy.BeanNameAutoProxyCreator">
+    <!-- 第一种自动代理：BeanNameAutoProxyCreator -->
+    <!--<bean class="org.springframework.aop.framework.autoproxy.BeanNameAutoProxyCreator">
         <property name="beanNames" value="echo*"/>
         <property name="interceptorNames">
             <value>echoServiceMethodInterceptor</value>
         </property>
+    </bean>-->
+
+    <!-- 第二种自动代理：DefaultAdvisorAutoProxyCreator -->
+    <!-- AutoProxy Bean -->
+    <bean class="org.springframework.aop.framework.autoproxy.DefaultAdvisorAutoProxyCreator"/>
+
+    <!--Pointcut bean-->
+    <bean id="echoServicePointcut" class="org.lcydream.aop.feature.aspect.api.EchoServicePointcut">
+        <constructor-arg index="0" value="cil"/>
+        <constructor-arg index="1" value="org.lcydream.aop.staticproxy.EchoService"/>
     </bean>
+
+    <!-- Pointcut advisor bean -->
+    <bean class="org.springframework.aop.support.DefaultPointcutAdvisor">
+        <constructor-arg index="0" ref="echoServicePointcut"/>
+        <constructor-arg index="1" ref="echoServiceMethodInterceptor"/>
+    </bean>
+
 </beans>
