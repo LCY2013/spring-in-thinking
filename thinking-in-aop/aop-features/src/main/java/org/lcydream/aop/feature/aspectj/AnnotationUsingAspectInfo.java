@@ -20,12 +20,12 @@ package org.lcydream.aop.feature.aspectj;
 import org.aopalliance.aop.Advice;
 import org.aopalliance.intercept.MethodInterceptor;
 import org.lcydream.aop.feature.aspectj.config.AspectConfiguration;
-import org.springframework.aop.AfterReturningAdvice;
-import org.springframework.aop.BeforeAdvice;
-import org.springframework.aop.MethodBeforeAdvice;
+import org.springframework.aop.*;
 import org.springframework.aop.aspectj.annotation.AspectJProxyFactory;
 import org.springframework.aop.aspectj.annotation.ReflectiveAspectJAdvisorFactory;
+import org.springframework.aop.framework.adapter.AfterReturningAdviceInterceptor;
 import org.springframework.aop.framework.adapter.MethodBeforeAdviceInterceptor;
+import org.springframework.aop.framework.adapter.ThrowsAdviceInterceptor;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -62,6 +62,11 @@ public class AnnotationUsingAspectInfo {
             }
         });
 
+        /**
+         * @see AfterAdvice
+         * @see AfterReturningAdvice -> {@link AfterReturningAdviceInterceptor}
+         * @see ThrowsAdvice - > {@link ThrowsAdviceInterceptor}
+         */
         // 添加后缀通知行为
         proxyFactory.addAdvice((AfterReturningAdvice)(returnValue,method, methodArgs, targetObject) -> {
             if ("put".equals(method.getName()) && methodArgs.length == 2) {
