@@ -1,7 +1,12 @@
 package org.lcydream.aop.feature.aspect.annotation;
 
+import org.aopalliance.intercept.MethodInterceptor;
 import org.aspectj.lang.ProceedingJoinPoint;
 import org.aspectj.lang.annotation.*;
+import org.springframework.aop.AfterReturningAdvice;
+import org.springframework.aop.aspectj.AbstractAspectJAdvice;
+import org.springframework.aop.aspectj.AspectJAfterReturningAdvice;
+import org.springframework.aop.framework.adapter.AfterReturningAdviceInterceptor;
 import org.springframework.core.annotation.Order;
 
 import java.util.Random;
@@ -61,6 +66,16 @@ public class AspectConfiguration {
 
     /**
      * 定义后置通知，利用pointcut执行过滤方法
+     * <p>
+     * {@link AspectJAfterReturningAdvice} is {@link AfterReturningAdvice}
+     * 一个 {@link AfterReturningAdviceInterceptor} 关联一个 {@link AfterReturningAdvice}
+     * Spring 封装 {@link AfterReturningAdvice} -> {@link AfterReturningAdviceInterceptor}
+     * {@link AfterReturningAdviceInterceptor} -> {@link MethodInterceptor}
+     *
+     * 最终调用链路:
+     * {@link AfterReturningAdviceInterceptor} ->
+     *              {@link AspectJAfterReturningAdvice}  ->
+     *                  {@link AbstractAspectJAdvice#invokeAdviceMethodWithGivenArgs(java.lang.Object[])}
      */
     @AfterReturning("doAnyMethod()")
     public void afterReturningAnyPublicMethod() {

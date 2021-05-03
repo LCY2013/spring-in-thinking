@@ -1,19 +1,19 @@
 package org.lcydream.aop.feature.aspectj.advice;
 
 import org.springframework.aop.ThrowsAdvice;
+import org.springframework.aop.aspectj.AbstractAspectJAdvice;
 import org.springframework.aop.framework.ProxyFactory;
 import org.springframework.aop.framework.adapter.ThrowsAdviceInterceptor;
 
-import java.lang.reflect.Method;
-import java.util.Arrays;
 import java.util.Random;
 
 /**
  * @author luocy
  * @description ThrowsAdvice 示例
  * @create 2021-05-03
- * @see ThrowsAdvice
+* @see ThrowsAdvice
  * @see ThrowsAdviceInterceptor
+ * @see AbstractAspectJAdvice
  * @since 1.0
  */
 public class ThrowsAdviceInfo {
