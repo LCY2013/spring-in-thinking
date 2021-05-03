@@ -1,9 +1,13 @@
 package org.lcydream.aop.feature.pointcut;
 
+import org.aopalliance.aop.Advice;
+import org.aopalliance.intercept.MethodInterceptor;
 import org.lcydream.aop.staticproxy.EchoService;
+import org.springframework.aop.BeforeAdvice;
 import org.springframework.aop.ClassFilter;
 import org.springframework.aop.MethodMatcher;
 import org.springframework.aop.Pointcut;
+import org.springframework.aop.framework.adapter.MethodBeforeAdviceInterceptor;
 
 import java.lang.reflect.Method;
 import java.util.Objects;
@@ -49,6 +53,16 @@ public class EchoServiceMethodPointcut implements Pointcut {
     public MethodMatcher getMethodMatcher() {
 
         return new MethodMatcher() {
+            /**
+             *
+             * @param method 方法名称
+             * @param targetClass 目标类型
+             * @return {@code true} {@code false}
+             * @see MethodBeforeAdviceInterceptor
+             * @see MethodInterceptor
+             * @see BeforeAdvice
+             * @see Advice
+             */
             @Override
             public boolean matches(Method method, Class<?> targetClass) {
                 // 匹配方法名称为 cli 的方法

@@ -17,10 +17,14 @@
  */
 package org.lcydream.aop.feature.aspectj;
 
+import org.aopalliance.aop.Advice;
+import org.aopalliance.intercept.MethodInterceptor;
 import org.lcydream.aop.feature.aspectj.config.AspectConfiguration;
 import org.springframework.aop.AfterReturningAdvice;
+import org.springframework.aop.BeforeAdvice;
 import org.springframework.aop.MethodBeforeAdvice;
 import org.springframework.aop.aspectj.annotation.AspectJProxyFactory;
+import org.springframework.aop.framework.adapter.MethodBeforeAdviceInterceptor;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -42,6 +46,12 @@ public class AnnotationUsingAspectInfo {
         // 增加Aspect配置类到代理工厂
         proxyFactory.addAspect(AspectConfiguration.class);
 
+        /**
+         * @see MethodBeforeAdviceInterceptor
+         * @see MethodInterceptor
+         * @see BeforeAdvice
+         * @see Advice
+         */
         // 添加前置通知行为
         proxyFactory.addAdvice((MethodBeforeAdvice) (method, methodArgs, targetObject) -> {
             if ("put".equals(method.getName()) && methodArgs.length == 2) {
