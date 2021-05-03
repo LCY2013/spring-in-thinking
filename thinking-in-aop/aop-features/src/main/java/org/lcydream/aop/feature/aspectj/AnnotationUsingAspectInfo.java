@@ -18,6 +18,7 @@
 package org.lcydream.aop.feature.aspectj;
 
 import org.lcydream.aop.feature.aspectj.config.AspectConfiguration;
+import org.springframework.aop.AfterReturningAdvice;
 import org.springframework.aop.MethodBeforeAdvice;
 import org.springframework.aop.aspectj.annotation.AspectJProxyFactory;
 
@@ -44,7 +45,17 @@ public class AnnotationUsingAspectInfo {
         // 添加前置通知行为
         proxyFactory.addAdvice((MethodBeforeAdvice) (method, methodArgs, targetObject) -> {
             if ("put".equals(method.getName()) && methodArgs.length == 2) {
-                System.out.printf("put key [%s] , value [%s]\n",methodArgs[0],methodArgs[1]);
+                System.out.printf("(BeforeAdvice) put key [%s] , value [%s]\n",methodArgs[0],methodArgs[1]);
+            }
+        });
+
+        // 添加后缀通知行为
+        proxyFactory.addAdvice((AfterReturningAdvice)(returnValue,method, methodArgs, targetObject) -> {
+            if ("put".equals(method.getName()) && methodArgs.length == 2) {
+                System.out.printf("(AfterReturningAdvice) put key [%s] , new value [%s] , old value [%s]\n",
+                        methodArgs[0],
+                        methodArgs[1],
+                        returnValue);
             }
         });
 
@@ -57,6 +68,9 @@ public class AnnotationUsingAspectInfo {
         final Map<String,Object> proxyMap = proxyFactory.getProxy();
         // 插入数据
         proxyMap.put("name","fufeng");
+        System.out.println(proxyMap.get("name"));
+
+        proxyMap.put("name","magic");
         System.out.println(proxyMap.get("name"));
     }
 
