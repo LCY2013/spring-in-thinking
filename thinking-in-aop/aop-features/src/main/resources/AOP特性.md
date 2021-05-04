@@ -32,7 +32,7 @@ org.springframework.aop.aspectj.annotation.AspectJProxyFactory
 > AdvisorAdapterRegistrationManager
 
 
-
+### AopProxy - JdkDynamicAopProxy、CglibAopProxy
 
 
 
