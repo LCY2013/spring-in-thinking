@@ -13,14 +13,23 @@
 org.springframework.aop.aspectj.annotation.AspectJProxyFactory
 ```
 
+### AdvisorAdapter、Advice、Advisor、MethodInterceptor
 
+扩展Advice逻辑：
 
+> 自定义Advice
 
+> 自定义Advisor
 
+> 自定义继承自Advice 的 MethodInterceptor
 
+> 自定义实现AdvisorAdapter
 
+> 通过DefaultAdvisorAdapterRegistry 注册AdvisorAdapter
 
+如何通过 DefaultAdvisorAdapterRegistry 注册 AdvisorAdapter  ?
 
+> AdvisorAdapterRegistrationManager
 
 
 
