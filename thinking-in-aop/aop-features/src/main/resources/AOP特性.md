@@ -63,6 +63,10 @@ org.springframework.aop.aspectj.annotation.AspectJProxyFactory
 
 - org.springframework.aop.target.CommonsPool2TargetSource
 
+### 代理对象创建基础类 - ProxyCreatorSupport
+
+
+### AdvisedSupport事件监听器 - AdvisedSupportListener
 
 
 
