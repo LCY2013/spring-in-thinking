@@ -45,6 +45,14 @@ org.springframework.aop.aspectj.annotation.AspectJProxyFactory
 
 ### AopProxyFactory配置管理器 - AdvisedSupport ProxyConfig -> AdvisedSupport -> AdvisorChainFactory(DefaultAdvisorChainFactory)
 
+### Advisor链工厂接口与实现 - AdvisorChainFactory 
+
+- org.springframework.aop.framework.DefaultAdvisorChainFactory
+
+- org.springframework.aop.framework.adapter.GlobalAdvisorAdapterRegistry
+
+- org.springframework.aop.framework.adapter.AdvisorAdapterRegistry ->org.springframework.aop.framework.adapter.DefaultAdvisorAdapterRegistry
+
 
 
 
