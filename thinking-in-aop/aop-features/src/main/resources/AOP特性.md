@@ -68,6 +68,16 @@ org.springframework.aop.aspectj.annotation.AspectJProxyFactory
 
 ### AdvisedSupport事件监听器 - AdvisedSupportListener
 
+### ProxyCreatorSupport标准实现 - ProxyFactory
+
+### ProxyCreatorSupport IoC容器实现 - ProxyFactoryBean
+
+### 
+
+
+
+
+
 
 
 
