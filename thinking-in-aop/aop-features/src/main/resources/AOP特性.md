@@ -53,7 +53,15 @@ org.springframework.aop.aspectj.annotation.AspectJProxyFactory
 
 - org.springframework.aop.framework.adapter.AdvisorAdapterRegistry ->org.springframework.aop.framework.adapter.DefaultAdvisorAdapterRegistry
 
+### 目标对象来源接口与实现 - TargetSource
 
+- org.springframework.aop.target.HotSwappableTargetSource
+
+- org.springframework.aop.target.SingletonTargetSource
+
+- org.springframework.aop.target.PrototypeTargetSource
+
+- org.springframework.aop.target.CommonsPool2TargetSource
 
 
 
