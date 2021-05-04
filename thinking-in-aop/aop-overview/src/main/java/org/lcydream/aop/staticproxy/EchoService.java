@@ -34,6 +34,6 @@ public interface EchoService {
 
     void print(String message);
 
-    String cil(String messsage);
+    String cil(String message);
 
 }
