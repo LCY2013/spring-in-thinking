@@ -43,7 +43,7 @@ org.springframework.aop.aspectj.annotation.AspectJProxyFactory
 
 > NamingPolicy -> DefaultNamingPolicy -> SpringNamingPolicy
 
-
+### AopProxyFactory配置管理器 - AdvisedSupport ProxyConfig -> AdvisedSupport -> AdvisorChainFactory(DefaultAdvisorChainFactory)
 
 
 
