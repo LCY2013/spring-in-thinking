@@ -34,6 +34,18 @@ org.springframework.aop.aspectj.annotation.AspectJProxyFactory
 
 ### AopProxy - JdkDynamicAopProxy、CglibAopProxy
 
+### AopProxyFactory -> DefaultAopProxyFactory
+> org.springframework.aop.framework.JdkDynamicAopProxy
+
+> org.springframework.aop.framework.CglibAopProxy -> org.springframework.aop.framework.ObjenesisCglibAopProxy
+
+
+
+
+
+
+
+
 
 
 
