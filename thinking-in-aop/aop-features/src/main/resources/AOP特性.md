@@ -37,9 +37,11 @@ org.springframework.aop.aspectj.annotation.AspectJProxyFactory
 ### AopProxyFactory -> DefaultAopProxyFactory
 > org.springframework.aop.framework.JdkDynamicAopProxy
 
-> org.springframework.aop.framework.CglibAopProxy -> org.springframework.aop.framework.ObjenesisCglibAopProxy
+> org.springframework.aop.framework.CglibAopProxy(CglibMethodInvocation) -> org.springframework.aop.framework.ObjenesisCglibAopProxy
 
+### 命名策略
 
+> NamingPolicy -> DefaultNamingPolicy -> SpringNamingPolicy
 
 
 
