@@ -72,7 +72,7 @@ org.springframework.aop.aspectj.annotation.AspectJProxyFactory
 
 ### ProxyCreatorSupport IoC容器实现 - ProxyFactoryBean
 
-### 
+### ProxyCreatorSupport AspectJ实现 - AspectJProxyFactory
 
 
 
