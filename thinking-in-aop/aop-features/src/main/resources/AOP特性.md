@@ -87,9 +87,9 @@ org.springframework.aop.aspectj.annotation.AspectJProxyFactory
 
 ### IoC容器自动代理 AspectJ 实现 - AspectJAwareAdvisorAutoProxyCreator
 
+### AOP Infrastructure Bean接口 - AopInfrastructureBean 底层基础设施标记接口，用于筛选AOP相关基础设施，不用做代理
 
-
-
+- org.springframework.aop.framework.autoproxy.AbstractAutoProxyCreator#isInfrastructureClass 断言是否是基础设施类
 
 
 
