@@ -27,7 +27,10 @@
 
     <context:component-scan base-package="org.lcydream.aop.feature.aspectj"/>
 
-    <bean id="echoService" class="org.lcydream.aop.staticproxy.DefaultEchoService"/>
+    <bean id="echoService" class="org.lcydream.aop.staticproxy.DefaultEchoService">
+        <!-- CGLIB 字节码提升，类比于Spring3.0后的Configuration Class -->
+        <aop:scoped-proxy/>
+    </bean>
 
     <!-- 替换targetSource -->
     <bean id="targetSource" class="org.springframework.aop.target.HotSwappableTargetSource">
