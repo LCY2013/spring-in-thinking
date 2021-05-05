@@ -101,7 +101,13 @@ org.springframework.aop.aspectj.annotation.AspectJProxyFactory
 
 ### AspectJ Enable模块驱动实现 - @EnableAspectJAutoProxy
 
+### AspectJ XML配置驱动实现 - aopaspectj-autoproxy  
 
+spring aop项目
+
+- http\://www.springframework.org/schema/aop=org.springframework.aop.config.AopNamespaceHandler
+
+- AopConfigUtils 
 
 
 
