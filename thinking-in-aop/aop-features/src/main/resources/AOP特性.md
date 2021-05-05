@@ -99,7 +99,7 @@ org.springframework.aop.aspectj.annotation.AspectJProxyFactory
 
 - AOP 在对目标对象代理的时候会进行接口 SpringProxy 的添加，用于处理这里的判断isXXXProxy()
 
-
+### AspectJ Enable模块驱动实现 - @EnableAspectJAutoProxy
 
 
 
