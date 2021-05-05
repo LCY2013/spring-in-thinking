@@ -85,6 +85,19 @@ org.springframework.aop.aspectj.annotation.AspectJProxyFactory
 
 - (Infrastructure)org.springframework.aop.framework.autoproxy.InfrastructureAdvisorAutoProxyCreator
 
+### IoC容器自动代理 AspectJ 实现 - AspectJAwareAdvisorAutoProxyCreator
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
