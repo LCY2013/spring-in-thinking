@@ -23,6 +23,7 @@ import org.lcydream.aop.feature.aspectj.config.AspectConfiguration;
 import org.springframework.aop.*;
 import org.springframework.aop.aspectj.annotation.AspectJProxyFactory;
 import org.springframework.aop.aspectj.annotation.ReflectiveAspectJAdvisorFactory;
+import org.springframework.aop.framework.AopContext;
 import org.springframework.aop.framework.adapter.AfterReturningAdviceInterceptor;
 import org.springframework.aop.framework.adapter.MethodBeforeAdviceInterceptor;
 import org.springframework.aop.framework.adapter.ThrowsAdviceInterceptor;
@@ -47,6 +48,9 @@ public class AnnotationUsingAspectInfo {
         // 增加Aspect配置类到代理工厂
         proxyFactory.addAspect(AspectConfiguration.class);
 
+        // 开启暴露代理对象到上下文
+        proxyFactory.setExposeProxy(true);
+
         /**
          * @see MethodBeforeAdviceInterceptor
          * @see MethodInterceptor
@@ -57,8 +61,13 @@ public class AnnotationUsingAspectInfo {
          */
         // 添加前置通知行为
         proxyFactory.addAdvice((MethodBeforeAdvice) (method, methodArgs, targetObject) -> {
+            // 获取上下文中的代理对象,如果启动的时候没有开启@EnableAspectJAutoProxy,这里会为null
+            final Object proxy = AopContext.currentProxy();
             if ("put".equals(method.getName()) && methodArgs.length == 2) {
-                System.out.printf("(BeforeAdvice) put key [%s] , value [%s]\n",methodArgs[0],methodArgs[1]);
+                System.out.printf("(BeforeAdvice) put key [%s] , value [%s] , proxy [%s]\n",
+                        methodArgs[0],
+                        methodArgs[1],
+                        proxy);
             }
         });
 
