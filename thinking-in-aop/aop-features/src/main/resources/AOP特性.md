@@ -76,8 +76,14 @@ org.springframework.aop.aspectj.annotation.AspectJProxyFactory
 
 ### IoC容器自动代理抽象 - AbstractAutoProxyCreator
 
+### IoC容器自动代理标准实现
+- org.springframework.aop.framework.autoproxy.AbstractAutoProxyCreator
 
+- (默认实现)org.springframework.aop.framework.autoproxy.DefaultAdvisorAutoProxyCreator
 
+- (Bean名称匹配)org.springframework.aop.framework.autoproxy.BeanNameAutoProxyCreator
+
+- (Infrastructure)org.springframework.aop.framework.autoproxy.InfrastructureAdvisorAutoProxyCreator
 
 
 

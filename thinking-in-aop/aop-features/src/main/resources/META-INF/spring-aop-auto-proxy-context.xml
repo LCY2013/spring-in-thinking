@@ -20,7 +20,7 @@
 
     <!-- 第一种自动代理：BeanNameAutoProxyCreator -->
     <!--<bean class="org.springframework.aop.framework.autoproxy.BeanNameAutoProxyCreator">
-        <property name="beanNames" value="echo*"/>
+        -<property name="beanNames" value="echo*|*"/>
         <property name="interceptorNames">
             <value>echoServiceMethodInterceptor</value>
         </property>
