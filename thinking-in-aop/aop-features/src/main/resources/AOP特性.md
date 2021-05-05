@@ -93,6 +93,11 @@ org.springframework.aop.aspectj.annotation.AspectJProxyFactory
 
 ### AOP上下文辅助类 - AopContext
 
+### 代理工厂工具类 - AopProxyUtils
+
+### AOP工具类 - AopUtils 
+
+- AOP 在对目标对象代理的时候会进行接口 SpringProxy 的添加，用于处理这里的判断isXXXProxy()
 
 
 
