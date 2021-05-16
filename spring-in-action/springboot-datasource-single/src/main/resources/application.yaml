@@ -3,3 +3,18 @@ management:
     web:
       exposure:
         include: '*'
+
+spring:
+  output:
+    ansi:
+      enabled: ALWAYS
+  datasource:
+    url: jdbc:h2:mem:testdb
+    name: sa
+    password:
+    hikari:
+      maximumPoolSize: 5
+      minimumIdle: 5
+      idleTimeout: 60000
+      connectionTimeout: 30000
+      maxLifetime: 1800000
