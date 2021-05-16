@@ -52,6 +52,18 @@ public class DeclarativeTransactionApplication implements CommandLineRunner {
 					jdbcTemplate
 							.queryForObject("SELECT COUNT(*) FROM FOO WHERE BAR='go'", Long.class));
 		}
+
+		try {
+			fooService.insertThenRollbackMainPropagation();
+		} catch (Exception e) {
+
+		}
+		log.info("4-go {}",
+				jdbcTemplate
+						.queryForObject("SELECT COUNT(*) FROM FOO WHERE BAR='4-go'", Long.class));
+		log.info("5-go {}",
+				jdbcTemplate
+						.queryForObject("SELECT COUNT(*) FROM FOO WHERE BAR='5-go'", Long.class));
 	}
 }
 

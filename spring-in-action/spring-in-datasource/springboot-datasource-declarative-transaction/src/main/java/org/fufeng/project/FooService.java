@@ -5,4 +5,6 @@ public interface FooService {
     void insertThenRollback() throws RollbackException;
     void invokeInsertThenRollback() throws RollbackException;
     void invokeBeanInsertThenRollback() throws RollbackException;
+    void insertThenRollbackPropagation() throws RollbackException;
+    void insertThenRollbackMainPropagation() throws RuntimeException;
 }
