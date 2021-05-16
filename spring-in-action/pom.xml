@@ -11,6 +11,7 @@
         <module>springboot-datasource-single</module>
         <module>spring-datasource</module>
         <module>springboot-datasource-multi</module>
+        <module>spring-datasource-jdbc</module>
     </modules>
     <packaging>pom</packaging>
 
