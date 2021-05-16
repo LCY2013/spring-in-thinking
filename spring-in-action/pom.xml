@@ -8,13 +8,7 @@
     <artifactId>spring-in-action</artifactId>
     <version>1.0-SNAPSHOT</version>
     <modules>
-        <module>springboot-datasource-single</module>
-        <module>spring-datasource</module>
-        <module>springboot-datasource-multi</module>
-        <module>spring-datasource-jdbc</module>
-        <module>springboot-datasource-druid</module>
-        <module>springboot-datasource-programmatic-transaction</module>
-        <module>springboot-datasource-declarative-transaction</module>
+        <module>spring-in-datasource</module>
     </modules>
     <packaging>pom</packaging>
 
