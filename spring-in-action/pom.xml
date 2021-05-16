@@ -13,6 +13,7 @@
         <module>springboot-datasource-multi</module>
         <module>spring-datasource-jdbc</module>
         <module>springboot-datasource-druid</module>
+        <module>springboot-datasource-programmatic-transaction</module>
     </modules>
     <packaging>pom</packaging>
 
