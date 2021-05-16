@@ -13,6 +13,7 @@
     <packaging>pom</packaging>
     <modules>
         <module>spring-orm-jpa</module>
+        <module>spring-orm-jpa-complex</module>
     </modules>
 
     <properties>
