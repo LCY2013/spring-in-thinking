@@ -7,4 +7,5 @@ public interface FooService {
     void invokeBeanInsertThenRollback() throws RollbackException;
     void insertThenRollbackPropagation() throws RollbackException;
     void insertThenRollbackMainPropagation() throws RuntimeException;
+    void insertThenRollbackMethod() throws RuntimeException;
 }

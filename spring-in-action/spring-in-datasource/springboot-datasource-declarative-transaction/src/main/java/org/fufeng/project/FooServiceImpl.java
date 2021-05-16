@@ -1,5 +1,6 @@
 package org.fufeng.project;
 
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.BeansException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.ApplicationContext;
@@ -9,6 +10,7 @@ import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 
+@Slf4j
 @Component
 public class FooServiceImpl implements FooService, ApplicationContextAware {
     @Autowired
@@ -57,6 +59,18 @@ public class FooServiceImpl implements FooService, ApplicationContextAware {
         }catch (Exception e){
             //throw new RuntimeException();
         }
+        throw new RuntimeException();
+    }
+
+    @Override
+    @Transactional(rollbackFor = RuntimeException.class)
+    public void insertThenRollbackMethod() throws RuntimeException {
+        jdbcTemplate.execute("INSERT INTO FOO (BAR) VALUES ('6-go')");
+        insert();
+    }
+
+    public void insert(){
+        jdbcTemplate.execute("INSERT INTO FOO (BAR) VALUES ('7-go')");
         throw new RuntimeException();
     }
 
