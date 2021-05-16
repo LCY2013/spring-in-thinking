@@ -10,6 +10,7 @@
     <modules>
         <module>springboot-datasource-single</module>
         <module>spring-datasource</module>
+        <module>springboot-multi-datasource</module>
     </modules>
     <packaging>pom</packaging>
 
