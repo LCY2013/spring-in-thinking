@@ -8,4 +8,5 @@ public interface FooService {
     void insertThenRollbackPropagation() throws RollbackException;
     void insertThenRollbackMainPropagation() throws RuntimeException;
     void insertThenRollbackMethod() throws RuntimeException;
+    void insertRuntimeExceptionMethod() throws Exception;
 }

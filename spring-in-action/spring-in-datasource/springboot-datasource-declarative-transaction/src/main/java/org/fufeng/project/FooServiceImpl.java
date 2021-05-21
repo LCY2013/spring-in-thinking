@@ -75,6 +75,14 @@ public class FooServiceImpl implements FooService, ApplicationContextAware {
     }
 
     @Override
+    @Transactional(rollbackFor = Exception.class)
+    public void insertRuntimeExceptionMethod() throws Exception{
+        jdbcTemplate.execute("INSERT INTO FOO (BAR) VALUES ('8-go')");
+        throw new RuntimeException("for purpose: ");
+        // throw new RollbackException();
+    }
+
+    @Override
     public void setApplicationContext(ApplicationContext applicationContext) throws BeansException {
         this.applicationContext = applicationContext;
     }
