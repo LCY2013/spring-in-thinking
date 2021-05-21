@@ -1,0 +1,4 @@
+mybatis:
+  type-handlers-package: org.fufeng.project.handler
+  configuration:
+    map-underscore-to-camel-case: true
