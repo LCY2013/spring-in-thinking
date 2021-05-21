@@ -1,0 +1,6 @@
+mybatis:
+  mapper-locations: classpath*:/mapper/**/*.xml
+  type-aliases-package: org.fufeng.project.generator.model
+  type-handlers-package: org.fufeng.project.generator.handler
+  configuration:
+    map-underscore-to-camel-case: true

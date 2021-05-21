@@ -14,6 +14,8 @@
     <modules>
         <module>spring-orm-jpa</module>
         <module>spring-orm-jpa-complex</module>
+        <module>spring-orm-mybatis</module>
+        <module>spring-orm-mybatis-generator</module>
     </modules>
 
     <properties>
