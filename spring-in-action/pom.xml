@@ -11,6 +11,7 @@
         <module>spring-in-datasource</module>
         <module>spring-in-orm</module>
         <module>spring-in-nosql</module>
+        <module>spring-in-cache</module>
     </modules>
     <packaging>pom</packaging>
 
