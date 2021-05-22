@@ -13,6 +13,7 @@
     <packaging>pom</packaging>
     <modules>
         <module>spring-reactor</module>
+        <module>spring-reactor-redis</module>
     </modules>
 
     <properties>
