@@ -176,7 +176,7 @@ public class CoffeeExample {
             if (value == null) {
                 throw new RuntimeException("Value for " + property + " cannot be null");
             }
-            priceCriteria.add(new Criterion(condition, value, "geektime.spring.data.mybatis.handler.MoneyTypeHandler"));
+            priceCriteria.add(new Criterion(condition, value, "org.fufeng.project.generator.handler.MoneyTypeHandler"));
             allCriteria = null;
         }
 
@@ -184,7 +184,7 @@ public class CoffeeExample {
             if (value1 == null || value2 == null) {
                 throw new RuntimeException("Between values for " + property + " cannot be null");
             }
-            priceCriteria.add(new Criterion(condition, value1, value2, "geektime.spring.data.mybatis.handler.MoneyTypeHandler"));
+            priceCriteria.add(new Criterion(condition, value1, value2, "org.fufeng.project.generator.handler.MoneyTypeHandler"));
             allCriteria = null;
         }
 

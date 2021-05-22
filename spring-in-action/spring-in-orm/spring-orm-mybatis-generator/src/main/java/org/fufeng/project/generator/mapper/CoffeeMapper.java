@@ -45,7 +45,7 @@ public interface CoffeeMapper {
     @Insert({
         "insert into T_COFFEE (NAME, PRICE, ",
         "CREATE_TIME, UPDATE_TIME)",
-        "values (#{name,jdbcType=VARCHAR}, #{price,jdbcType=BIGINT,typeHandler=geektime.spring.data.mybatis.handler.MoneyTypeHandler}, ",
+        "values (#{name,jdbcType=VARCHAR}, #{price,jdbcType=BIGINT,typeHandler=org.fufeng.project.generator.handler.MoneyTypeHandler}, ",
         "#{createTime,jdbcType=TIMESTAMP}, #{updateTime,jdbcType=TIMESTAMP})"
     })
     @SelectKey(statement="CALL IDENTITY()", keyProperty="id", before=false, resultType=Long.class)
@@ -87,7 +87,7 @@ public interface CoffeeMapper {
         "from T_COFFEE",
         "where ID = #{id,jdbcType=BIGINT}"
     })
-    @ResultMap("geektime.spring.data.mybatis.mapper.CoffeeMapper.BaseResultMap")
+    @ResultMap("org.fufeng.project.generator.mapper.CoffeeMapper.BaseResultMap")
     Coffee selectByPrimaryKey(Long id);
 
     /**
@@ -123,7 +123,7 @@ public interface CoffeeMapper {
     @Update({
         "update T_COFFEE",
         "set NAME = #{name,jdbcType=VARCHAR},",
-          "PRICE = #{price,jdbcType=BIGINT,typeHandler=geektime.spring.data.mybatis.handler.MoneyTypeHandler},",
+          "PRICE = #{price,jdbcType=BIGINT,typeHandler=org.fufeng.project.generator.handler.MoneyTypeHandler},",
           "CREATE_TIME = #{createTime,jdbcType=TIMESTAMP},",
           "UPDATE_TIME = #{updateTime,jdbcType=TIMESTAMP}",
         "where ID = #{id,jdbcType=BIGINT}"
