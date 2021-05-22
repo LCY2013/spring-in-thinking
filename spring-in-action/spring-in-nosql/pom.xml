@@ -13,6 +13,7 @@
     <packaging>pom</packaging>
     <modules>
         <module>spring-nosql-mongodb</module>
+        <module>spring-nosql-mongodb-jpa</module>
     </modules>
 
     <properties>
