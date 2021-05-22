@@ -16,6 +16,7 @@
         <module>spring-reactor-redis</module>
         <module>spring-reactor-mongo</module>
         <module>spring-reactor-r2dbc</module>
+        <module>spring-reactor-r2dbc-repository</module>
     </modules>
 
     <properties>
