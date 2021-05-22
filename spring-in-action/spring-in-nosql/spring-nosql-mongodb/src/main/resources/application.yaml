@@ -1,0 +1,4 @@
+spring:
+  data:
+    mongodb:
+      uri: mongodb://springbucks:springbucks@192.168.0.170:27017/springbucks
