@@ -17,6 +17,7 @@
         <module>spring-orm-mybatis</module>
         <module>spring-orm-mybatis-generator</module>
         <module>spring-orm-mybatis-pagehelper</module>
+        <module>spring-orm-jpa-bucks</module>
     </modules>
 
     <properties>
