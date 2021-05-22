@@ -44,22 +44,22 @@ public class MybatisGeneratorDemoApplication implements ApplicationRunner {
 		myBatisGenerator.generate(new ProgressCallback() {
 			@Override
 			public void introspectionStarted(int totalTasks) {
-				System.out.println(totalTasks);
+				System.out.printf("introspectionStarted : %s\n",totalTasks);
 			}
 
 			@Override
 			public void generationStarted(int totalTasks) {
-				System.out.println(totalTasks);
+				System.out.printf("generationStarted : %s\n",totalTasks);
 			}
 
 			@Override
 			public void saveStarted(int totalTasks) {
-				System.out.println(totalTasks);
+				System.out.printf("saveStarted : %s\n",totalTasks);
 			}
 
 			@Override
 			public void startTask(String taskName) {
-				System.out.println(taskName);
+				System.out.printf("startTask : %s\n",taskName);
 			}
 
 			@Override
