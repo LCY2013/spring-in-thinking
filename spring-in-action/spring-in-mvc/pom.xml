@@ -16,6 +16,7 @@
         <module>spring-mvc-simple-controller</module>
         <module>spring-mvc-complex-controller</module>
         <module>spring-mvc-more-complex-controller</module>
+        <module>spring-mvc-json-view</module>
     </modules>
 
     <properties>
