@@ -20,6 +20,7 @@
         <module>spring-mvc-thymeleaf-view</module>
         <module>spring-mvc-cache-resource</module>
         <module>spring-mvc-exception</module>
+        <module>spring-mvc-springbucks</module>
     </modules>
 
     <properties>
