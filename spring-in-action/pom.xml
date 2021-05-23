@@ -13,6 +13,7 @@
         <module>spring-in-nosql</module>
         <module>spring-in-cache</module>
         <module>spring-in-reactor</module>
+        <module>spring-in-aop</module>
     </modules>
     <packaging>pom</packaging>
 
