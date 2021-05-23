@@ -5,10 +5,10 @@ import org.fufeng.project.waiter.model.Coffee;
 import org.fufeng.project.waiter.model.CoffeeOrder;
 import org.fufeng.project.waiter.model.OrderState;
 import org.fufeng.project.waiter.repository.CoffeeOrderRepository;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import javax.annotation.Resource;
 import java.util.ArrayList;
 import java.util.Arrays;
 
@@ -16,7 +16,7 @@ import java.util.Arrays;
 @Transactional
 @Slf4j
 public class CoffeeOrderService {
-    @Autowired
+    @Resource
     private CoffeeOrderRepository orderRepository;
 
     public CoffeeOrder createOrder(String customer, Coffee...coffee) {
