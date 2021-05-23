@@ -17,6 +17,7 @@
         <module>spring-reactor-mongo</module>
         <module>spring-reactor-r2dbc</module>
         <module>spring-reactor-r2dbc-repository</module>
+        <module>spring-reactor-reactive-springbucks</module>
     </modules>
 
     <properties>

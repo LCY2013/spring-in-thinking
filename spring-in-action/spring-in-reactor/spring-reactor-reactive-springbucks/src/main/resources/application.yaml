@@ -1,0 +1,15 @@
+spring:
+  redis:
+    host: 192.168.0.170
+    lettuce:
+      pool:
+        maxActive: 5
+        maxIdle: 5
+
+#spring.datasource.initialization-mode=always
+logging:
+  level:
+    org:
+     springframework:
+      data:
+       r2dbc: DEBUG
