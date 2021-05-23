@@ -19,6 +19,7 @@
         <module>spring-mvc-json-view</module>
         <module>spring-mvc-thymeleaf-view</module>
         <module>spring-mvc-cache-resource</module>
+        <module>spring-mvc-exception</module>
     </modules>
 
     <properties>
