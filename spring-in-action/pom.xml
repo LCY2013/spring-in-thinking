@@ -21,6 +21,7 @@
         <module>spring-in-cache</module>
         <module>spring-in-reactor</module>
         <module>spring-in-aop</module>
+        <module>spring-in-mvc</module>
     </modules>
     <packaging>pom</packaging>
 
