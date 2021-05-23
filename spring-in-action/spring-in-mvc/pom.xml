@@ -17,6 +17,7 @@
         <module>spring-mvc-complex-controller</module>
         <module>spring-mvc-more-complex-controller</module>
         <module>spring-mvc-json-view</module>
+        <module>spring-mvc-thymeleaf-view</module>
     </modules>
 
     <properties>
