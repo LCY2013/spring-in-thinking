@@ -7,7 +7,7 @@
     <parent>
         <groupId>org.springframework.boot</groupId>
         <artifactId>spring-boot-starter-parent</artifactId>
-        <version>2.1.13.RELEASE</version>
+        <version>2.4.5</version>
         <relativePath/> <!-- lookup parent from repository -->
     </parent>
 
@@ -19,9 +19,10 @@
         <module>spring-in-orm</module>
         <module>spring-in-nosql</module>
         <module>spring-in-cache</module>
-        <module>spring-in-reactor</module>
+        <!--<module>spring-in-reactor</module>-->
         <module>spring-in-aop</module>
         <module>spring-in-mvc</module>
+        <module>spring-in-resttemplate</module>
     </modules>
     <packaging>pom</packaging>
 
