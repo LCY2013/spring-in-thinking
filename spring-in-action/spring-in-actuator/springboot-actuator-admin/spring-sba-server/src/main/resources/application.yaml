@@ -1,0 +1,9 @@
+spring:
+  application:
+    name: sba-server
+  security:
+    user:
+      name: fufeng
+      password: 123456
+server:
+  port: 8080
