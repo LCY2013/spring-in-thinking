@@ -24,6 +24,7 @@
         <module>spring-in-mvc</module>
         <module>spring-in-resttemplate</module>
         <module>spring-in-hateoas</module>
+        <module>spring-in-autoconfigure</module>
     </modules>
     <packaging>pom</packaging>
 
