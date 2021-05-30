@@ -13,6 +13,7 @@
     <packaging>pom</packaging>
     <modules>
         <module>spring-actuator-indicator</module>
+        <module>spring-actuator-micrometer</module>
     </modules>
 
     <properties>
