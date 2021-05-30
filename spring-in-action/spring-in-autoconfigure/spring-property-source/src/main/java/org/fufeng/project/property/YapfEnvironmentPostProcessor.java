@@ -10,6 +10,10 @@ import org.springframework.core.env.PropertySource;
 import org.springframework.core.io.ClassPathResource;
 import org.springframework.core.io.Resource;
 
+/**
+ * @see org.springframework.boot.env.RandomValuePropertySource
+ * @see org.springframework.boot.env.RandomValuePropertySourceEnvironmentPostProcessor
+ */
 @Slf4j
 public class YapfEnvironmentPostProcessor implements EnvironmentPostProcessor {
     private PropertiesPropertySourceLoader loader = new PropertiesPropertySourceLoader();
