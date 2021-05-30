@@ -15,6 +15,7 @@
         <module>spring-actuator-indicator</module>
         <module>spring-actuator-micrometer</module>
         <module>springboot-actuator-admin</module>
+        <module>spring-tomcat-runtime-param</module>
     </modules>
 
     <properties>
