@@ -1,6 +1,5 @@
 package org.fufeng.project.webflux.repository;
 
-import geektime.spring.springbucks.waiter.model.Coffee;
 import org.springframework.data.r2dbc.repository.R2dbcRepository;
 import org.springframework.data.r2dbc.repository.query.Query;
 import reactor.core.publisher.Mono;

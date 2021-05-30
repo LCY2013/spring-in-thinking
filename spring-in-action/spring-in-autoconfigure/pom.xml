@@ -17,6 +17,7 @@
         <module>hello</module>
         <module>hello-spring-boot-starter</module>
         <module>hello-autoconfigure-backport</module>
+        <module>spring-property-source</module>
     </modules>
 
     <properties>
