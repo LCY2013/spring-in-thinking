@@ -15,6 +15,7 @@
         <module>spring-hateoas-waiter-service</module>
         <module>spring-hateoas-customer-service</module>
         <module>spring-session-redis</module>
+        <!--<module>spring-webflux-waiter-service</module>-->
     </modules>
 
     <properties>
