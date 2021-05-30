@@ -12,8 +12,9 @@
     <artifactId>spring-in-resttemplate</artifactId>
     <packaging>pom</packaging>
     <modules>
-        <module>spring-resttemplate-simple</module>
+        <module>spring-simple-resttemplate</module>
         <module>spring-complex-resttemplate</module>
+        <module>spring-advanced-resttemplate</module>
     </modules>
 
     <properties>
