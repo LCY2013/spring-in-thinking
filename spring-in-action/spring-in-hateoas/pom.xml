@@ -14,6 +14,7 @@
     <modules>
         <module>spring-hateoas-waiter-service</module>
         <module>spring-hateoas-customer-service</module>
+        <module>spring-session-redis</module>
     </modules>
 
     <properties>
