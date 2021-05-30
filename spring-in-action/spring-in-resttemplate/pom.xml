@@ -16,6 +16,7 @@
         <module>spring-complex-resttemplate</module>
         <module>spring-advanced-resttemplate</module>
         <module>spring-webclient</module>
+        <module>spring-customer-service</module>
     </modules>
 
     <properties>
