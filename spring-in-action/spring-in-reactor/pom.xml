@@ -11,14 +11,14 @@
 
     <artifactId>spring-in-reactor</artifactId>
     <packaging>pom</packaging>
-    <modules>
+    <!--<modules>
         <module>spring-reactor</module>
         <module>spring-reactor-redis</module>
         <module>spring-reactor-mongo</module>
         <module>spring-reactor-r2dbc</module>
         <module>spring-reactor-r2dbc-repository</module>
         <module>spring-reactor-reactive-springbucks</module>
-    </modules>
+    </modules>-->
 
     <properties>
         <maven.compiler.source>11</maven.compiler.source>
