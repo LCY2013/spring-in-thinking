@@ -25,6 +25,7 @@
         <module>spring-in-resttemplate</module>
         <module>spring-in-hateoas</module>
         <module>spring-in-autoconfigure</module>
+        <module>spring-in-actuator</module>
     </modules>
     <packaging>pom</packaging>
 
