@@ -18,6 +18,8 @@
         <module>spring-tomcat-runtime-param</module>
         <module>spring-ssl-waiter-service</module>
         <module>spring-ssl-customer-service</module>
+        <module>spring-http2-waiter-service</module>
+        <module>spring-http2-customer-service</module>
     </modules>
 
     <properties>

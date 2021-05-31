@@ -23,6 +23,8 @@ info:
 
 server:
   port: 8443
+  http2:
+    enabled: true
   ssl:
     key-store: classpath:fufeng.p12
     key-store-type: PKCS12
