@@ -1,0 +1,32 @@
+spring:
+  jpa:
+    hibernate:
+      ddl-auto: none
+    properties:
+      hibernate:
+        show_sql: true
+        format_sql: true
+
+management:
+  endpoints:
+    web:
+      exposure:
+        include: '*'
+  endpoint:
+    health:
+      show-details: always
+
+info:
+  app:
+    author: fufeng
+    encoding: @project.build.sourceEncoding@
+
+server:
+  port: 8443
+  ssl:
+    key-store: classpath:fufeng.p12
+    key-store-type: PKCS12
+    key-store-password: fufeng
+
+# curl -k -v https://127.0.0.1:8443/
+# keytool -genkey -alias fufeng -storetype PKCS12 -keyalg RSA -keysize 2048 -keystore fufeng.p12 -validity 365

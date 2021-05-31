@@ -16,6 +16,8 @@
         <module>spring-actuator-micrometer</module>
         <module>springboot-actuator-admin</module>
         <module>spring-tomcat-runtime-param</module>
+        <module>spring-ssl-waiter-service</module>
+        <module>spring-ssl-customer-service</module>
     </modules>
 
     <properties>
