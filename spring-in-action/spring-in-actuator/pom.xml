@@ -21,6 +21,7 @@
         <module>spring-http2-waiter-service</module>
         <module>spring-http2-customer-service</module>
         <module>spring-command-line</module>
+        <module>spring-jar-exec</module>
     </modules>
 
     <properties>
