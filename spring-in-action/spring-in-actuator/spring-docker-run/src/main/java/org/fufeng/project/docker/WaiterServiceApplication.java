@@ -1,7 +1,7 @@
 package org.fufeng.project.docker;
 
 import com.fasterxml.jackson.datatype.hibernate5.Hibernate5Module;
-import geektime.spring.springbucks.waiter.controller.PerformanceInteceptor;
+import org.fufeng.project.docker.controller.PerformanceInterceptor;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.autoconfigure.jackson.Jackson2ObjectMapperBuilderCustomizer;
@@ -24,7 +24,7 @@ public class WaiterServiceApplication implements WebMvcConfigurer {
 
 	@Override
 	public void addInterceptors(InterceptorRegistry registry) {
-		registry.addInterceptor(new PerformanceInteceptor())
+		registry.addInterceptor(new PerformanceInterceptor())
 				.addPathPatterns("/coffee/**").addPathPatterns("/order/**");
 	}
 
