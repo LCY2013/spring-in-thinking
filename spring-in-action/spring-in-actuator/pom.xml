@@ -22,6 +22,7 @@
         <module>spring-http2-customer-service</module>
         <module>spring-command-line</module>
         <module>spring-jar-exec</module>
+        <module>spring-docker-run</module>
     </modules>
 
     <properties>
