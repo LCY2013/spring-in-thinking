@@ -1,5 +1,6 @@
-package org.fufeng.project.docker.support;
+package org.fufeng.project.cloud.eureka.waiter.support;
 
+import org.fufeng.project.cloud.eureka.waiter.service.CoffeeService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.actuate.health.Health;
 import org.springframework.boot.actuate.health.HealthIndicator;

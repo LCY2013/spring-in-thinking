@@ -26,6 +26,7 @@
         <module>spring-in-hateoas</module>
         <module>spring-in-autoconfigure</module>
         <module>spring-in-actuator</module>
+        <module>spring-in-cloud</module>
     </modules>
     <packaging>pom</packaging>
 
