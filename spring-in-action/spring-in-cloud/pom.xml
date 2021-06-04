@@ -18,6 +18,7 @@
         <module>spring-cloud-zk-waiter-service</module>
         <module>spring-cloud-zk-customer-service</module>
         <module>spring-cloud-consul-waiter-service</module>
+        <module>spring-cloud-consul-customer-service</module>
     </modules>
 
     <properties>
