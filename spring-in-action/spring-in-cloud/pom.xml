@@ -21,6 +21,7 @@
         <module>spring-cloud-consul-customer-service</module>
         <module>spring-cloud-feign-customer-service</module>
         <module>spring-cloud-nacos-waiter-service</module>
+        <module>spring-cloud-nacos-customer-service</module>
     </modules>
 
     <properties>
