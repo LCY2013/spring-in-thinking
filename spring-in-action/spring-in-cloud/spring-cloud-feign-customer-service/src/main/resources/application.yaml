@@ -1,0 +1,9 @@
+server:
+  port: 0
+
+feign:
+  client:
+    config:
+      default:
+        connect-timeout: 500
+        read-timeout: 500
