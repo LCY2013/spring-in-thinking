@@ -17,6 +17,7 @@
         <module>spring-cloud-ribbon-customer-service</module>
         <module>spring-cloud-zk-waiter-service</module>
         <module>spring-cloud-zk-customer-service</module>
+        <module>spring-cloud-consul-waiter-service</module>
     </modules>
 
     <properties>
