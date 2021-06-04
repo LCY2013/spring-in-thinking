@@ -22,6 +22,7 @@
         <module>spring-cloud-feign-customer-service</module>
         <module>spring-cloud-nacos-waiter-service</module>
         <module>spring-cloud-nacos-customer-service</module>
+        <module>spring-cloud-fixed-discovery-client</module>
     </modules>
 
     <properties>
