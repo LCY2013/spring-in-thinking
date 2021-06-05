@@ -13,6 +13,7 @@
     <packaging>pom</packaging>
     <modules>
         <module>spring-cloud-circuit-break</module>
+        <module>spring-cloud-hystrix-customer-service</module>
     </modules>
 
     <properties>
