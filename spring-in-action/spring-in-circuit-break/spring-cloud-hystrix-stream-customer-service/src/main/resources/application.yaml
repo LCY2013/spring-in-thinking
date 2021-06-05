@@ -1,0 +1,29 @@
+server:
+  port: 8090
+
+#management.endpoints.web.exposure.include=health,info,hystrix.stream
+management:
+  endpoints:
+    web:
+      exposure:
+        include: '*'
+  endpoint:
+    health:
+      show-details: always
+
+feign:
+  client:
+    config:
+      default:
+        connect-timeout: 500
+        read-timeout: 500
+  hystrix:
+    enabled: true
+
+spring:
+  cloud:
+    consul:
+      host: localhost
+      port: 8500
+      discovery:
+        prefer-ip-address: true

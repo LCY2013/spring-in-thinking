@@ -15,6 +15,7 @@
         <module>spring-cloud-circuit-break</module>
         <module>spring-cloud-hystrix-customer-service</module>
         <module>spring-cloud-hystrix-dashboard</module>
+        <module>spring-cloud-hystrix-stream-customer-service</module>
     </modules>
 
     <properties>
