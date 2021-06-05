@@ -17,6 +17,7 @@
         <module>spring-cloud-hystrix-dashboard</module>
         <module>spring-cloud-hystrix-stream-customer-service</module>
         <module>spring-cloud-turbine</module>
+        <module>spring-cloud-resilience4j-circuitbreaker</module>
     </modules>
 
     <properties>

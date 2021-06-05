@@ -1,0 +1,42 @@
+server:
+  port: 8090
+
+management:
+  endpoints:
+    web:
+      exposure:
+        include: '*'
+  endpoint:
+    health:
+      show-details: always
+
+feign:
+  client:
+    config:
+      default:
+        connect-timeout: 500
+        read-timeout: 500
+
+spring:
+  cloud:
+    consul:
+      host: localhost
+      port: 8500
+      discovery:
+        prefer-ip-address: true
+
+resilience4j:
+  circuitbreaker:
+    backends:
+      order:
+        failure-rate-threshold: 50
+        wait-duration-in-open-state: 5000
+        ring-buffer-size-in-closed-state: 5
+        ring-buffer-size-in-half-open-state: 3
+        event-consumer-buffer-size: 10
+      menu:
+        failure-rate-threshold: 50
+        wait-duration-in-open-state: 5000
+        ring-buffer-size-in-closed-state: 5
+        ring-buffer-size-in-half-open-state: 3
+        event-consumer-buffer-size: 10
