@@ -16,6 +16,7 @@
         <module>spring-config-git-config-server</module>
         <module>spring-config-zk-config-waiter-service</module>
         <module>spring-config-consul-config-waiter-service</module>
+        <module>spring-config-nacos-config-waiter-service</module>
     </modules>
 
     <properties>

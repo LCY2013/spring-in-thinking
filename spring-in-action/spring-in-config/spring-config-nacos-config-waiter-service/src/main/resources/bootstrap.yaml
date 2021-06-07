@@ -1,0 +1,14 @@
+spring:
+  application:
+    name: waiter-service
+  cloud:
+    consul:
+      host: localhost
+      port: 8500
+      discovery:
+        prefer-ip-address: true
+    nacos:
+      config:
+        server-addr: 127.0.0.1:8848
+        enabled: true
+        file-extension: yaml
