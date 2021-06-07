@@ -29,6 +29,7 @@
         <module>spring-in-cloud</module>
         <module>spring-in-circuit-break</module>
         <module>spring-in-config</module>
+        <module>spring-in-cloud-stream</module>
     </modules>
     <packaging>pom</packaging>
 
