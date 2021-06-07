@@ -28,6 +28,7 @@
         <module>spring-in-actuator</module>
         <module>spring-in-cloud</module>
         <module>spring-in-circuit-break</module>
+        <module>spring-in-config</module>
     </modules>
     <packaging>pom</packaging>
 

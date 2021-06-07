@@ -1,0 +1,14 @@
+spring:
+  application:
+    name: waiter-service
+#spring.cloud.config.uri=http://localhost:8888
+  cloud:
+    config:
+      discovery:
+        enabled: true
+        service-id: configserver
+    consul:
+      host: localhost
+      port: 8500
+      discovery:
+        prefer-ip-address: true
