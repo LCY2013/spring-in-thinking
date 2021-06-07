@@ -18,6 +18,7 @@
         <module>spring-cloud-hystrix-stream-customer-service</module>
         <module>spring-cloud-turbine</module>
         <module>spring-cloud-resilience4j-circuitbreaker</module>
+        <module>spring-cloud-bulkhead-customer-service</module>
     </modules>
 
     <properties>
