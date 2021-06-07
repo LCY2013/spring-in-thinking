@@ -1,0 +1,12 @@
+spring:
+  application:
+    name: waiter-service
+  cloud:
+    consul:
+      host: localhost
+      port: 8500
+      discovery:
+        prefer-ip-address: true
+      config:
+        enabled: true
+        format: yaml
