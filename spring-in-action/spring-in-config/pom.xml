@@ -13,6 +13,7 @@
     <packaging>pom</packaging>
     <modules>
         <module>spring-config-git-config-waiter-service</module>
+        <module>spring-config-git-config-server</module>
     </modules>
 
     <properties>

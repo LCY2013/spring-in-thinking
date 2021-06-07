@@ -1,0 +1,24 @@
+server:
+  port:
+    8888
+
+management:
+  endpoints:
+    web:
+      exposure:
+        include: '*'
+  endpoint:
+    health:
+      show-details: always
+
+spring:
+  cloud:
+    consul:
+      host: localhost
+      port: 8500
+      discovery:
+        prefer-ip-address: true
+    config:
+      server:
+        git:
+          uri: file:///Users/magicLuoMacBook/software/java/ideawork/im/gitlab/spring-in-thinking/spring-in-action/spring-in-config/config-repo
