@@ -1,0 +1,7 @@
+spring:
+  application:
+    name: waiter-service
+
+  cloud:
+    zookeeper:
+      connect-string: localhost:2181
