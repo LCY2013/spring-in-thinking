@@ -16,6 +16,7 @@
         <module>spring-stream-rabbitmq-barista-service</module>
         <module>spring-stream-scheduled-customer-service</module>
         <module>spring-stream-busy-waiter-service</module>
+        <module>spring-stream-lazy-customer-service</module>
     </modules>
 
     <properties>
