@@ -25,6 +25,7 @@ dependencies {
     implementation("org.springframework.boot:spring-boot-starter-web")
     /*implementation("org.springframework.boot:spring-boot-starter-webflux")*/
     implementation("org.springframework.boot:spring-boot-starter-data-jdbc")
+    testImplementation("junit:junit:4.13.1")
     runtimeOnly("com.h2database:h2")
     compileOnly("org.projectlombok:lombok")
     /*developmentOnly("org.springframework.boot:spring-boot-devtools")*/
