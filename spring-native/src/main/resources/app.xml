@@ -5,10 +5,10 @@
         http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd">
 
     <!--1-->
-    <bean class="com.example.aot.xml.MessageProducer" id ="messageProducer"/>
+    <bean class="org.fufeng.springnative.xml.MessageProducer" id ="messageProducer"/>
 
     <!--2-->
-    <bean class="com.example.aot.xml.XmlLoggingApplicationListener" >
+    <bean class="org.fufeng.springnative.xml.XmlLoggingApplicationListener" >
         <property name="producer" ref="messageProducer"/>
     </bean>
 
