@@ -90,6 +90,7 @@ class CompilationEndpointBeanRegistrationAotProcessor implements BeanRegistratio
                         .addParameter(CompilationEndpoint.class, "inputBean")//
                         .returns(CompilationEndpoint.class)
                         // <6>
+                        // CompilationEndpoint outputBean = new CompilationEndpoint(Instant.ofEpochMilli(System.currentTimeMillis()L), new File(new File(".").getAbsolutePath()))
                         .addCode(CodeBlock.builder()
                                 .addStatement("$T $L = new $T( $T.ofEpochMilli($L), new $T($S))",
                                         CompilationEndpoint.class, outputBeanVariableName, CompilationEndpoint.class,
