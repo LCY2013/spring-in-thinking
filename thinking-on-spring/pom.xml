@@ -10,7 +10,7 @@
 
     <properties>
         <spring.version>5.2.4.RELEASE</spring.version>
-        <java.version>11</java.version>
+        <java.version>21</java.version>
     </properties>
 
     <!--spring 依赖管理-->
