@@ -9,6 +9,7 @@
     <version>1.0-SNAPSHOT</version>
     <modules>
         <module>reactor</module>
+        <module>action-springmvc</module>
     </modules>
     <packaging>pom</packaging>
 
@@ -21,6 +22,8 @@
     <properties>
         <maven.compiler.source>21</maven.compiler.source>
         <maven.compiler.target>21</maven.compiler.target>
+        <bootstrap.version>5.3.7</bootstrap.version>
+        <webjars-locator.version>0.52</webjars-locator.version>
     </properties>
 
 </project>
