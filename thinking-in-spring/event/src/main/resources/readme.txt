@@ -11,7 +11,10 @@ Spring 事件
     10. Spring 内建事件
     11. Spring 4.2 Payload 事件
     12. 自定义 Spring 事件
-    13. 依赖注入 ApplicationEventPublisher 14. 依赖查找 ApplicationEventMulticaster 15. ApplicationEventPublisher 底层实现 16. 同步和异步 Spring 事件广播
+    13. 依赖注入 ApplicationEventPublisher
+    14. 依赖查找 ApplicationEventMulticaster
+    15. ApplicationEventPublisher 底层实现
+    16. 同步和异步 Spring 事件广播
     17. Spring 4.1 事件异常处理
     18. Spring 事件/监听器实现原理
 
