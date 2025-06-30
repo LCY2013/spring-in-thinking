@@ -1,0 +1,11 @@
+Named after Haskell Curry
+
+function curry(f) {
+    return function(a) {
+        return function(b) {
+            return f(a, b);
+        };
+    };
+}
+
+f(a,b) -> f(a)(b)

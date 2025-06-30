@@ -1,0 +1,7 @@
+Stream
+    - intermiate
+        - stateless
+        - stateful
+    - terminal
+        - short-circuiting
+        - un-short-circuiting

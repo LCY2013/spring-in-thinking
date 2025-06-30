@@ -11,6 +11,7 @@
         <module>reactor</module>
         <module>action-springmvc</module>
         <module>action-springsecurity</module>
+        <module>action-lambda</module>
     </modules>
     <packaging>pom</packaging>
 
@@ -25,6 +26,7 @@
         <maven.compiler.target>21</maven.compiler.target>
         <bootstrap.version>5.3.7</bootstrap.version>
         <webjars-locator.version>0.52</webjars-locator.version>
+        <guava.version>33.3.1-jre</guava.version>
     </properties>
 
     <dependencyManagement>
