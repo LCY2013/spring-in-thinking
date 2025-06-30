@@ -10,6 +10,7 @@
     <modules>
         <module>reactor</module>
         <module>action-springmvc</module>
+        <module>action-springsecurity</module>
     </modules>
     <packaging>pom</packaging>
 
@@ -26,4 +27,19 @@
         <webjars-locator.version>0.52</webjars-locator.version>
     </properties>
 
+    <dependencyManagement>
+        <dependencies>
+            <dependency>
+                <groupId>org.webjars</groupId>
+                <artifactId>bootstrap</artifactId>
+                <version>${bootstrap.version}</version>
+            </dependency>
+
+            <dependency>
+                <groupId>org.webjars</groupId>
+                <artifactId>webjars-locator</artifactId>
+                <version>${webjars-locator.version}</version>
+            </dependency>
+        </dependencies>
+    </dependencyManagement>
 </project>
