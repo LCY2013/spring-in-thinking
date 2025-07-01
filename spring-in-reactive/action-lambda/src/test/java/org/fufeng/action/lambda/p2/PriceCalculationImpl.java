@@ -15,7 +15,7 @@ public class PriceCalculationImpl implements PriceCalculation{
 
     public static void main(String[] args) {
         //static method
-        staticMethod();
+        PriceCalculation.staticMethod();
         //default method
         new PriceCalculationImpl().defaultMethod();
     }

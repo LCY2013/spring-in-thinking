@@ -4,10 +4,7 @@ import jakarta.validation.*;
 import org.fufeng.servlet.mvc.model.Stock;
 import org.fufeng.servlet.mvc.model.User;
 import org.springframework.validation.BindingResult;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -15,6 +12,12 @@ import java.util.Map;
 @RestController
 @RequestMapping("/api")
 public class ApiController {
+
+    @GetMapping("/validate/user/v1")
+    public Object validateUserV1Get() {
+        return "cool";
+    }
+
     @PostMapping("/validate/user/v1")
     public Object validateUserV1(@Valid @RequestBody User user) {
         return "cool";

@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="zh">
+<head>
+    <title>API 调用示例</title>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+</head>
+<body>
+<button id="getBtn">GET</button>
+<div id="getResult"></div>
+
+<script>
+    $(document).ready(function() {
+        // GET 请求
+        $("#getBtn").click(function() {
+            $.ajax({
+                //url: "http://pay.deepcard.ai/api/orderInfo?orderNo=1",
+                url: "http://localhost:8082/api/validate/user/v1",
+                type: "POST",
+                data: JSON.stringify({
+                    "userId": "1",
+                    "orderId": "1"
+                }),
+                contentType: "application/json",
+                success: function(response) {
+                    $("#getResult").html(`
+                            <p>msg: ${response}</p>
+                        `);
+                },
+                error: function(xhr, status, error) {
+                    $("#getResult").html(`
+                            <p style="color:red">msg: ${error}</p>
+                        `);
+                }
+            });
+        });
+    });
+</script>
+</body>
+</html>
