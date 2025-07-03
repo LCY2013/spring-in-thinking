@@ -1,7 +1,7 @@
 package org.fufeng.action.stream.p3;
 
 import com.google.common.collect.Lists;
-import com.viso.mvc.model.Student;
+import org.fufeng.action.mvc.model.Student;
 import org.junit.jupiter.api.Test;
 
 import java.util.List;

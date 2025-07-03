@@ -1,6 +1,6 @@
 package org.fufeng.action.lambda.p4;
 
-import com.viso.mvc.model.Stock;
+import org.fufeng.action.mvc.model.Stock;
 
 import java.util.Comparator;
 

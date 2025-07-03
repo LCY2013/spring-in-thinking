@@ -1,7 +1,7 @@
 package org.fufeng.action.stream.p1;
 
 import com.google.common.collect.Lists;
-import com.viso.mvc.model.Stock;
+import org.fufeng.action.mvc.model.Stock;
 import org.junit.jupiter.api.Test;
 
 import java.util.Arrays;
