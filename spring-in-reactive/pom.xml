@@ -13,6 +13,7 @@
         <module>action-springsecurity</module>
         <module>action-lambda</module>
         <module>action-reactor</module>
+        <module>action-springsecurity-reactor</module>
     </modules>
     <packaging>pom</packaging>
 
