@@ -14,6 +14,7 @@
         <module>action-lambda</module>
         <module>action-reactor</module>
         <module>action-springsecurity-reactor</module>
+        <module>action-springmvc-reactor</module>
     </modules>
     <packaging>pom</packaging>
 
