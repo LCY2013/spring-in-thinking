@@ -29,7 +29,8 @@ public class WebSecurityConfig {
 
     @Bean
     public SecurityWebFilterChain securityWebFilterChain(ServerHttpSecurity http) {
-        http.authorizeExchange((exchanges) -> exchanges.pathMatchers("/registration**").permitAll()
+        http.authorizeExchange((exchanges) ->
+                exchanges.pathMatchers("/registration**").permitAll()
                 .pathMatchers("/login/**").permitAll()
                 .pathMatchers("/resources/**").permitAll()
                 .pathMatchers("/webjars/**").permitAll()

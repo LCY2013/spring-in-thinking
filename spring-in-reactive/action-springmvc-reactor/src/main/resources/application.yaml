@@ -42,6 +42,6 @@ spring:
 server:
   port: 8087
 
-#logging:
-#  level:
-#    root: debug
+logging:
+  level:
+    root: debug
