@@ -6,9 +6,7 @@ import org.fufeng.reactive.dto.UserRegistration;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
-import org.springframework.security.core.userdetails.User;
 import org.springframework.security.core.userdetails.UserDetails;
-import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import reactor.core.publisher.Flux;
@@ -56,13 +54,4 @@ public class RUserServiceImpl implements RUserService {
         return userDao.findAll();
     }
 
-    @Override
-    public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
-        Mono<UserDO> userMono = userDao.findByEmail(username);
-        if (userMono == null) {
-            throw new UsernameNotFoundException("Invalid username or password.");
-        }
-        return userMono.map(user -> new User(user.getEmail(), user.getPassword(),
-                mapRolesToAuthorities(user.getRoles()))).block();
-    }
 }

@@ -5,10 +5,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.fufeng.reactive.service.RUserService;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.security.authentication.AuthenticationProvider;
-import org.springframework.security.authentication.dao.DaoAuthenticationProvider;
-import org.springframework.security.config.annotation.method.configuration.EnableMethodSecurity;
-import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
+import org.springframework.security.config.annotation.web.reactive.EnableWebFluxSecurity;
 import org.springframework.security.config.web.server.ServerHttpSecurity;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -21,8 +18,7 @@ import java.net.URI;
 
 @Slf4j
 @Configuration
-@EnableWebSecurity
-@EnableMethodSecurity // 启用方法级安全控制
+@EnableWebFluxSecurity
 public class WebSecurityConfig {
 
     private final RUserService userService;
@@ -60,10 +56,23 @@ public class WebSecurityConfig {
         return new BCryptPasswordEncoder();
     }
 
-    @Bean
-    public AuthenticationProvider authenticationProvider() {
-        DaoAuthenticationProvider authProvider = new DaoAuthenticationProvider(userService);
-        authProvider.setPasswordEncoder(passwordEncoder());
-        return authProvider;
-    }
+//    @Bean
+//    public MapReactiveUserDetailsService userDetailsService() {
+//        UserDetails user = User.withDefaultPasswordEncoder()
+//                .username("user")
+//                .password("password")
+//                .roles("USER")
+//                .build();
+//        return new MapReactiveUserDetailsService(user);
+//    }
+
+//    public void configure(WebSecurity web) {
+//        web.ignoring()
+//                .antMatchers("/resources/**")
+//                .antMatchers("/css/**")
+//                .antMatchers("/webjars/**")
+//                .antMatchers("/image/**")
+//                .antMatchers("/api/**")
+//                .antMatchers("/console/**");
+//    }
 }

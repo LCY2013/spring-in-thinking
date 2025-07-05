@@ -6,6 +6,6 @@ import org.springframework.security.core.userdetails.ReactiveUserDetailsService;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import reactor.core.publisher.Mono;
 
-public interface RUserService extends ReactiveUserDetailsService, UserDetailsService {
+public interface RUserService extends ReactiveUserDetailsService {
     Mono<UserDO> save(UserRegistration registrationDto);
 }
