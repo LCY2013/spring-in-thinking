@@ -19,6 +19,8 @@
         <module>action-webflux</module>
         <module>action-webflux-tomcat</module>
         <module>action-r2db</module>
+        <module>action-websocket</module>
+        <module>action-rsocket</module>
     </modules>
     <packaging>pom</packaging>
 

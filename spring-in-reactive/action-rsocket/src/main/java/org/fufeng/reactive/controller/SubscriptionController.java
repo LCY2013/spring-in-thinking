@@ -30,7 +30,7 @@ public class SubscriptionController {
                     rSubscriptionService.addSubscription(name, symbol.getSymbol()).log()
 //                            .subscribeOn(Schedulers.newSingle("addSubThread"))
                             .subscribe();
-                    return "redirect:/subscriptions?added=" + symbol.getSymbol();
+                    return "redirect:/subscription?added=" + symbol.getSymbol();
                 });
     }
 
@@ -45,7 +45,7 @@ public class SubscriptionController {
                     model.addAttribute("email", name);
                     model.addAttribute("subscriptions",
                             new ReactiveDataDriverContextVariable(rSubscriptionService.findByEmail(name)));
-                    return "subscription";
+                    return "subscriptions";
                 });
     }
 
