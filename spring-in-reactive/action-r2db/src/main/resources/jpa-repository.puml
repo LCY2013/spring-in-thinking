@@ -1,0 +1,15 @@
+@startuml
+'https://plantuml.com/class-diagram
+
+interface CrudRepository
+interface PagingAndSortingRepository
+interface JpaRepository
+interface QueryByExampleExecutor
+
+PagingAndSortingRepository <|-- JpaRepository
+QueryByExampleExecutor <|-- JpaRepository
+CrudRepository <|-- PagingAndSortingRepository
+
+
+
+@enduml

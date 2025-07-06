@@ -1,0 +1,3 @@
+Boss Group：      1个NioEventLoop来接收客户端连接
+Worker Group：  N个NioEventLoops来负责套接字上的操作
+

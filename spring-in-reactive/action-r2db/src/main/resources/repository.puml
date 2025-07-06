@@ -1,0 +1,15 @@
+@startuml
+'https://plantuml.com/class-diagram
+
+interface ReactiveCrudRepository
+interface ReactiveSortingRepository
+interface ReactiveMongoRepository
+interface ReactiveQueryByExampleExecutor
+
+ReactiveSortingRepository <|-- ReactiveMongoRepository
+ReactiveQueryByExampleExecutor <|-- ReactiveMongoRepository
+ReactiveCrudRepository <|-- ReactiveSortingRepository
+
+
+
+@enduml

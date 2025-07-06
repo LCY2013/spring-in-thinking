@@ -15,6 +15,10 @@
         <module>action-reactor</module>
         <module>action-springsecurity-reactor</module>
         <module>action-springmvc-reactor</module>
+        <module>action-mvc</module>
+        <module>action-webflux</module>
+        <module>action-webflux-tomcat</module>
+        <module>action-r2db</module>
     </modules>
     <packaging>pom</packaging>
 
