@@ -19,9 +19,9 @@ package org.fufeng.domain;
 
 import org.fufeng.bean.validation.constrains.PrefixWith;
 
-import javax.validation.constraints.Max;
-import javax.validation.constraints.Min;
-import javax.validation.constraints.NotNull;
+import jakarta.validation.constraints.Max;
+import jakarta.validation.constraints.Min;
+import jakarta.validation.constraints.NotNull;
 
 /**
  * @program: spring-in-thinking
